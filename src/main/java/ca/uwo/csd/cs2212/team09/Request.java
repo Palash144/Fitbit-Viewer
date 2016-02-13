@@ -1,4 +1,5 @@
-package ca.uwo.csd.cs2212.team09; 
+package ca.uwo.csd.cs2212.team09;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -9,29 +10,33 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import com.github.scribejava.apis.FitbitApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.model.*; //Request Verb
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.apis.service.FitbitOAuth20ServiceImpl;
+
 import java.awt.Desktop;
 import java.net.URI;
-import org.json.simple.*;
-public class Request
-{
-    private static String CALL_BACK_URI="http://localhost:8080";
-    private static int CALL_BACK_PORT=8080;
 
-    public static void main( String[] args )
-    {
-        getRequest();
+public class Request {
+    private static String CALL_BACK_URI = "http://localhost:8080";
+    private static int CALL_BACK_PORT = 8080;
+
+    public static void main(String[] args) {
     }//end main
 
     //TODO: This method needs to be called and return something useful
-    public static void getRequest(){
+
+    /**
+     * @param requestUrlPostfix requests different types of data to return
+     * @return TODO: return JSON Object to be parsed by UserData
+     */
+    public String requestFor(String requestUrlPostfix) {
         //read credentials from a file
-        BufferedReader bufferedReader=null;
+        BufferedReader bufferedReader = null;
         // This will reference one line at a time
         String line = null;
 
@@ -41,11 +46,13 @@ public class Request
         String clientID = null;
 
         //holder for all the elements we will need to make an access token ( information about an authenticated session )
-        String accessTokenItself =  null;
+        String accessTokenItself = null;
         String tokenType = null;
         String refreshToken = null;
         Long expiresIn = null;
         String rawResponse = null;
+
+        String HTTPResponse = "";
 
         //This is the only scope you have access to currently
         String scope = "activity%20heartrate";
@@ -55,8 +62,8 @@ public class Request
             FileReader fileReader =
                     new FileReader("auth_credentials/Team9Credentials.txt");
             bufferedReader = new BufferedReader(fileReader);
-            clientID= bufferedReader.readLine();
-            apiKey= bufferedReader.readLine();
+            clientID = bufferedReader.readLine();
+            apiKey = bufferedReader.readLine();
             apiSecret = bufferedReader.readLine();
             bufferedReader.close();
             fileReader = new FileReader("auth_credentials/Team9Tokens.txt");
@@ -68,26 +75,22 @@ public class Request
             expiresIn = Long.parseLong(bufferedReader.readLine());
             rawResponse = bufferedReader.readLine();
 
-        }
-        catch(FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(
-                    "Unable to open file\n"+ex.getMessage());
+                    "Unable to open file\n" + ex.getMessage());
             System.exit(1);
-        }
-        catch(IOException ex) {
+        } catch (IOException ex) {
             System.out.println(
-                    "Error reading/write file\n"+ex.getMessage());
+                    "Error reading/write file\n" + ex.getMessage());
             System.exit(1);
-        }
-        finally{
-            try{
-                if (bufferedReader!=null)
+        } finally {
+            try {
+                if (bufferedReader != null)
                     // Always close files.
                     bufferedReader.close();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(
-                        "Error closing file\n"+e.getMessage());
+                        "Error closing file\n" + e.getMessage());
             }
         }
         //  Create the Fitbit service - you will ask this to ask for access/refresh pairs
@@ -118,7 +121,8 @@ public class Request
         String requestUrlPrefix = "https://api.fitbit.com/1/user/3WGW2P/";
         String requestUrl;
         //    The URL from this point is how you ask for different information
-        requestUrl = requestUrlPrefix + "activities/floors/date/2016-01-07/1d/1min/time/19:15/19:30.json";
+        //requestUrl = requestUrlPrefix + "activities/floors/date/2016-01-07/1d/1min/time/19:15/19:30.json";
+        requestUrl = requestUrlPrefix + requestUrlPostfix;
         // This actually generates an HTTP request from the URL
         //    -it has a header, body ect.
         OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
@@ -139,22 +143,25 @@ public class Request
         //  The HTTP response from fitbit will be in HTTP format, meaning that it has a numeric code indicating
         //     whether is was successful (200) or not (400's or 500's), each code has a different meaning
         System.out.println();
-        System.out.println("HTTP response code: "+response.getCode());
+        System.out.println("HTTP response code: " + response.getCode());
         int statusCode = response.getCode();
 
-        switch(statusCode){
+        switch (statusCode) {
             case 200:
                 System.out.println("Success!");
-                System.out.println("HTTP response body:\n"+response.getBody());
+                //System.out.println("HTTP response body:\n" + response.getBody());
+                HTTPResponse = response.getBody();
                 break;
             case 400:
                 System.out.println("Bad Request - may have to talk to Beth");
-                System.out.println("HTTP response body:\n"+response.getBody());
+                System.out.println("HTTP response body:\n" + response.getBody());
+                HTTPResponse = response.getBody();
                 break;
             case 401:
                 System.out.println("Likely Expired Token");
-                System.out.println("HTTP response body:\n"+response.getBody());
+                System.out.println("HTTP response body:\n" + response.getBody());
                 System.out.println("Try to refresh");
+                HTTPResponse = response.getBody();
 
                 // This uses the refresh token to get a completely new accessToken object
                 //   See:  https://dev.fitbit.com/docs/oauth2/#refreshing-tokens
@@ -169,19 +176,22 @@ public class Request
                 response = request.send();
 
                 // Hopefully got a response this time:
-                System.out.println("HTTP response code: "+response.getCode());
-                System.out.println("HTTP response body:\n"+response.getBody());
+                System.out.println("HTTP response code: " + response.getCode());
+                System.out.println("HTTP response body:\n" + response.getBody());
+                HTTPResponse = response.getBody();
                 break;
             case 429:
                 System.out.println("Rate limit exceeded");
-                System.out.println("HTTP response body:\n"+response.getBody());
+                System.out.println("HTTP response body:\n" + response.getBody());
+                HTTPResponse = response.getBody();
                 break;
             default:
-                System.out.println("HTTP response code: "+response.getCode());
-                System.out.println("HTTP response body:\n"+response.getBody());
+                System.out.println("HTTP response code: " + response.getCode());
+                System.out.println("HTTP response body:\n" + response.getBody());
+                HTTPResponse = response.getBody();
         }
 
-        BufferedWriter bufferedWriter=null;
+        BufferedWriter bufferedWriter = null;
         //  Save the current accessToken information for next time
 
         // IF YOU DO NOT SAVE THE CURRENTLY ACTIVE TOKEN INFO YOU WILL NOT BE ABLE TO REFRESH
@@ -198,30 +208,28 @@ public class Request
             bufferedWriter.newLine();
             bufferedWriter.write(accessToken.getRefreshToken());
             bufferedWriter.newLine();
-            bufferedWriter.write(accessToken.getExpiresIn().toString() );
+            bufferedWriter.write(accessToken.getExpiresIn().toString());
             bufferedWriter.newLine();
             bufferedWriter.write(accessToken.getRawResponse());
             bufferedWriter.newLine();
             bufferedWriter.close();
-        }
-        catch(FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(
-                    "Unable to open file\n"+ex.getMessage());
-        }
-        catch(IOException ex) {
+                    "Unable to open file\n" + ex.getMessage());
+        } catch (IOException ex) {
             System.out.println(
-                    "Error reading/write file\n"+ex.getMessage());
-        }
-        finally{
-            try{
-                if (bufferedWriter!=null)
+                    "Error reading/write file\n" + ex.getMessage());
+        } finally {
+            try {
+                if (bufferedWriter != null)
                     bufferedWriter.close();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(
-                        "Error closing file\n"+e.getMessage());
+                        "Error closing file\n" + e.getMessage());
             }
         }//end try
+
+        return HTTPResponse;
     }
 
 }//end class
