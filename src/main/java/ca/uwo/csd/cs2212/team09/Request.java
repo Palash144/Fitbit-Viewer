@@ -190,7 +190,7 @@ public class Request
         try {
             FileWriter fileWriter;
             fileWriter =
-                    new FileWriter("auth_credentials/Team9Credentials.txt");
+                    new FileWriter("auth_credentials/Team9Tokens.txt");
             bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(accessToken.getToken());
             bufferedWriter.newLine();
