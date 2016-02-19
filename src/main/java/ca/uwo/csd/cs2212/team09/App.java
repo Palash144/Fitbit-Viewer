@@ -20,6 +20,16 @@ public class App {
         else if (args[0].equals("canned")) {
             UserInterface.getData(true);
         }
+        else if (args[0].equals("UITEST")) {
+        	System.out.println("UITest mode.");
+        	javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					// TODO Auto-generated method stub
+					MainUI mainUI = new MainUI();
+					
+				}
+             });
+        }
 
         logger.trace("Exiting main");
     }
