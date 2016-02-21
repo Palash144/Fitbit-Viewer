@@ -1,5 +1,7 @@
 package ca.uwo.csd.cs2212.team09;
 
+import java.awt.EventQueue;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,13 +24,15 @@ public class App {
         }
         else if (args[0].equals("UITEST")) {
         	System.out.println("UITest mode.");
-        	javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					// TODO Auto-generated method stub
-					MainUI mainUI = new MainUI();
-					
-				}
-             });
+        	EventQueue.invokeLater(new Runnable() {
+    			public void run() {
+    				try {
+    					MainView window = new MainView();
+    				} catch (Exception e) {
+    					e.printStackTrace();
+    				}
+    			}
+    		});
         }
 
         logger.trace("Exiting main");
