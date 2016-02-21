@@ -2,29 +2,71 @@ package ca.uwo.csd.cs2212.team09;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.Icon;
-import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.Image;
 
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.CardLayout;
 
 public class MainView {
-
+	static int BUTTON_ALPHA_NORMAL = 150;
+	static int BUTTON_ALPHA_HIGHLIGHT = 254;
+	static Boolean VE_DEV_MODE = false;  //change to false before any release
+	
+	private JPanel createCards(int width, int height) {
+		JPanel panel = new JPanel();
+		Color backgroundColor = new Color(255, 255, 255, BUTTON_ALPHA_NORMAL);
+		panel.setBackground(backgroundColor);
+		panel.setSize(width, height);
+		panel.setVisible(true);
+		return panel;
+	}
+	
+	
 	private JFrame mainView;
+	
+	/* 
+	 * 0 for dashboard
+	 * 1 for mysummary
+	 * 2 for timeseries
+	 * 3 for heartzone
+	 * 4 for goals
+	 * 5 for accolodes
+	 */
+	private int currentPage;  
+	private static String pageNames[] = {"name_1456030182851147000", "name_1456033158027647000", "name_1456030885832917000", "name_1456030906465778000", "name_1456030920510772000", ""};
+
+	JLabel dashboardBtn = new JLabel("Dashboard");
+	JLabel timeseriesBtn = new JLabel("TimeSeries");
+	JLabel heartzoneBtn = new JLabel("HeartZone");
+	JLabel userLbl = new JLabel("User01");
+	JLabel lastupdatedLbl = new JLabel("Last updated: 12:50AM");
+	JLabel goalsBtn = new JLabel("Goals");
+	JLabel mainTitleLabel = new JLabel("Home");
+	JLabel userBtn = new JLabel();
+	JLabel refreshBtn = new JLabel();
+	JLabel settingsBtn = new JLabel();
+	private final JPanel mainPanel = new JPanel();
+	private final JPanel dashboardPanel = new JPanel();
+	private CardLayout cardLayout = new CardLayout();
+	private final JPanel timeseriesPanel = new JPanel();
+	private final JPanel heartzonePanel = new JPanel();
+	private final JPanel goalsPanel = new JPanel();
+	private final JLabel mysummaryBtn = new JLabel("MySummary");
+	private final JPanel mysummaryPanel = new JPanel();
+	private final JLabel lblNewLabel = new JLabel("New label");
+	private final JLabel lblNewLabel_1 = new JLabel("New label");
+	private final JLabel lblNewLabel_2 = new JLabel("New label");
+	private final JLabel lblNewLabel_3 = new JLabel("New label");
 
 	/**
 	 * Create the application.
@@ -49,78 +91,231 @@ public class MainView {
 		JPanel rightSidePanel = new JPanel();
 		rightSidePanel.setBackground(new Color(0, 150, 136));
 		
-		JLabel mainTitleLabel = new JLabel("Home");
 		mainTitleLabel.setForeground(Color.WHITE);
 		mainTitleLabel.setFont(new Font("Lucida Grande", Font.BOLD, 28));
 		
-		JLabel dashboardBtn = new JLabel("Dashboard");
+		
+		dashboardBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				dashboardBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (currentPage != 0)
+					dashboardBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentPage = 0;
+				updateLeftSideButton();
+			}
+		});
 		dashboardBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		dashboardBtn.setForeground(Color.WHITE);
 		Utils.styleButton(dashboardBtn);
+		currentPage = 0;
+		dashboardBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 		
+		mysummaryBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				mysummaryBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (currentPage != 1)
+					mysummaryBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentPage = 1;
+				updateLeftSideButton();
+			}
+		});
+		mysummaryBtn.setHorizontalAlignment(SwingConstants.CENTER);
+		mysummaryBtn.setForeground(Color.WHITE);
+		Utils.styleButton(mysummaryBtn);
 		
-		JLabel timeseriesBtn = new JLabel("TimeSeries");
+		timeseriesBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				timeseriesBtn.setBackground(new Color(255, 255, 255,BUTTON_ALPHA_HIGHLIGHT));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (currentPage != 2)
+					timeseriesBtn.setBackground(new Color(255, 255, 255,BUTTON_ALPHA_NORMAL));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentPage = 2;
+				updateLeftSideButton();
+			}
+		});
 		timeseriesBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		timeseriesBtn.setForeground(Color.WHITE);
 		Utils.styleButton(timeseriesBtn);
 		
-		JLabel heartzoneBtn = new JLabel("HeartZone");
+		
+		heartzoneBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				heartzoneBtn.setBackground(new Color(255, 255, 255,BUTTON_ALPHA_HIGHLIGHT));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (currentPage != 3)
+					heartzoneBtn.setBackground(new Color(255, 255, 255,BUTTON_ALPHA_NORMAL));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentPage = 3;
+				updateLeftSideButton();
+			}
+		});
 		heartzoneBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		heartzoneBtn.setForeground(Color.WHITE);
 		Utils.styleButton(heartzoneBtn);
 		
-		final JLabel userLbl = new JLabel("User01");
 		userLbl.setFont(new Font("Lucida Grande", Font.BOLD, 25));
 		userLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		userLbl.setForeground(Color.WHITE);
 		
-		JLabel lastupdatedLbl = new JLabel("Last updated: 12:50AM");
 		lastupdatedLbl.setHorizontalAlignment(SwingConstants.RIGHT);
 		lastupdatedLbl.setForeground(Color.WHITE);
+		
+		
+		goalsBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				goalsBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if (currentPage != 4)
+					goalsBtn.setBackground(new Color(255, 255, 255,BUTTON_ALPHA_NORMAL));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				currentPage = 4;
+				updateLeftSideButton();
+			}
+		});
+		goalsBtn.setForeground(Color.WHITE);
+		goalsBtn.setHorizontalAlignment(SwingConstants.CENTER);
+		Utils.styleButton(goalsBtn);
+
 		
 		GroupLayout groupLayout = new GroupLayout(mainView.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(28)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-						.addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-						.addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-						.addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 407, GroupLayout.PREFERRED_SIZE))
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(28)
+							.addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 407, GroupLayout.PREFERRED_SIZE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(18)
+									.addComponent(userLbl, GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lastupdatedLbl, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(mysummaryBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
+								.addComponent(goalsBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
 							.addGap(18)
-							.addComponent(userLbl, GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lastupdatedLbl, GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(rightSidePanel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(rightSidePanel, GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(17)
 							.addComponent(userLbl, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addComponent(lastupdatedLbl))
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
-					.addGap(21)
-					.addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(174, Short.MAX_VALUE))
+					.addGap(12)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+							.addGap(12)
+							.addComponent(mysummaryBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(goalsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+						.addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+					.addContainerGap())
 		);
+		mainPanel.setLayout(cardLayout);
+		mainPanel.setBackground(new Color(38, 50, 56));
 		
-		JLabel userBtn = new JLabel();
+		dashboardPanel.setBackground(new Color(38, 50, 56));
+		
+		mainPanel.add(dashboardPanel, "name_1456030182851147000");
+		
+		JPanel t1 = createCards(196, 196);
+		JPanel t2 = createCards(196, 196);
+		JPanel t3 = createCards(196, 196);
+		JPanel t4 = createCards(196, 196);
+		
+		if (!VE_DEV_MODE) {
+			GroupLayout gl_dashboardPanel = new GroupLayout(dashboardPanel);
+				gl_dashboardPanel.setHorizontalGroup(
+					gl_dashboardPanel.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_dashboardPanel.createSequentialGroup()
+							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(t2, Alignment.LEADING, 196, 196, Short.MAX_VALUE)
+									.addComponent(t1, Alignment.LEADING, 196, 196, Short.MAX_VALUE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(t4, 196, 196, Short.MAX_VALUE)
+									.addComponent(t3, 196, 196, Short.MAX_VALUE))
+								.addContainerGap(345, Short.MAX_VALUE))
+			);
+			gl_dashboardPanel.setVerticalGroup(
+					gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_dashboardPanel.createSequentialGroup()
+							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(t3, Alignment.LEADING, 196, 196, Short.MAX_VALUE)
+								.addComponent(t1, Alignment.LEADING, 196, 196, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(t4, 196, 196, Short.MAX_VALUE)
+								.addComponent(t2, 196, 196, Short.MAX_VALUE))
+							.addGap(46))
+			);
+			dashboardPanel.setLayout(gl_dashboardPanel);
+		
+		}
+		
+		
+        
+		mainPanel.add(mysummaryPanel, "name_1456033158027647000");
+		
+		mainPanel.add(timeseriesPanel, "name_1456030885832917000");
+		
+		mainPanel.add(heartzonePanel, "name_1456030906465778000");
+		
+		mainPanel.add(goalsPanel, "name_1456030920510772000");
+		
+		
 		userBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -130,16 +325,18 @@ public class MainView {
 			public void mouseExited(MouseEvent e) {
 				userLbl.setText("User01");
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
 		});
 		int userBtnSide = 60;
 		Utils.styleSquareImageButton(userBtn, new ImageIcon(getClass().getResource("/User_Default.png")).getImage(), userBtnSide);
 		
 		int sideBtnSize_Small = 40;
 		
-		JLabel refreshBtn = new JLabel();
+		
 		Utils.styleSquareImageButton(refreshBtn, new ImageIcon(getClass().getResource("/Tools_Refresh.png")).getImage(), sideBtnSize_Small);
 		
-		JLabel settingsBtn = new JLabel();
 		Utils.styleSquareImageButton(settingsBtn, new ImageIcon(getClass().getResource("/Tools_Setting.png")).getImage(), sideBtnSize_Small);
 		
 		GroupLayout gl_rightSidePanel = new GroupLayout(rightSidePanel);
@@ -170,5 +367,43 @@ public class MainView {
 		);
 		rightSidePanel.setLayout(gl_rightSidePanel);
 		mainView.getContentPane().setLayout(groupLayout);
+	}
+	
+	private void updateLeftSideButton() {
+		dashboardBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+		mysummaryBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+		timeseriesBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+		heartzoneBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+		goalsBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+		cardLayout.show(mainPanel, pageNames[currentPage]);
+		switch (currentPage) {
+		case 0: {
+			dashboardBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+			break;
+		}
+		case 1: {
+			mysummaryBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+			break;
+		}
+		case 2: {
+			timeseriesBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+			break;
+		}
+		case 3: {
+			heartzoneBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+			break;
+		}
+		case 4: {
+			goalsBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+			break;
+		}
+		case 5: {
+			
+			break;
+		}
+		default: {
+			break;
+		}
+		}
 	}
 }
