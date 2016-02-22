@@ -13,6 +13,8 @@ import java.awt.Font;
 
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.CardLayout;
@@ -21,6 +23,22 @@ public class MainView {
 	static int BUTTON_ALPHA_NORMAL = 150;
 	static int BUTTON_ALPHA_HIGHLIGHT = 254;
 	static Boolean VE_DEV_MODE = false;  //change to false before any release
+	
+	static int CARD_SIZE = 196;
+	static int CARD_GAP_SIZE = 8;
+	
+	class MainView_Frame_Resize_Adapter extends java.awt.event.ComponentAdapter {
+		  MainView adaptee;
+
+		  MainView_Frame_Resize_Adapter(MainView adaptee) {
+		    this.adaptee = adaptee;
+		  }
+		  public void componentResized(ComponentEvent e) {
+		    adaptee.frameResized(e);
+		  }  
+	}
+
+	
 	
 	private JPanel createCards(int width, int height) {
 		JPanel panel = new JPanel();
@@ -44,7 +62,8 @@ public class MainView {
 	 */
 	private int currentPage;  
 	private static String pageNames[] = {"name_1456030182851147000", "name_1456033158027647000", "name_1456030885832917000", "name_1456030906465778000", "name_1456030920510772000", ""};
-
+	private Dimension currLayout;
+	
 	JLabel dashboardBtn = new JLabel("Dashboard");
 	JLabel timeseriesBtn = new JLabel("TimeSeries");
 	JLabel heartzoneBtn = new JLabel("HeartZone");
@@ -94,6 +113,7 @@ public class MainView {
 		mainTitleLabel.setForeground(Color.WHITE);
 		mainTitleLabel.setFont(new Font("Lucida Grande", Font.BOLD, 28));
 		
+		this.mainView.addComponentListener(new MainView_Frame_Resize_Adapter(this));
 		
 		dashboardBtn.addMouseListener(new MouseAdapter() {
 			@Override
@@ -269,44 +289,9 @@ public class MainView {
 		dashboardPanel.setBackground(new Color(38, 50, 56));
 		
 		mainPanel.add(dashboardPanel, "name_1456030182851147000");
-		
-		JPanel t1 = createCards(196, 196);
-		JPanel t2 = createCards(196, 196);
-		JPanel t3 = createCards(196, 196);
-		JPanel t4 = createCards(196, 196);
-		
-		if (!VE_DEV_MODE) {
-			GroupLayout gl_dashboardPanel = new GroupLayout(dashboardPanel);
-				gl_dashboardPanel.setHorizontalGroup(
-					gl_dashboardPanel.createParallelGroup(Alignment.TRAILING)
-					.addGroup(gl_dashboardPanel.createSequentialGroup()
-							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(t2, Alignment.LEADING, 196, 196, Short.MAX_VALUE)
-									.addComponent(t1, Alignment.LEADING, 196, 196, Short.MAX_VALUE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(t4, 196, 196, Short.MAX_VALUE)
-									.addComponent(t3, 196, 196, Short.MAX_VALUE))
-								.addContainerGap(345, Short.MAX_VALUE))
-			);
-			gl_dashboardPanel.setVerticalGroup(
-					gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_dashboardPanel.createSequentialGroup()
-							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(t3, Alignment.LEADING, 196, 196, Short.MAX_VALUE)
-								.addComponent(t1, Alignment.LEADING, 196, 196, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(t4, 196, 196, Short.MAX_VALUE)
-								.addComponent(t2, 196, 196, Short.MAX_VALUE))
-							.addGap(46))
-			);
-			dashboardPanel.setLayout(gl_dashboardPanel);
-		
-		}
-		
-		
-        
+		currLayout = getFitLayout();
+		layoutDashboardPanel(currLayout);
+	    
 		mainPanel.add(mysummaryPanel, "name_1456033158027647000");
 		
 		mainPanel.add(timeseriesPanel, "name_1456030885832917000");
@@ -406,4 +391,81 @@ public class MainView {
 		}
 		}
 	}
+	
+	Dimension getFitLayout() {
+		//actually we don't need to care about the width
+		int etcOpHeight = 148;  //148
+		return new Dimension(3, (this.mainView.getHeight()-etcOpHeight) / CARD_SIZE);
+	}
+	
+	void layoutAllPanels(Dimension layoutMode) {
+		layoutDashboardPanel(layoutMode);
+	}
+	
+	void layoutDashboardPanel(Dimension layoutMode) {
+		JPanel t1 = createCards(196, 196);
+		JPanel t2 = createCards(196, 196);
+		JPanel t3 = createCards(196, 196);
+		JPanel t4 = createCards(196, 196);
+		JPanel t5 = createCards(196, 196);
+		JPanel t6 = createCards(196, 196);
+		JPanel panels[] = {t1, t2, t3, t4, t5};
+		
+		/*
+		  if (!VE_DEV_MODE) {
+			GroupLayout gl_dashboardPanel = new GroupLayout(dashboardPanel);
+				gl_dashboardPanel.setHorizontalGroup(
+					gl_dashboardPanel.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_dashboardPanel.createSequentialGroup()
+							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(t2, Alignment.LEADING, CARD_SIZE, CARD_SIZE, Short.MAX_VALUE)
+									.addComponent(t1, Alignment.LEADING, CARD_SIZE, CARD_SIZE, Short.MAX_VALUE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(t4, CARD_SIZE, CARD_SIZE, Short.MAX_VALUE)
+									.addComponent(t3, CARD_SIZE, CARD_SIZE, Short.MAX_VALUE))
+								.addContainerGap(345, Short.MAX_VALUE))
+			);
+			gl_dashboardPanel.setVerticalGroup(
+					gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_dashboardPanel.createSequentialGroup()
+							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(t3, Alignment.LEADING, CARD_SIZE, CARD_SIZE, Short.MAX_VALUE)
+								.addComponent(t1, Alignment.LEADING, CARD_SIZE, CARD_SIZE, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_dashboardPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(t4, CARD_SIZE, CARD_SIZE, Short.MAX_VALUE)
+								.addComponent(t2, CARD_SIZE, CARD_SIZE, Short.MAX_VALUE))
+							.addGap(46))
+			);
+			dashboardPanel.setLayout(gl_dashboardPanel);
+		
+		}
+		 */
+		dashboardPanel.removeAll();
+		dashboardPanel.setLayout(null);
+		int x = 0;
+		int y = 0;
+		for (int i=0;i<panels.length/layoutMode.height+(panels.length%layoutMode.height==0?0:1);i++) {
+			for (int j=0;j<layoutMode.height;j++) {
+				if (i*layoutMode.height+j >= panels.length)
+					break;
+				panels[i*layoutMode.height+j].setLocation(x, y);
+				dashboardPanel.add(panels[i*layoutMode.height+j]);
+				y += CARD_SIZE + CARD_GAP_SIZE;
+			}
+			y = 0;
+			x += CARD_SIZE + CARD_GAP_SIZE;
+		}
+		dashboardPanel.updateUI();
+	}
+	
+	void frameResized(ComponentEvent e) {
+		Dimension tLayout = getFitLayout();
+	     if (currLayout.height != tLayout.getHeight()) {
+	    	 System.out.println("Relayout needed." + currLayout + getFitLayout());
+	    	 currLayout = getFitLayout();
+	    	 layoutAllPanels(currLayout);
+	     }
+ }
 }
