@@ -43,7 +43,24 @@ public class UserData {
         if (canned == true) {
             return 137;
         }
-        return 0;
+        Request getData = new Request();
+
+        //Substitute the string in getData.requestFor("STRINGHERE") for what you need
+        final JSONObject obj = new JSONObject(getData.requestFor("activities/floors/date/2016-01-08/1d.json"));
+        final JSONArray fitData = obj.getJSONArray("activities-floors");
+        final int n = fitData.length();
+        for (int i = 0; i < n; ++i) {
+            final JSONObject fitAttribute = fitData.getJSONObject(i);
+            //System.out.println(fitAttribute.getString("dateTime"));
+            String dateTime = fitAttribute.getString("dateTime");
+
+            //System.out.println(fitAttribute.getInt("value"));
+            return fitAttribute.getInt("value");
+
+            //System.out.println(fitAttribute.getString("time"));
+        }
+        //Something has gone horribly wrong if we reach this point, throw an exception here and let someone else deal with it
+        return -1;
     }
 
     public static int getCalories(boolean canned) {
@@ -51,7 +68,22 @@ public class UserData {
         if (canned == true) {
             return 1500;
         }
-        return 0;
+        //Substitute the string in getData.requestFor("STRINGHERE") for what you need
+        final JSONObject obj = new JSONObject(getData.requestFor("activities/calories/date/2016-01-08/1d.json"));
+        final JSONArray fitData = obj.getJSONArray("activities-calories");
+        final int n = fitData.length();
+        for (int i = 0; i < n; ++i) {
+            final JSONObject fitAttribute = fitData.getJSONObject(i);
+            //System.out.println(fitAttribute.getString("dateTime"));
+            String dateTime = fitAttribute.getString("dateTime");
+
+            //System.out.println(fitAttribute.getInt("value"));
+            return fitAttribute.getInt("value");
+
+            //System.out.println(fitAttribute.getString("time"));
+        }
+        //Something has gone horribly wrong if we reach this point, throw an exception here and let someone else deal with it
+        return -1;
     }
 
     public static int getDistance(boolean canned) {
@@ -59,7 +91,22 @@ public class UserData {
         if (canned == true) {
             return 50;
         }
-        return 0;
+        //Substitute the string in getData.requestFor("STRINGHERE") for what you need
+        final JSONObject obj = new JSONObject(getData.requestFor("activities/distance/date/2016-01-08/1d.json"));
+        final JSONArray fitData = obj.getJSONArray("activities-distance");
+        final int n = fitData.length();
+        for (int i = 0; i < n; ++i) {
+            final JSONObject fitAttribute = fitData.getJSONObject(i);
+            //System.out.println(fitAttribute.getString("dateTime"));
+            String dateTime = fitAttribute.getString("dateTime");
+
+            //System.out.println(fitAttribute.getInt("value"));
+            return fitAttribute.getInt("value");
+
+            //System.out.println(fitAttribute.getString("time"));
+        }
+        //Something has gone horribly wrong if we reach this point, throw an exception here and let someone else deal with it
+        return -1;
     }
 
     public static int getActiveMinutes(boolean canned) {
@@ -75,7 +122,22 @@ public class UserData {
         if (canned == true) {
             return 1222;
         }
-        return 0;
+        //Substitute the string in getData.requestFor("STRINGHERE") for what you need
+        final JSONObject obj = new JSONObject(getData.requestFor("activities/minutesSedentary/date/2016-01-08/1d.json"));
+        final JSONArray fitData = obj.getJSONArray("activities-minutessedentary");
+        final int n = fitData.length();
+        for (int i = 0; i < n; ++i) {
+            final JSONObject fitAttribute = fitData.getJSONObject(i);
+            //System.out.println(fitAttribute.getString("dateTime"));
+            String dateTime = fitAttribute.getString("dateTime");
+
+            //System.out.println(fitAttribute.getInt("value"));
+            return fitAttribute.getInt("value");
+
+            //System.out.println(fitAttribute.getString("time"));
+        }
+        //Something has gone horribly wrong if we reach this point, throw an exception here and let someone else deal with it
+        return -1;
     }
 
 /*    public static Achievements getAchievements(boolean canned){
