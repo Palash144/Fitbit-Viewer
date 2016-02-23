@@ -35,6 +35,7 @@ public class UserData {
         }
 
         //Something has gone horribly wrong if we reach this point, throw an exception here and let someone else deal with it
+        //TODO: Throw an exception
         return -1;
     }
 
