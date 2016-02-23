@@ -61,11 +61,15 @@ public class Request {
 
             FileReader fileReader =
                     new FileReader("auth_credentials/Team9Credentials.txt");
-            bufferedReader = new BufferedReader(fileReader);
+/*            bufferedReader = new BufferedReader(fileReader);
             clientID = bufferedReader.readLine();
             apiKey = bufferedReader.readLine();
-            apiSecret = bufferedReader.readLine();
-            bufferedReader.close();
+            apiSecret = bufferedReader.readLine();*/
+            clientID = "227DYF";
+            apiKey = "22b14fcadc307d00c62b235d79197d4a";
+            apiSecret = "ca303c5b331e014389fc6012494b596a";
+
+            //bufferedReader.close();
             fileReader = new FileReader("auth_credentials/Team9Tokens.txt");
             bufferedReader = new BufferedReader(fileReader);
 
