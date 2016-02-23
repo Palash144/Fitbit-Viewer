@@ -4,6 +4,8 @@ public class UserInterface {
     //TODO: Currently set to true for debugging purposes, the user should NOT be logged in by default
     private static boolean loggedIn = true;
 
+    private static int calories;
+
     /**
      * @param canned true returns canned data
      */
@@ -20,7 +22,7 @@ public class UserInterface {
                 int floors = UserData.getFloors(canned);
                 System.out.println("Beth climbed " + floors + " floors");
 
-                int calories = UserData.getCalories(canned);
+                calories = UserData.getCalories(canned);
                 System.out.println("Beth burned " + calories + " calories");
 
                 int distance = UserData.getDistance(canned);
@@ -39,5 +41,9 @@ public class UserInterface {
             System.out.println("You are not logged in!");
             //Ask the user to log in
         }
+    }
+
+    public int getCalories(){
+        return calories;
     }
 }

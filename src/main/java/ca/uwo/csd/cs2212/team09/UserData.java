@@ -38,7 +38,7 @@ public class UserData {
         return -1;
     }
 
-    public static int getFloors(boolean canned) {
+    public static int getFloors(boolean canned) throws JSONException {
         //TODO: Complete this method
         if (canned == true) {
             return 137;
@@ -63,11 +63,13 @@ public class UserData {
         return -1;
     }
 
-    public static int getCalories(boolean canned) {
+    public static int getCalories(boolean canned) throws JSONException {
         //TODO: Complete this method
         if (canned == true) {
             return 1500;
         }
+
+        Request getData = new Request();
         //Substitute the string in getData.requestFor("STRINGHERE") for what you need
         final JSONObject obj = new JSONObject(getData.requestFor("activities/calories/date/2016-01-08/1d.json"));
         final JSONArray fitData = obj.getJSONArray("activities-calories");
@@ -86,11 +88,13 @@ public class UserData {
         return -1;
     }
 
-    public static int getDistance(boolean canned) {
+    public static int getDistance(boolean canned) throws JSONException {
         //TODO: Complete this method
         if (canned == true) {
             return 50;
         }
+
+        Request getData = new Request();
         //Substitute the string in getData.requestFor("STRINGHERE") for what you need
         final JSONObject obj = new JSONObject(getData.requestFor("activities/distance/date/2016-01-08/1d.json"));
         final JSONArray fitData = obj.getJSONArray("activities-distance");
@@ -110,18 +114,20 @@ public class UserData {
     }
 
     public static int getActiveMinutes(boolean canned) {
-        //TODO: Complete this method
+        //TODO: Complete this method; We will add together lightly active, fairly active and very active
         if (canned == true) {
             return 69;
         }
         return 0;
     }
 
-    public static int getSedentaryMinutes(boolean canned) {
+    public static int getSedentaryMinutes(boolean canned) throws JSONException{
         //TODO: Complete this method
         if (canned == true) {
             return 1222;
         }
+        Request getData = new Request();
+
         //Substitute the string in getData.requestFor("STRINGHERE") for what you need
         final JSONObject obj = new JSONObject(getData.requestFor("activities/minutesSedentary/date/2016-01-08/1d.json"));
         final JSONArray fitData = obj.getJSONArray("activities-minutessedentary");
