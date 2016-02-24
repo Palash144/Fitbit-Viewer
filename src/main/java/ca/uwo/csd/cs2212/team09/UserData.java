@@ -12,7 +12,7 @@ public class UserData {
      * @param canned true returns canned data
      * @return the number of steps taken
      */
-    public static int getSteps(boolean canned) throws JSONException {
+    public int getSteps(boolean canned) throws JSONException {
         //TODO: This method is not quite complete, but it seems to work and you can expect the final one to look like this
         if (canned == true) {
             return 1337;
@@ -39,7 +39,7 @@ public class UserData {
         return -1;
     }
 
-    public static int getFloors(boolean canned) throws JSONException {
+    public int getFloors(boolean canned) throws JSONException {
         //TODO: Complete this method
         if (canned == true) {
             return 137;
@@ -64,7 +64,7 @@ public class UserData {
         return -1;
     }
 
-    public static int getCalories(boolean canned) throws JSONException {
+    public int getCalories(boolean canned) throws JSONException {
         //TODO: Complete this method
         if (canned == true) {
             return 1500;
@@ -89,7 +89,7 @@ public class UserData {
         return -1;
     }
 
-    public static int getDistance(boolean canned) throws JSONException {
+    public int getDistance(boolean canned) throws JSONException {
         //TODO: Complete this method
         if (canned == true) {
             return 50;
@@ -114,7 +114,7 @@ public class UserData {
         return -1;
     }
 
-    public static int getActiveMinutes(boolean canned) {
+    public int getActiveMinutes(boolean canned) {
         //TODO: Complete this method; We will add together lightly active, fairly active and very active
         if (canned == true) {
             return 69;
@@ -122,7 +122,7 @@ public class UserData {
         return 0;
     }
 
-    public static int getSedentaryMinutes(boolean canned) throws JSONException{
+    public int getSedentaryMinutes(boolean canned) throws JSONException{
         //TODO: Complete this method
         if (canned == true) {
             return 1222;
