@@ -13,12 +13,14 @@ public class App {
         //To run this: (uncanned data)
         //java -jar target/team09_FitBitProject-1.0-SNAPSHOT-jar-with-dependencies.jar
         if (args.length == 0){
-            UserInterface.getData(false);
+            UserInterface user = new UserInterface();
+            user.getData(false);
         }
         //To run this: (canned data)
         //java -jar target/team09_FitBitProject-1.0-SNAPSHOT-jar-with-dependencies.jar canned
         else if (args[0].equals("canned")) {
-            UserInterface.getData(true);
+            UserInterface user = new UserInterface();
+            user.getData(true);
         }
 
         logger.trace("Exiting main");

@@ -7,7 +7,7 @@ public class UserInterface {
     /**
      * @param canned true returns canned data
      */
-    public static void getData(boolean canned) {
+    public void getData(boolean canned) {
         if (loggedIn || canned) {
             try {
                 int steps = UserData.getSteps(canned);
