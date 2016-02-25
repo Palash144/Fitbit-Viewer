@@ -139,10 +139,24 @@ public class UserData {
 
     public int getActiveMinutes(boolean canned, String date) {
         //TODO: Complete this method; We will add together lightly active, fairly active and very active
+        int activeMinutes = 0;
         if (canned == true) {
             return 69;
         }
-        return -1;
+
+        Request getData = new Request();
+        try {
+            final JSONObject obj = new JSONObject(getData.requestFor("activities/date/" + date + ".json"));
+            final JSONObject fitData = obj.getJSONObject("summary");
+
+            activeMinutes += Integer.parseInt(fitData.getString("fairlyActiveMinutes"));
+            activeMinutes += Integer.parseInt(fitData.getString("lightlyActiveMinutes"));
+            activeMinutes += Integer.parseInt(fitData.getString("veryActiveMinutes"));
+        } catch (Exception e) {
+            System.out.println("Failed to get get active minutes: " + e.getMessage());
+        }
+
+        return activeMinutes;
     }
 
     public int getSedentaryMinutes(boolean canned, String date) {
