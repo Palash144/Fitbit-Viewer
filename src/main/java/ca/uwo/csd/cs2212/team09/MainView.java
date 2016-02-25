@@ -348,7 +348,7 @@ public class MainView {
 				EventQueue.invokeLater(new Runnable() {
 	    			public void run() {
 	    				try {
-	    					refreshAllDataWithDate(null, true);
+	    					refreshAllDataWithDate(null, false);
 	    				} catch (Exception e) {
 	    					e.printStackTrace();
 	    				} finally {
