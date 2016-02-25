@@ -342,13 +342,26 @@ public class MainView {
 								.addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
 							.addGap(14))))
 		);
+		
+		
 		refreshBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				refreshAllDataWithDate(null, true);
-				updateDataOnPanels();
+				EventQueue.invokeLater(new Runnable() {
+	    			public void run() {
+	    				try {
+	    					refreshAllDataWithDate(null, true);
+	    				} catch (Exception e) {
+	    					e.printStackTrace();
+	    				} finally {
+	    					updateDataOnPanels();
+	    				}
+	    			}
+	    		});
 			}
 		});
+		
+		
 		gl_rightSidePanel.setVerticalGroup(
 			gl_rightSidePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rightSidePanel.createSequentialGroup()
@@ -410,35 +423,28 @@ public class MainView {
 	}
 	
 	void refreshAllDataWithDate(Date date, Boolean canned) {
-		final Boolean canVar = canned;
 		lastupdatedLbl.setText("Refreshing...");
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					try {
-			            if (canVar) {
-			                System.out.println("Returning canned data...");
-			            }
-			            dailyData[DATA_DAILY_STEPS] = sessionData.getSteps(canVar);
-			            dailyData[DATA_DAILY_FLOORS] = sessionData.getFloors(canVar);
-			            dailyData[DATA_DAILY_CALORIES]= sessionData.getCalories(canVar);
-			            dailyData[DATA_DAILY_DISTANCE] = sessionData.getDistance(canVar);
-			            dailyData[DATA_DAILY_ACTIVE_MINUTES] = sessionData.getActiveMinutes(canVar);
-			            dailyData[DATA_DAILY_SEDENTARY_MINUTES] = sessionData.getSedentaryMinutes(canVar);
-			        } catch (Exception e) {
-			            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
-			        }
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
-				lastupdatedLbl.setText("Last updated: " + df.format(new Date()));
-				
-				System.out.println("Data updated.");
-			}
-		});
 		
+		try {
+            if (canned) {
+                System.out.println("Returning canned data...");
+            }
+            dailyData[DATA_DAILY_STEPS] = sessionData.getSteps(canned);
+            dailyData[DATA_DAILY_FLOORS] = sessionData.getFloors(canned);
+            dailyData[DATA_DAILY_CALORIES]= sessionData.getCalories(canned);
+            dailyData[DATA_DAILY_DISTANCE] = sessionData.getDistance(canned);
+            dailyData[DATA_DAILY_ACTIVE_MINUTES] = sessionData.getActiveMinutes(canned);
+            dailyData[DATA_DAILY_SEDENTARY_MINUTES] = sessionData.getSedentaryMinutes(canned);
+        } catch (Exception e) {
+            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
+           
+            lastupdatedLbl.setText("Updating failed.");
+        } finally {
+        	SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
+    		lastupdatedLbl.setText("Last updated: " + df.format(new Date()));
+    		
+    		System.out.println("Data updated.");
+        }
 	}
 	
 	void updateDataOnPanels() {
