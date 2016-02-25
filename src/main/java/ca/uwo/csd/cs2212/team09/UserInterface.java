@@ -14,7 +14,7 @@ public class UserInterface {
     //TODO: Test class to test UserData refreshAll(), remove after
     public static void main(String[] args) {
         UserData testSessionData = new UserData();
-        String[] testreceive = testSessionData.refreshAll(false, "");
+        String[] testreceive = testSessionData.refreshAll(false, "2016-01-08");
 
         System.out.println("testing return data:");
         for (int i = 0; i < testreceive.length; i++){
@@ -35,12 +35,14 @@ public class UserInterface {
         //sessionData.refreshAll();
 
         try {
+            System.out.println("Returning data for day: " + date);
+
             steps = sessionData.getSteps(canned, "");
             System.out.println("\n\n=====BEGIN OUTPUT=====");
             if (canned) {
                 System.out.println("Returning canned data...");
             }
-            System.out.println("\nOn 2016-01-08, Beth took " + steps + " steps.");
+            System.out.println("\nBeth took " + steps + " steps.");
 
             floors = sessionData.getFloors(canned, date);
             System.out.println("Beth climbed " + floors + " floors");

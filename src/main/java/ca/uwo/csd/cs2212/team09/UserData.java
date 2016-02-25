@@ -6,10 +6,6 @@ import org.json.JSONObject;
 
 public class UserData {
 
-
-    //private int Total;
-    //private int Best;
-
     public String[] refreshAll(boolean canned, String date) {
         String[] returnData = new String[6];
         if (canned == true) {
@@ -23,7 +19,8 @@ public class UserData {
         }
         Request getData = new Request();
         try {
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/date/2016-01-08.json"));
+            //final JSONObject obj = new JSONObject(getData.requestFor("activities/date/2016-01-08.json"));
+            final JSONObject obj = new JSONObject(getData.requestFor("activities/date/" + date + ".json"));
 
             final JSONObject fitData = obj.getJSONObject("summary");
             System.out.println("steps: " + fitData.getString("steps"));
@@ -71,7 +68,7 @@ public class UserData {
         Request getData = new Request();
         try {
             //Substitute the string in getData.requestFor("STRINGHERE") for what you need
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/steps/date/2016-01-08/1d.json"));
+            final JSONObject obj = new JSONObject(getData.requestFor("activities/steps/date/" + date + "/1d.json"));
             //Above statement returns: {"activities-steps":[{"dateTime":"2016-01-08","value":"10042"}],"activities-steps-intraday":{"dataset":[{"time":"00:00:00","value":0},{"time":"00:01:00","value":0},{"time": etc.
             final JSONArray fitData = obj.getJSONArray("activities-steps");
             final int n = fitData.length();
@@ -101,7 +98,7 @@ public class UserData {
 
         Request getData = new Request();
         try {
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/floors/date/2016-01-08/1d.json"));
+            final JSONObject obj = new JSONObject(getData.requestFor("activities/floors/date/" + date + "/1d.json"));
             final JSONArray fitData = obj.getJSONArray("activities-floors");
             final int n = fitData.length();
             for (int i = 0; i < n; ++i) {
@@ -130,7 +127,7 @@ public class UserData {
 
         Request getData = new Request();
         try {
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/calories/date/2016-01-08/1d.json"));
+            final JSONObject obj = new JSONObject(getData.requestFor("activities/calories/date/" + date + "/1d.json"));
             final JSONArray fitData = obj.getJSONArray("activities-calories");
             final int n = fitData.length();
             for (int i = 0; i < n; ++i) {
@@ -159,7 +156,7 @@ public class UserData {
 
         Request getData = new Request();
         try {
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/distance/date/2016-01-08/1d.json"));
+            final JSONObject obj = new JSONObject(getData.requestFor("activities/distance/date/" + date + "/1d.json"));
             final JSONArray fitData = obj.getJSONArray("activities-distance");
             final int n = fitData.length();
             for (int i = 0; i < n; ++i) {
@@ -196,7 +193,7 @@ public class UserData {
         Request getData = new Request();
         try {
             //Substitute the string in getData.requestFor("STRINGHERE") for what you need
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/minutesSedentary/date/2016-01-08/1d.json"));
+            final JSONObject obj = new JSONObject(getData.requestFor("activities/minutesSedentary/date/" + date + "/1d.json"));
             final JSONArray fitData = obj.getJSONArray("activities-minutesSedentary");
             final int n = fitData.length();
             for (int i = 0; i < n; ++i) {

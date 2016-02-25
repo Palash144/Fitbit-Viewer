@@ -16,13 +16,13 @@ public class App {
         //java -jar target/team09_FitBitProject-1.0-SNAPSHOT-jar-with-dependencies.jar
         if (args.length == 0){
             UserInterface user = new UserInterface();
-            user.refreshData(false, "");
+            user.refreshData(false, "2016-01-08");
         }
         //To run this: (canned data)
         //java -jar target/team09_FitBitProject-1.0-SNAPSHOT-jar-with-dependencies.jar canned
         else if (args[0].equals("canned")) {
             UserInterface user = new UserInterface();
-            user.refreshData(true, "");
+            user.refreshData(true, "2016-01-08");
         }
         else if (args[0].equals("UITEST")) {
         	System.out.println("UITest mode.");
