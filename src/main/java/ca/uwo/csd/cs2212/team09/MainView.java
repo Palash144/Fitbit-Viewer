@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.awt.CardLayout;
 
 
@@ -28,7 +29,18 @@ public class MainView {
 	public final static int CARD_SIZE = 196;
 	public final static int CARD_GAP_SIZE = 8;
 
+	UserData sessionData = new UserData();
 	
+	private int DATA_DAILY_CALORIES = 0;
+	private int DATA_DAILY_DISTANCE = 1;
+	private int DATA_DAILY_FLOORS = 2;
+	private int DATA_DAILY_STEPS = 3;
+	private int DATA_DAILY_ACTIVE_MINUTES = 4;
+	private int DATA_DAILY_SEDENTARY_MINUTES = 5;
+	
+	private int dailyData[] = {0, 0, 0, 0, 0, 0};
+	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
+	private Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
 	class MainView_Frame_Resize_Adapter extends java.awt.event.ComponentAdapter {
 		  MainView adaptee;
@@ -293,7 +305,7 @@ public class MainView {
 		userBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				 userLbl.setText("Click to logout");
+				 userLbl.setText("Click to change your avatar");
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -328,6 +340,15 @@ public class MainView {
 								.addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
 							.addGap(14))))
 		);
+		refreshBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Refreshing...");
+				refreshAllDataWithDate(null, true);
+				updateDataOnPanels();
+				System.out.println("Done.");
+			}
+		});
 		gl_rightSidePanel.setVerticalGroup(
 			gl_rightSidePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rightSidePanel.createSequentialGroup()
@@ -387,35 +408,56 @@ public class MainView {
 		return new Dimension(3, (this.mainView.getHeight()-etcOpHeight) / CARD_SIZE);
 	}
 	
-
+	void refreshAllDataWithDate(Date date, Boolean canned) {
+		try {
+            if (canned) {
+                System.out.println("Returning canned data...");
+            }
+            dailyData[DATA_DAILY_STEPS] = sessionData.getSteps(canned);
+            dailyData[DATA_DAILY_FLOORS] = sessionData.getFloors(canned);
+            dailyData[DATA_DAILY_CALORIES]= sessionData.getCalories(canned);
+            dailyData[DATA_DAILY_DISTANCE] = sessionData.getDistance(canned);
+            dailyData[DATA_DAILY_ACTIVE_MINUTES] = sessionData.getActiveMinutes(canned);
+            dailyData[DATA_DAILY_SEDENTARY_MINUTES] = sessionData.getSedentaryMinutes(canned);
+        } catch (Exception e) {
+            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
+        }
+	}
+	
+	void updateDataOnPanels() {
+		int j = 0;
+		for (int i=0;i<dailyData.length;i++) {
+			if (dailyDataCustomization[i]) {
+				j++;
+				Dashboard_Card panel = dashboardPanel.modifyAt(j);
+				panel.setTitle(dailyDataMsg[i]);
+				panel.setContent(dailyData[i]+"<-New");
+				panel.updatePanel();
+				dashboardPanel.updateUI();
+			}
+		}
+	}
 	
 	void layoutAllPanels(Dimension layoutMode) {
+		refreshAllDataWithDate(null, true);
 		if (dashboardPanel.subviewCount() == 0) {
-			Dashboard_Card t1 = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME);
-			Dashboard_Card t2 = createCards(196, 196);
-			Dashboard_Card t3 = createCards(196, 196);
-			Dashboard_Card t4 = createCards(196, 196);
-			Dashboard_Card t5 = createCards(196, 196);
-			Dashboard_Card t6 = createCards(196, 196);
-			Dashboard_Card t7 = createCards(196, 196);
-			dashboardPanel.add(t1, false);
-			dashboardPanel.add(t2, false);
-			dashboardPanel.add(t3, false);
-			dashboardPanel.add(t4, false);
-			dashboardPanel.add(t5, false);
-			dashboardPanel.add(t6, false);
-			dashboardPanel.add(t7, false);
+			Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "");
+			dashboardPanel.add(dateCard, false);
+			for (int i=0;i<dailyData.length;i++) {
+				Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i]+"");
+				dashboardPanel.add(t, false);
+			}
 		}
 		
 		dashboardPanel.layoutPanel(layoutMode);
 	}
 	
 	private Dashboard_Card createCards(int width, int height) {
-		return createCards(width, height, Dashboard_Card.CARD_TYPE_DEFAULT);
+		return createCards(width, height, Dashboard_Card.CARD_TYPE_DEFAULT, "", "");
 	}
 	
-	private Dashboard_Card createCards(int width, int height, int type) {
-		Dashboard_Card panel = new Dashboard_Card(width, height, type);
+	private Dashboard_Card createCards(int width, int height, int type, String title, String content) {
+		Dashboard_Card panel = new Dashboard_Card(width, height, type, title, content);
 		Color backgroundColor = new Color(255, 255, 255, MainView.BUTTON_ALPHA_NORMAL);
 		panel.setBackground(backgroundColor);
 		

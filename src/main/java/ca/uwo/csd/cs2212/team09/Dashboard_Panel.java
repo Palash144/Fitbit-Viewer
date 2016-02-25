@@ -25,6 +25,13 @@ public class Dashboard_Panel extends JPanel {
 			layoutPanel(currLayout);
 	}
 	
+	public Dashboard_Card modifyAt(int cardIndex) {
+		if (cardIndex >= panels.size()) {
+			return null;
+		}
+		return (Dashboard_Card)panels.get(cardIndex);
+	}
+	
 	public void remove(JPanel panel) {
 		
 	}
