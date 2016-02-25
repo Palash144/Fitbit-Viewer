@@ -7,38 +7,54 @@ import org.json.JSONObject;
 public class UserData {
 
 
-    private int Total;
-    private int Best;
+    //private int Total;
+    //private int Best;
 
-    public void refreshAll(boolean canned) {
+    public String[] refreshAll(boolean canned) {
+        String[] returnData = new String[6];
         if (canned == true) {
-            //return String[];
+            returnData[0] = "123";
+            returnData[1] = "1234";
+            returnData[2] = "12";
+            returnData[3] = "13";
+            returnData[4] = "23";
+            returnData[5] = "1223";
+            return returnData;
         }
         Request getData = new Request();
         try {
             final JSONObject obj = new JSONObject(getData.requestFor("activities/date/2016-01-08.json"));
 
-            System.out.println("asdf");
-            String testout = obj.getString("summary");
-            System.out.println("test out: " + testout);
-
             final JSONObject fitData = obj.getJSONObject("summary");
             System.out.println("steps: " + fitData.getString("steps"));
+            returnData[0] = (fitData.getString("steps"));
 
             final JSONArray distanceArray = fitData.getJSONArray("distances");
             final JSONObject totalDistance = distanceArray.getJSONObject(0);
             System.out.println("distance: " + totalDistance.getString("distance"));
+            returnData[1] = (totalDistance.getString("distance"));
 
-            System.out.println("calories: " + fitData.getString("calories"));
+            System.out.println("floors: " + fitData.getString("floors"));
+            returnData[2] = (fitData.getString("floors"));
+
+            System.out.println("calories: " + fitData.getString("caloriesOut"));
+            returnData[3] = (fitData.getString("caloriesOut"));
+
+            int activeMinutes = 0;
+            activeMinutes += Integer.parseInt(fitData.getString("fairlyActiveMinutes"));
+            activeMinutes += Integer.parseInt(fitData.getString("lightlyActiveMinutes"));
+            activeMinutes += Integer.parseInt(fitData.getString("veryActiveMinutes"));
+            System.out.println("active minutes: " + activeMinutes);
+            returnData[4] = activeMinutes + "";
+
+            System.out.println("sedentary minutes: " + fitData.getString("sedentaryMinutes"));
+            returnData[5] = (fitData.getString("sedentaryMinutes"));
 
         } catch (Exception e) {
+            //TODO: Throw an exception
             System.out.println("Failed to refresh all data: " + e.getMessage());
         }
-
-        //Something has gone horribly wrong if we reach this point, throw an exception here and let someone else deal with it
-        //TODO: Throw an exception
-        //return -1;
-
+        return returnData;
     }
 
     /**
@@ -181,7 +197,7 @@ public class UserData {
         try {
             //Substitute the string in getData.requestFor("STRINGHERE") for what you need
             final JSONObject obj = new JSONObject(getData.requestFor("activities/minutesSedentary/date/2016-01-08/1d.json"));
-            final JSONArray fitData = obj.getJSONArray("activities-minutessedentary");
+            final JSONArray fitData = obj.getJSONArray("activities-minutesSedentary");
             final int n = fitData.length();
             for (int i = 0; i < n; ++i) {
                 final JSONObject fitAttribute = fitData.getJSONObject(i);

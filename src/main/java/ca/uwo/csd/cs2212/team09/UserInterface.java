@@ -11,11 +11,20 @@ public class UserInterface {
     private int sedentaryMinutes = -1;
 
 
+    //TODO: Test class to test UserData refreshAll(), remove after
     public static void main(String[] args) {
         UserData testSessionData = new UserData();
-        testSessionData.refreshAll(false);
+        String[] testreceive = testSessionData.refreshAll(false);
 
-        //testSessionData.getSteps(false);
+        System.out.println("testing return data:");
+        for (int i = 0; i < testreceive.length; i++){
+            System.out.println(testreceive[i]);
+        }
+    }
+
+    //return data from last session
+    public void getCachedData() {
+
     }
 
     /**
