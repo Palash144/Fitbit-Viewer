@@ -345,7 +345,7 @@ public class MainView {
 		refreshBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				refreshAllDataWithDate(null, true);
+				refreshAllDataWithDate(null, false);
 				updateDataOnPanels();
 			}
 		});
@@ -448,7 +448,7 @@ public class MainView {
 				j++;
 				Dashboard_Card panel = dashboardPanel.modifyAt(j);
 				panel.setTitle(dailyDataMsg[i]);
-				panel.setContent(dailyData[i]+"<-New");
+				panel.setContent(dailyData[i] + "");
 				panel.updatePanel();
 				dashboardPanel.updateUI();
 			}
