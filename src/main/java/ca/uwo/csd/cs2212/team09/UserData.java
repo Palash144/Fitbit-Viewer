@@ -27,7 +27,7 @@ public class UserData {
 
             final JSONObject fitData = obj.getJSONObject("summary");
             System.out.println("steps: " + fitData.getString("steps"));
-            returnData[0] = (fitData.getString("steps"));
+            returnData[3] = (fitData.getString("steps"));
 
             final JSONArray distanceArray = fitData.getJSONArray("distances");
             final JSONObject totalDistance = distanceArray.getJSONObject(0);
@@ -38,7 +38,7 @@ public class UserData {
             returnData[2] = (fitData.getString("floors"));
 
             System.out.println("calories: " + fitData.getString("caloriesOut"));
-            returnData[3] = (fitData.getString("caloriesOut"));
+            returnData[0] = (fitData.getString("caloriesOut"));
 
             int activeMinutes = 0;
             activeMinutes += Integer.parseInt(fitData.getString("fairlyActiveMinutes"));
