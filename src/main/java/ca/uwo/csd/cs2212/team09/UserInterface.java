@@ -14,7 +14,7 @@ public class UserInterface {
     //TODO: Test class to test UserData refreshAll(), remove after
     public static void main(String[] args) {
         UserData testSessionData = new UserData();
-        String[] testreceive = testSessionData.refreshAll(false);
+        String[] testreceive = testSessionData.refreshAll(false, "");
 
         System.out.println("testing return data:");
         for (int i = 0; i < testreceive.length; i++){
@@ -35,26 +35,26 @@ public class UserInterface {
         //sessionData.refreshAll();
 
         try {
-            steps = sessionData.getSteps(canned);
+            steps = sessionData.getSteps(canned, "");
             System.out.println("\n\n=====BEGIN OUTPUT=====");
             if (canned) {
                 System.out.println("Returning canned data...");
             }
             System.out.println("\nOn 2016-01-08, Beth took " + steps + " steps.");
 
-            floors = sessionData.getFloors(canned);
+            floors = sessionData.getFloors(canned, "");
             System.out.println("Beth climbed " + floors + " floors");
 
-            calories = sessionData.getCalories(canned);
+            calories = sessionData.getCalories(canned, "");
             System.out.println("Beth burned " + calories + " calories");
 
-            distance = sessionData.getDistance(canned);
+            distance = sessionData.getDistance(canned, "");
             System.out.println("Beth travelled " + distance + "km");
 
-            activeMinutes = sessionData.getActiveMinutes(canned);
+            activeMinutes = sessionData.getActiveMinutes(canned, "");
             System.out.println("Beth was active for " + activeMinutes + " minutes");
 
-            sedentaryMinutes = sessionData.getSedentaryMinutes(canned);
+            sedentaryMinutes = sessionData.getSedentaryMinutes(canned, "");
             System.out.println("Beth was inactive for " + sedentaryMinutes + " minutes");
         } catch (Exception e) {
             System.out.println("Something went horribly wrong, tell Michael about this: " + e);
@@ -68,7 +68,7 @@ public class UserInterface {
         //TODO: Add an additional or case for the data being out of date, or maybe another boolean parameter to force refresh
         if (steps == -1 || canned){
             //Refreshes steps, or gets canned steps if specified
-            steps = sessionData.getSteps(canned);
+            steps = sessionData.getSteps(canned, "");
         }
         return steps;
     }
@@ -78,7 +78,7 @@ public class UserInterface {
      */
     public int getFloors(boolean canned) {
         if (floors == -1 || canned){
-            floors = sessionData.getFloors(canned);
+            floors = sessionData.getFloors(canned, "");
         }
         return floors;
     }
@@ -88,7 +88,7 @@ public class UserInterface {
      */
     public int getCalories(boolean canned) {
         if (calories == -1 || canned){
-            calories = sessionData.getCalories(canned);
+            calories = sessionData.getCalories(canned, "");
         }
         return calories;
     }
@@ -98,7 +98,7 @@ public class UserInterface {
      */
     public int getDistance(boolean canned) {
         if (distance == -1 || canned){
-            distance = sessionData.getDistance(canned);
+            distance = sessionData.getDistance(canned, "");
         }
         return distance;
     }
@@ -108,7 +108,7 @@ public class UserInterface {
      */
     public int getActiveMinutes(boolean canned) {
         if (activeMinutes == -1 || canned){
-            activeMinutes = sessionData.getActiveMinutes(canned);
+            activeMinutes = sessionData.getActiveMinutes(canned, "");
         }
         return activeMinutes;
     }
@@ -118,7 +118,7 @@ public class UserInterface {
      */
     public int getSedentaryMinutes(boolean canned) {
         if (sedentaryMinutes == -1 || canned){
-            sedentaryMinutes = sessionData.getSedentaryMinutes(canned);
+            sedentaryMinutes = sessionData.getSedentaryMinutes(canned, "");
         }
         return sedentaryMinutes;
     }

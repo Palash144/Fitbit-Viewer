@@ -428,12 +428,13 @@ public class MainView {
 			            if (canVar) {
 			                System.out.println("Returning canned data...");
 			            }
-			            dailyData[DATA_DAILY_STEPS] = sessionData.getSteps(canVar);
-			            dailyData[DATA_DAILY_FLOORS] = sessionData.getFloors(canVar);
-			            dailyData[DATA_DAILY_CALORIES]= sessionData.getCalories(canVar);
-			            dailyData[DATA_DAILY_DISTANCE] = sessionData.getDistance(canVar);
-			            dailyData[DATA_DAILY_ACTIVE_MINUTES] = sessionData.getActiveMinutes(canVar);
-			            dailyData[DATA_DAILY_SEDENTARY_MINUTES] = sessionData.getSedentaryMinutes(canVar);
+						//TODO: Fill in the date as a string in this format: 2016-01-08
+			            dailyData[DATA_DAILY_STEPS] = sessionData.getSteps(canVar, "");
+			            dailyData[DATA_DAILY_FLOORS] = sessionData.getFloors(canVar, "");
+			            dailyData[DATA_DAILY_CALORIES]= sessionData.getCalories(canVar, "");
+			            dailyData[DATA_DAILY_DISTANCE] = sessionData.getDistance(canVar, "");
+			            dailyData[DATA_DAILY_ACTIVE_MINUTES] = sessionData.getActiveMinutes(canVar, "");
+			            dailyData[DATA_DAILY_SEDENTARY_MINUTES] = sessionData.getSedentaryMinutes(canVar, "");
 			        } catch (Exception e) {
 			            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
 			        }

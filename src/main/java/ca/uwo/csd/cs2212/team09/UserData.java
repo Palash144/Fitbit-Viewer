@@ -10,7 +10,7 @@ public class UserData {
     //private int Total;
     //private int Best;
 
-    public String[] refreshAll(boolean canned) {
+    public String[] refreshAll(boolean canned, String date) {
         String[] returnData = new String[6];
         if (canned == true) {
             returnData[0] = "123";
@@ -62,7 +62,7 @@ public class UserData {
      * @return the number of steps taken
      */
 
-    public int getSteps(boolean canned) {
+    public int getSteps(boolean canned, String date) {
         //TODO: This method is not quite complete, but it seems to work and you can expect the final one to look like this
         if (canned == true) {
             return 1337;
@@ -94,7 +94,7 @@ public class UserData {
         return -1;
     }
 
-    public int getFloors(boolean canned) {
+    public int getFloors(boolean canned, String date) {
         if (canned == true) {
             return 137;
         }
@@ -122,7 +122,7 @@ public class UserData {
     }
 
 
-    public int getCalories(boolean canned) {
+    public int getCalories(boolean canned, String date) {
         //TODO: Complete this method
         if (canned == true) {
             return 1500;
@@ -151,7 +151,7 @@ public class UserData {
         return -1;
     }
 
-    public int getDistance(boolean canned) {
+    public int getDistance(boolean canned, String date) {
         //TODO: Complete this method
         if (canned == true) {
             return 50;
@@ -179,7 +179,7 @@ public class UserData {
         return -1;
     }
 
-    public int getActiveMinutes(boolean canned) {
+    public int getActiveMinutes(boolean canned, String date) {
         //TODO: Complete this method; We will add together lightly active, fairly active and very active
         if (canned == true) {
             return 69;
@@ -187,7 +187,7 @@ public class UserData {
         return -1;
     }
 
-    public int getSedentaryMinutes(boolean canned) {
+    public int getSedentaryMinutes(boolean canned, String date) {
         //TODO: Complete this method
         if (canned == true) {
             return 1222;
