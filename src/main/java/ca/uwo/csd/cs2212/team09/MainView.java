@@ -345,8 +345,17 @@ public class MainView {
 		refreshBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				refreshAllDataWithDate(null, false);
-				updateDataOnPanels();
+				EventQueue.invokeLater(new Runnable() {
+	    			public void run() {
+	    				try {
+	    					refreshAllDataWithDate(null, true);
+	    				} catch (Exception e) {
+	    					e.printStackTrace();
+	    				} finally {
+	    					updateDataOnPanels();
+	    				}
+	    			}
+	    		});
 			}
 		});
 		gl_rightSidePanel.setVerticalGroup(
@@ -448,7 +457,7 @@ public class MainView {
 				j++;
 				Dashboard_Card panel = dashboardPanel.modifyAt(j);
 				panel.setTitle(dailyDataMsg[i]);
-				panel.setContent(dailyData[i] + "");
+				panel.setContent(dailyData[i]+"<-New");
 				panel.updatePanel();
 				dashboardPanel.updateUI();
 			}
