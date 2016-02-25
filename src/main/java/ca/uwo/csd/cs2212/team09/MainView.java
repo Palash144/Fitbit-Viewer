@@ -2,6 +2,7 @@ package ca.uwo.csd.cs2212.team09;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.CardLayout;
 
@@ -72,7 +74,7 @@ public class MainView {
 	JLabel timeseriesBtn = new JLabel("TimeSeries");
 	JLabel heartzoneBtn = new JLabel("HeartZone");
 	JLabel userLbl = new JLabel("User01");
-	JLabel lastupdatedLbl = new JLabel("Last updated: 12:50AM");
+	JLabel lastupdatedLbl = new JLabel("Data outdated. Please refresh.");
 	JLabel goalsBtn = new JLabel("Goals");
 	JLabel mainTitleLabel = new JLabel("Home");
 	JLabel userBtn = new JLabel();
@@ -343,10 +345,8 @@ public class MainView {
 		refreshBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Refreshing...");
 				refreshAllDataWithDate(null, true);
 				updateDataOnPanels();
-				System.out.println("Done.");
 			}
 		});
 		gl_rightSidePanel.setVerticalGroup(
@@ -400,6 +400,7 @@ public class MainView {
 			break;
 		}
 		}
+		//mainView.repaint();
 	}
 	
 	Dimension getFitLayout() {
@@ -409,19 +410,35 @@ public class MainView {
 	}
 	
 	void refreshAllDataWithDate(Date date, Boolean canned) {
-		try {
-            if (canned) {
-                System.out.println("Returning canned data...");
-            }
-            dailyData[DATA_DAILY_STEPS] = sessionData.getSteps(canned);
-            dailyData[DATA_DAILY_FLOORS] = sessionData.getFloors(canned);
-            dailyData[DATA_DAILY_CALORIES]= sessionData.getCalories(canned);
-            dailyData[DATA_DAILY_DISTANCE] = sessionData.getDistance(canned);
-            dailyData[DATA_DAILY_ACTIVE_MINUTES] = sessionData.getActiveMinutes(canned);
-            dailyData[DATA_DAILY_SEDENTARY_MINUTES] = sessionData.getSedentaryMinutes(canned);
-        } catch (Exception e) {
-            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
-        }
+		final Boolean canVar = canned;
+		lastupdatedLbl.setText("Refreshing...");
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					try {
+			            if (canVar) {
+			                System.out.println("Returning canned data...");
+			            }
+			            dailyData[DATA_DAILY_STEPS] = sessionData.getSteps(canVar);
+			            dailyData[DATA_DAILY_FLOORS] = sessionData.getFloors(canVar);
+			            dailyData[DATA_DAILY_CALORIES]= sessionData.getCalories(canVar);
+			            dailyData[DATA_DAILY_DISTANCE] = sessionData.getDistance(canVar);
+			            dailyData[DATA_DAILY_ACTIVE_MINUTES] = sessionData.getActiveMinutes(canVar);
+			            dailyData[DATA_DAILY_SEDENTARY_MINUTES] = sessionData.getSedentaryMinutes(canVar);
+			        } catch (Exception e) {
+			            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
+			        }
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
+				lastupdatedLbl.setText("Last updated: " + df.format(new Date()));
+				
+				System.out.println("Data updated.");
+			}
+		});
+		
 	}
 	
 	void updateDataOnPanels() {
