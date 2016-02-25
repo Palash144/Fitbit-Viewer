@@ -30,7 +30,7 @@ public class UserInterface {
     /**
      * @param canned true returns canned data
      */
-    public void refreshData(boolean canned) {
+    public void refreshData(boolean canned, String date) {
 
         //sessionData.refreshAll();
 
@@ -42,19 +42,19 @@ public class UserInterface {
             }
             System.out.println("\nOn 2016-01-08, Beth took " + steps + " steps.");
 
-            floors = sessionData.getFloors(canned, "");
+            floors = sessionData.getFloors(canned, date);
             System.out.println("Beth climbed " + floors + " floors");
 
-            calories = sessionData.getCalories(canned, "");
+            calories = sessionData.getCalories(canned, date);
             System.out.println("Beth burned " + calories + " calories");
 
-            distance = sessionData.getDistance(canned, "");
+            distance = sessionData.getDistance(canned, date);
             System.out.println("Beth travelled " + distance + "km");
 
-            activeMinutes = sessionData.getActiveMinutes(canned, "");
+            activeMinutes = sessionData.getActiveMinutes(canned, date);
             System.out.println("Beth was active for " + activeMinutes + " minutes");
 
-            sedentaryMinutes = sessionData.getSedentaryMinutes(canned, "");
+            sedentaryMinutes = sessionData.getSedentaryMinutes(canned, date);
             System.out.println("Beth was inactive for " + sedentaryMinutes + " minutes");
         } catch (Exception e) {
             System.out.println("Something went horribly wrong, tell Michael about this: " + e);
@@ -64,11 +64,11 @@ public class UserInterface {
     /**
      * @param canned true returns canned data
      */
-    public int getSteps(boolean canned) {
+    public int getSteps(boolean canned, String date) {
         //TODO: Add an additional or case for the data being out of date, or maybe another boolean parameter to force refresh
         if (steps == -1 || canned){
             //Refreshes steps, or gets canned steps if specified
-            steps = sessionData.getSteps(canned, "");
+            steps = sessionData.getSteps(canned, date);
         }
         return steps;
     }
@@ -76,9 +76,9 @@ public class UserInterface {
     /**
      * @param canned true returns canned data
      */
-    public int getFloors(boolean canned) {
+    public int getFloors(boolean canned, String date) {
         if (floors == -1 || canned){
-            floors = sessionData.getFloors(canned, "");
+            floors = sessionData.getFloors(canned, date);
         }
         return floors;
     }
@@ -86,9 +86,9 @@ public class UserInterface {
     /**
      * @param canned true returns canned data
      */
-    public int getCalories(boolean canned) {
+    public int getCalories(boolean canned, String date) {
         if (calories == -1 || canned){
-            calories = sessionData.getCalories(canned, "");
+            calories = sessionData.getCalories(canned, date);
         }
         return calories;
     }
@@ -96,9 +96,9 @@ public class UserInterface {
     /**
      * @param canned true returns canned data
      */
-    public int getDistance(boolean canned) {
+    public int getDistance(boolean canned, String date) {
         if (distance == -1 || canned){
-            distance = sessionData.getDistance(canned, "");
+            distance = sessionData.getDistance(canned, date);
         }
         return distance;
     }
@@ -106,9 +106,9 @@ public class UserInterface {
     /**
      * @param canned true returns canned data
      */
-    public int getActiveMinutes(boolean canned) {
+    public int getActiveMinutes(boolean canned, String date) {
         if (activeMinutes == -1 || canned){
-            activeMinutes = sessionData.getActiveMinutes(canned, "");
+            activeMinutes = sessionData.getActiveMinutes(canned, date);
         }
         return activeMinutes;
     }
@@ -116,9 +116,9 @@ public class UserInterface {
     /**
      * @param canned true returns canned data
      */
-    public int getSedentaryMinutes(boolean canned) {
+    public int getSedentaryMinutes(boolean canned, String date) {
         if (sedentaryMinutes == -1 || canned){
-            sedentaryMinutes = sessionData.getSedentaryMinutes(canned, "");
+            sedentaryMinutes = sessionData.getSedentaryMinutes(canned, date);
         }
         return sedentaryMinutes;
     }
