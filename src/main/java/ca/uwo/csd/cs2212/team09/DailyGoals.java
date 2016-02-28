@@ -18,10 +18,12 @@ public class DailyGoals {
 
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/goals/daily.json"));
-        caloriesOut = obj.getInt("caloriesOut");
-        distance = obj.getDouble("distance");
-        floors = obj.getInt("floors");
-        steps = obj.getInt("steps");
+        final JSONObject fitData = obj.getJSONObject("goals");
+
+        caloriesOut = fitData.getInt("caloriesOut");
+        distance = fitData.getDouble("distance");
+        floors = fitData.getInt("floors");
+        steps = fitData.getInt("steps");
     }
 
     public int getCaloriesOutGoal() {
