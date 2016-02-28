@@ -20,7 +20,8 @@ public class UserInterface {
         for (int i = 0; i < testreceive.length; i++){
             System.out.println(testreceive[i]);
         }*/
-        System.out.println("the dudeman walked " + testSessionData.getSteps(false, "2016-01-08"));
+        //System.out.println("the dudeman walked " + testSessionData.getSteps(false, "2016-01-08"));
+        System.out.println("the dudeman walked " + testSessionData.refreshMySummary(false));
     }
 
     //return data from last session
