@@ -4,9 +4,21 @@ public class UserInterface {
     //TODO: Currently set to true for debugging purposes, the user should NOT be logged in by default
     private static boolean loggedIn = true;
 
+
+    public static void main (String[] args){
+
+        UserData test = new UserData();
+        try {
+            System.out.println(test.getRestingHeartRate(false, "2016-01-07"));
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     /**
      * @param canned true returns canned data
      */
+
     public static void getData(boolean canned) {
         if (loggedIn || canned) {
             try {

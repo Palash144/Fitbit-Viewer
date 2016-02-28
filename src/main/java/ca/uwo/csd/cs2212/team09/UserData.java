@@ -82,4 +82,19 @@ public class UserData {
         //TODO: Complete this method
         return new Achievements();
     }*/
+
+
+    public int getRestingHeartRate(boolean canned, String date) throws JSONException {
+
+        Request getData = new Request();
+        final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/"+ date +"/1d.json"));
+        final JSONArray fitData = obj.getJSONArray(("activities-heart"));
+
+        final JSONObject fitAttribute = fitData.getJSONObject(0);
+        final JSONObject values = fitAttribute.getJSONObject("value");
+        System.out.println(values.toString());
+        return values.getInt("restingHeartRate");
+
+    }
+
 }
