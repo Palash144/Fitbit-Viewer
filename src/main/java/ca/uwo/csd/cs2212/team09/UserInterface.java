@@ -1,26 +1,24 @@
 package ca.uwo.csd.cs2212.team09;
 
-import jdk.internal.cmm.SystemResourcePressureImpl;
-
 public class UserInterface {
     //TODO: Currently set to true for debugging purposes, the user should NOT be logged in by default
     private static boolean loggedIn = true;
 
-    public static void main(String args[]){
+
+    public static void main (String[] args){
 
         UserData test = new UserData();
-
-        try{
+        try {
             System.out.println(test.getDailyGoals(false).caloriesOut);
-        }catch (Exception e){
-            System.out.println(e);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
-
     }
 
     /**
      * @param canned true returns canned data
      */
+
     public static void getData(boolean canned) {
         if (loggedIn || canned) {
             try {

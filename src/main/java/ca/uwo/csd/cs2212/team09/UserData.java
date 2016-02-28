@@ -83,8 +83,10 @@ public class UserData {
         return new Achievements();
     }*/
 
-    public DailyGoals getDailyGoals(boolean canned) throws JSONException{
+
+    public DailyGoals getDailyGoals( boolean canned) throws JSONException{
         DailyGoals goals = new DailyGoals();
         return goals;
     }
+
 }
