@@ -9,7 +9,7 @@ public class UserInterface {
 
         UserData test = new UserData();
         try {
-            System.out.println(test.getRestingHeartRate(false, "2016-01-07"));
+            System.out.println(test.getOutOfRangeZone(false,"2016-01-07").getCaloriesOut());
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

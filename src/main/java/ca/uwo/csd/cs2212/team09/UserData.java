@@ -97,4 +97,9 @@ public class UserData {
 
     }
 
+    public HeartRateZones getOutOfRangeZone( boolean canned, String date) throws JSONException{
+        HeartRateZones zone = new HeartRateZones("Out of Range", date);
+        return zone;
+    }
+
 }
