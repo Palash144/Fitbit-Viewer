@@ -1,125 +1,57 @@
 package ca.uwo.csd.cs2212.team09;
 
+import jdk.internal.cmm.SystemResourcePressureImpl;
+
 public class UserInterface {
-    UserData sessionData = new UserData();
+    //TODO: Currently set to true for debugging purposes, the user should NOT be logged in by default
+    private static boolean loggedIn = true;
 
-    private int steps = -1;
-    private int floors = -1;
-    private int calories = -1;
-    private int distance = -1;
-    private int activeMinutes = -1;
-    private int sedentaryMinutes = -1;
+    public static void main(String args[]){
 
+        UserData test = new UserData();
 
-    //TODO: Test class to test UserData refreshAll(), remove after
-    public static void main(String[] args) {
-        UserData testSessionData = new UserData();
-        String[] testreceive = testSessionData.refreshAll(false, "");
-
-        System.out.println("testing return data:");
-        for (int i = 0; i < testreceive.length; i++){
-            System.out.println(testreceive[i]);
+        try{
+            System.out.println(test.getDailyGoals(false).caloriesOut);
+        }catch (Exception e){
+            System.out.println(e);
         }
-    }
-
-    //return data from last session
-    public void getCachedData() {
 
     }
 
     /**
      * @param canned true returns canned data
      */
-    public void refreshData(boolean canned, String date) {
+    public static void getData(boolean canned) {
+        if (loggedIn || canned) {
+            try {
+                int steps = UserData.getSteps(canned);
+                System.out.println("\n\n=====BEGIN OUTPUT=====");
+                if (canned){
+                    System.out.println("Returning canned data...");
+                }
+                System.out.println("\nOn 2016-01-08, Beth took " + steps + " steps.");
 
-        //sessionData.refreshAll();
+                int floors = UserData.getFloors(canned);
+                System.out.println("Beth climbed " + floors + " floors");
 
-        try {
-            steps = sessionData.getSteps(canned, "");
-            System.out.println("\n\n=====BEGIN OUTPUT=====");
-            if (canned) {
-                System.out.println("Returning canned data...");
+                int calories = UserData.getCalories(canned);
+                System.out.println("Beth burned " + calories + " calories");
+
+                int distance = UserData.getDistance(canned);
+                System.out.println("Beth travelled " + distance + "km");
+
+                int activeMinutes = UserData.getActiveMinutes(canned);
+                System.out.println("Beth was active for " + activeMinutes + " minutes");
+
+                int sedentaryMinutes = UserData.getSedentaryMinutes(canned);
+                System.out.println("Beth was inactive for " + sedentaryMinutes + " minutes");
+            } catch (Exception e) {
+                System.out.println("Something went horribly wrong, tell Michael about this: " + e);
             }
-            System.out.println("\nOn 2016-01-08, Beth took " + steps + " steps.");
 
-            floors = sessionData.getFloors(canned, date);
-            System.out.println("Beth climbed " + floors + " floors");
-
-            calories = sessionData.getCalories(canned, date);
-            System.out.println("Beth burned " + calories + " calories");
-
-            distance = sessionData.getDistance(canned, date);
-            System.out.println("Beth travelled " + distance + "km");
-
-            activeMinutes = sessionData.getActiveMinutes(canned, date);
-            System.out.println("Beth was active for " + activeMinutes + " minutes");
-
-            sedentaryMinutes = sessionData.getSedentaryMinutes(canned, date);
-            System.out.println("Beth was inactive for " + sedentaryMinutes + " minutes");
-        } catch (Exception e) {
-            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
+        } else {
+            System.out.println("You are not logged in!");
+            //Ask the user to log in
         }
-    }
-
-    /**
-     * @param canned true returns canned data
-     */
-    public int getSteps(boolean canned, String date) {
-        //TODO: Add an additional or case for the data being out of date, or maybe another boolean parameter to force refresh
-        if (steps == -1 || canned){
-            //Refreshes steps, or gets canned steps if specified
-            steps = sessionData.getSteps(canned, date);
-        }
-        return steps;
-    }
-
-    /**
-     * @param canned true returns canned data
-     */
-    public int getFloors(boolean canned, String date) {
-        if (floors == -1 || canned){
-            floors = sessionData.getFloors(canned, date);
-        }
-        return floors;
-    }
-
-    /**
-     * @param canned true returns canned data
-     */
-    public int getCalories(boolean canned, String date) {
-        if (calories == -1 || canned){
-            calories = sessionData.getCalories(canned, date);
-        }
-        return calories;
-    }
-
-    /**
-     * @param canned true returns canned data
-     */
-    public int getDistance(boolean canned, String date) {
-        if (distance == -1 || canned){
-            distance = sessionData.getDistance(canned, date);
-        }
-        return distance;
-    }
-
-    /**
-     * @param canned true returns canned data
-     */
-    public int getActiveMinutes(boolean canned, String date) {
-        if (activeMinutes == -1 || canned){
-            activeMinutes = sessionData.getActiveMinutes(canned, date);
-        }
-        return activeMinutes;
-    }
-
-    /**
-     * @param canned true returns canned data
-     */
-    public int getSedentaryMinutes(boolean canned, String date) {
-        if (sedentaryMinutes == -1 || canned){
-            sedentaryMinutes = sessionData.getSedentaryMinutes(canned, date);
-        }
-        return sedentaryMinutes;
     }
 }

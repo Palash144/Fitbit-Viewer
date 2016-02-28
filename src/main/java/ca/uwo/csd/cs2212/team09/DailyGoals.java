@@ -14,7 +14,7 @@ public class DailyGoals {
     int steps;
 
 
-    DailyGoals() throws JSONException{
+    public DailyGoals() throws JSONException{
 
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/goals/daily.json"));
