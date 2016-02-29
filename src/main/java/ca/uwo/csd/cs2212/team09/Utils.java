@@ -10,13 +10,17 @@ public class Utils {
 	
 	public static void styleButton(JLabel btn) {
 		btn.setOpaque(true);
-		btn.setBackground(new Color(255, 255, 255, 200));
+		btn.setBackground(normalButtonColor());
 		btn.setForeground(new Color(51, 51, 51));
 	}
 	
 	public static void styleSquareImageButton(JLabel btn, Image image, int sideLength) {
 		ImageIcon icon = new ImageIcon(image.getScaledInstance(sideLength, sideLength, java.awt.Image.SCALE_SMOOTH));
 		btn.setIcon(icon);
+	}
+	
+	public static Color normalButtonColor() {
+		return new Color(166, 171, 173);
 	}
 
 }

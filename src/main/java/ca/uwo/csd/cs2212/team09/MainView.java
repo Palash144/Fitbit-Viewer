@@ -44,6 +44,8 @@ public class MainView {
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
 	private Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
+	private Boolean testMode = true;
+	
 	class MainView_Frame_Resize_Adapter extends java.awt.event.ComponentAdapter {
 		  MainView adaptee;
 
@@ -97,6 +99,7 @@ public class MainView {
 		mainView.setVisible(true);
 	}
 
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -125,7 +128,7 @@ public class MainView {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				if (currentPage != 0)
-					dashboardBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+					dashboardBtn.setBackground(Utils.normalButtonColor());
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -147,7 +150,7 @@ public class MainView {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				if (currentPage != 1)
-					mysummaryBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+					mysummaryBtn.setBackground(Utils.normalButtonColor());
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -167,7 +170,7 @@ public class MainView {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				if (currentPage != 2)
-					timeseriesBtn.setBackground(new Color(255, 255, 255,BUTTON_ALPHA_NORMAL));
+					timeseriesBtn.setBackground(Utils.normalButtonColor());
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -188,7 +191,7 @@ public class MainView {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				if (currentPage != 3)
-					heartzoneBtn.setBackground(new Color(255, 255, 255,BUTTON_ALPHA_NORMAL));
+					heartzoneBtn.setBackground(Utils.normalButtonColor());
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -216,7 +219,7 @@ public class MainView {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				if (currentPage != 4)
-					goalsBtn.setBackground(new Color(255, 255, 255,BUTTON_ALPHA_NORMAL));
+					goalsBtn.setBackground(Utils.normalButtonColor());
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -348,7 +351,7 @@ public class MainView {
 				EventQueue.invokeLater(new Runnable() {
 	    			public void run() {
 	    				try {
-	    					refreshAllDataWithDate(null, false);
+	    					refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
 	    				} catch (Exception e) {
 	    					e.printStackTrace();
 	    				} finally {
@@ -374,11 +377,11 @@ public class MainView {
 	}
 	
 	private void updateLeftSideButton() {
-		dashboardBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
-		mysummaryBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
-		timeseriesBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
-		heartzoneBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
-		goalsBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_NORMAL));
+		dashboardBtn.setBackground(Utils.normalButtonColor());
+		mysummaryBtn.setBackground(Utils.normalButtonColor());
+		timeseriesBtn.setBackground(Utils.normalButtonColor());
+		heartzoneBtn.setBackground(Utils.normalButtonColor());
+		goalsBtn.setBackground(Utils.normalButtonColor());
 		cardLayout.show(mainPanel, pageNames[currentPage]);
 		switch (currentPage) {
 		case 0: {
@@ -418,7 +421,7 @@ public class MainView {
 		return new Dimension(3, (this.mainView.getHeight()-etcOpHeight) / CARD_SIZE);
 	}
 	
-	void refreshAllDataWithDate(Date date, Boolean canned) {
+	void refreshAllDataWithDate(String date, Boolean canned) {
 		final Boolean canVar = canned;
 		lastupdatedLbl.setText("Refreshing...");
 		EventQueue.invokeLater(new Runnable() {
@@ -458,7 +461,7 @@ public class MainView {
 				j++;
 				Dashboard_Card panel = dashboardPanel.modifyAt(j);
 				panel.setTitle(dailyDataMsg[i]);
-				panel.setContent(dailyData[i]+"<-New");
+				panel.setContent(dailyData[i]+"");
 				panel.updatePanel();
 				dashboardPanel.updateUI();
 			}
@@ -466,13 +469,25 @@ public class MainView {
 	}
 	
 	void layoutAllPanels(Dimension layoutMode) {
-		refreshAllDataWithDate(null, true);
+		try {
+			refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
+		}
+		catch(Exception e) {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			refreshAllDataWithDate(df.format(new Date()), testMode);
+		}
+		finally {
+			
+		}
+		
 		if (dashboardPanel.subviewCount() == 0) {
 			Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "");
 			dashboardPanel.add(dateCard, false);
 			for (int i=0;i<dailyData.length;i++) {
-				Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i]+"");
-				dashboardPanel.add(t, false);
+				if (dailyDataCustomization[i]) {
+					Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i]+"");
+					dashboardPanel.add(t, false);
+				}
 			}
 		}
 		
@@ -485,7 +500,7 @@ public class MainView {
 	
 	private Dashboard_Card createCards(int width, int height, int type, String title, String content) {
 		Dashboard_Card panel = new Dashboard_Card(width, height, type, title, content);
-		Color backgroundColor = new Color(255, 255, 255, MainView.BUTTON_ALPHA_NORMAL);
+		Color backgroundColor = Utils.normalButtonColor();
 		panel.setBackground(backgroundColor);
 		
 		return panel;

@@ -1,12 +1,26 @@
 package ca.uwo.csd.cs2212.team09;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
+
+import java.awt.Color;
 import java.awt.Font;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Dashboard_Card extends JPanel {
 	
@@ -16,16 +30,29 @@ public class Dashboard_Card extends JPanel {
 	
 	private int currType;
 	
+	private boolean dateCardDisplayMode = false;
+	
+	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	
 	private final JLabel titleLabel = new JLabel("Title");
 	private final JLabel contentLabel = new JLabel("content");
 	String title, content;
+	
+	private final JPanel dateInputLayer = new JPanel();
+	private final JLabel dateInputTitleLabel = new JLabel("Input date");
+	private final JLabel dateInputInfoLabel = new JLabel("Format: yyyy-MM-dd");
+	private final JTextField dateInputText = new JTextField();
+	private final JButton dateConfirmBtn = new JButton("OK");
+	private Timer uiTimer;
+	
+	private Date currentDate = new Date();
 
 	/**
 	 * Create the panel.
 	 */
 	public Dashboard_Card(int width, int height, int type, String lTitle, String lContent) {
 		setSize(196, 196);
-		
+		hideDatePickUI();
 		title = lTitle;
 		content = lContent;
 		if (title != null)
@@ -35,6 +62,14 @@ public class Dashboard_Card extends JPanel {
 		
 		titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		contentLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (!dateCardDisplayMode) {
+					setDatePickMode();
+				}
+			}
+		});
 		contentLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
 		contentLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -67,13 +102,133 @@ public class Dashboard_Card extends JPanel {
 			break;
 		}
 		case CARD_TYPE_TIME:{
-			
+			content = df.format(new Date());
+			contentLabel.setText(content);
 			break;
 		}
 		default: {
 			break;
 		}
 		}
+	}
+	
+	private void setDatePickMode(boolean mode) {
+		dateCardDisplayMode = mode;
+		if (mode) {
+			loadDatePickUI();
+		}
+		else {
+			hideDatePickUI();
+		}
+	}
+	
+	private void loadDatePickUI() {
+		if (currType != CARD_TYPE_TIME) 
+			return;
+		
+		dateInputLayer.setLayout(null);
+		
+		dateInputLayer.setLocation(0, getSize().height);
+		dateInputLayer.setSize(getSize());
+		dateInputLayer.setVisible(true);
+		dateInputLayer.removeAll();
+		
+		dateInputLayer.add(dateInputTitleLabel);
+		dateInputLayer.add(dateInputText);
+		dateInputLayer.add(dateInputInfoLabel);
+		dateInputLayer.add(dateConfirmBtn);
+		
+		dateInputTitleLabel.setLocation(0, 0);
+		dateInputTitleLabel.setSize(getSize().width, 50);
+		dateInputTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		dateInputTitleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
+		dateInputTitleLabel.setVisible(true);
+		
+		dateInputInfoLabel.setLocation(0, dateInputTitleLabel.getSize().height);
+		dateInputInfoLabel.setSize(getSize().width, 50);
+		dateInputInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		dateInputInfoLabel.setText("<html><div style='text-align: center;'>" + dateInputInfoLabel.getText() + "<br>  (e.g. " + df.format(currentDate) + ")</HTML>");
+		dateInputInfoLabel.setVisible(true);
+		
+		dateInputText.setLocation(0, dateInputInfoLabel.getLocation().y + dateInputInfoLabel.getSize().height);
+		dateInputText.setSize(getSize().width, 35);
+		dateInputText.setText(df.format(currentDate));
+		dateInputText.setVisible(true);
+		
+		dateConfirmBtn.setLocation(getSize().width / 4, dateInputText.getLocation().y + dateInputText.getHeight() + 15);
+		dateConfirmBtn.setSize(getSize().width / 2, 35);
+		dateConfirmBtn.removeMouseListener(dateConfirmBtn.getMouseListeners()[0]);
+		dateConfirmBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (setNewDate(dateInputText.getText())) {
+					hideDatePickUI();
+				}
+				else {
+					dateInputText.setText("Invalid date!");
+				}
+			}
+		});
+		dateConfirmBtn.setVisible(true);
+		
+		add(dateInputLayer, 0);
+		
+		ActionListener aniTimer = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				dateInputLayer.setLocation(0, dateInputLayer.getLocation().y - 2);
+				if (dateInputLayer.getLocation().y <= 0) {
+					uiTimer.stop();
+					dateCardDisplayMode = true;
+				}
+			}
+		};
+		uiTimer = new Timer(1, aniTimer);
+		uiTimer.start();
+	}
+	
+	public String getDate() {
+		if (currType == CARD_TYPE_TIME)
+			return df.format(currentDate);
+		else
+			return df.format(new Date());
+	}
+	
+	private boolean setNewDate(String date) {
+		try {
+			currentDate = df.parse(date);
+			System.out.println("Set current date to: " + df.format(currentDate));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	private void hideDatePickUI() {
+		if (currType == CARD_TYPE_TIME) {
+			ActionListener aniTimer = new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					dateInputLayer.setLocation(0, dateInputLayer.getLocation().y + 2);
+					if (dateInputLayer.getLocation().y >= getSize().height) {
+						uiTimer.stop();
+						dateInputLayer.setVisible(false);
+						remove(dateInputLayer);
+						dateCardDisplayMode = false;
+						contentLabel.setText(df.format(currentDate));
+						updateUI();
+						setBackground(new Color(166, 171, 173));
+					}
+				}
+			};
+			uiTimer = new Timer(1, aniTimer);
+			uiTimer.start();
+		}
+		
+	}
+	
+	private void setDatePickMode() {
+		setDatePickMode(!dateCardDisplayMode);
 	}
 	
 	public void setTitle(String lTitle) {
