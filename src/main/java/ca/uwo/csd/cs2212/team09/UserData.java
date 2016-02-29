@@ -102,4 +102,17 @@ public class UserData {
         return zone;
     }
 
+    public HeartRateZones getFatBurnZone( boolean canned, String date) throws JSONException{
+        HeartRateZones zone = new HeartRateZones("Fat Burn", date);
+        return zone;
+    }
+    public HeartRateZones getCardioZone( boolean canned, String date) throws JSONException{
+        HeartRateZones zone = new HeartRateZones("Cardio", date);
+        return zone;
+    }
+    public HeartRateZones getPeakZone( boolean canned, String date) throws JSONException{
+        HeartRateZones zone = new HeartRateZones("Peak", date);
+        return zone;
+    }
+
 }
