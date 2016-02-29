@@ -5,12 +5,14 @@ public class UserInterface {
     private static boolean loggedIn = true;
 
 
-    public static void main (String[] args){
+    public static void main(String[] args) {
 
         UserData test = new UserData();
         try {
-            System.out.println(test.getOutOfRangeZone(false,"2016-01-07").getCaloriesOut());
-        }catch(Exception e){
+            System.out.println(test.getCardioZone(false, "2016-01-07").getCaloriesOut());
+            System.out.println(test.getCardioZone(false, "2016-01-07").getMinutes());
+            System.out.println(test.getCardioZone(false, "2016-01-07").getName());
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -24,7 +26,7 @@ public class UserInterface {
             try {
                 int steps = UserData.getSteps(canned);
                 System.out.println("\n\n=====BEGIN OUTPUT=====");
-                if (canned){
+                if (canned) {
                     System.out.println("Returning canned data...");
                 }
                 System.out.println("\nOn 2016-01-08, Beth took " + steps + " steps.");

@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 /**
  * Created by taylor on 2016-02-28.
+ *
+ * Used for getting the users heart rate zones
  */
 public class HeartRateZones {
 
@@ -13,6 +15,14 @@ public class HeartRateZones {
     private int minutes;
     private String name;
 
+    /**
+     *
+     * @param theName
+     * Determines which zone to get the data from; Out of Range, Fat Burn, Cardio, or Peak
+     * @param date
+     * Determines what date to get the data from
+     * @throws JSONException
+     */
     public HeartRateZones(String theName, String date) throws JSONException {
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/" + date + "/1d.json"));
