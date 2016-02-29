@@ -31,7 +31,7 @@ public class App {
             UserInterface user = new UserInterface();
             user.refreshData(true, "");
         }
-        else if (args[0].equals("testmode")) {
+        else if (args[0].equals("test")) {
         	System.out.println("Software test mode.");
         	EventQueue.invokeLater(new Runnable() {
     			public void run() {
