@@ -55,6 +55,8 @@ public class Dashboard_Card extends JPanel {
 		hideDatePickUI();
 		title = lTitle;
 		content = lContent;
+		currType = type;
+		
 		if (title != null)
 			titleLabel.setText(title);
 		if (content != null)
@@ -62,14 +64,29 @@ public class Dashboard_Card extends JPanel {
 		
 		titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		contentLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (!dateCardDisplayMode) {
-					setDatePickMode();
+		if (currType == CARD_TYPE_TIME) {
+			contentLabel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (!dateCardDisplayMode) {
+						setDatePickMode();
+					}
 				}
-			}
-		});
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					titleLabel.setText(contentLabel.getText());
+					contentLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+					contentLabel.setText("Click to change date!");
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					titleLabel.setText("Date");
+					contentLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
+					contentLabel.setText(df.format(currentDate));
+				}
+			});
+		}
+		
 		contentLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
 		contentLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -92,7 +109,6 @@ public class Dashboard_Card extends JPanel {
 					.addContainerGap())
 		);
 		setLayout(groupLayout);
-		currType = type;
 		
 		//setSize(width, height);
 		
