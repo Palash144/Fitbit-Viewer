@@ -1,6 +1,7 @@
 package ca.uwo.csd.cs2212.team09;
 
 import java.awt.Dimension;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,7 @@ import javax.swing.JPanel;
 
 public class Dashboard_Panel extends JPanel {
 	
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 8925528422220724438L;
 	private List<JPanel>panels = new ArrayList<JPanel>();
 	private Dimension currLayout;

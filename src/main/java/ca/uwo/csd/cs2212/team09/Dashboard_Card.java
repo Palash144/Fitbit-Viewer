@@ -1,3 +1,4 @@
+// import statements
 package ca.uwo.csd.cs2212.team09;
 
 import javax.swing.JPanel;
@@ -22,10 +23,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * @author       
+ * @version     
+ * @since       
+ */
 public class Dashboard_Card extends JPanel {
+
 	
 	public final static int CARD_TYPE_DEFAULT = 0;
+
 	public final static int CARD_TYPE_TIME = 1;
+
 	public final static int CARD_TYPE_CALORIES = 2;
 	
 	private int currType;
@@ -44,11 +53,21 @@ public class Dashboard_Card extends JPanel {
 	private final JTextField dateInputText = new JTextField();
 	private final JButton dateConfirmBtn = new JButton("OK");
 	private Timer uiTimer;
-	
+
 	private Date currentDate = new Date();
 
 	/**
-	 * Create the panel.
+	 * Constructor
+	 * 
+	 * It would create a panel with input parameter, which include width, height
+	 * type, title and content
+	 * 
+	 * Create the card.
+	 * @param width - width of card
+	 * @param height -height of card
+	 * @param type -type of card
+	 * @param lTitle -title of card
+	 * @param lContent -content of card
 	 */
 	public Dashboard_Card(int width, int height, int type, String lTitle, String lContent) {
 		setSize(196, 196);
@@ -128,6 +147,12 @@ public class Dashboard_Card extends JPanel {
 		}
 	}
 	
+	/**
+	 * the method would set date pick mode,
+	 * true if load date pick UI
+	 * false if hide date pick UI
+	 * @param mode - boolean, true for load, false for hide
+	 */
 	private void setDatePickMode(boolean mode) {
 		dateCardDisplayMode = mode;
 		if (mode) {
@@ -137,7 +162,10 @@ public class Dashboard_Card extends JPanel {
 			hideDatePickUI();
 		}
 	}
-	
+	/**
+	 * private method, to load date pick UI
+	 * will be called in setDatePickMode
+	 */
 	private void loadDatePickUI() {
 		if (currType != CARD_TYPE_TIME) 
 			return;
@@ -202,13 +230,24 @@ public class Dashboard_Card extends JPanel {
 		uiTimer.start();
 	}
 	
+	
+	/**
+	 * getter method for getDate
+	 * 
+	 * @return - String of the current date
+	 */
 	public String getDate() {
 		if (currType == CARD_TYPE_TIME)
 			return df.format(currentDate);
 		else
 			return df.format(new Date());
 	}
-	
+	/**
+	 * setter method to set a new date
+	 * @param date - the new date we want to set
+	 * @return true - if set successful
+	 * 		   false - if get ParseException
+	 */
 	private boolean setNewDate(String date) {
 		try {
 			currentDate = df.parse(date);
@@ -221,6 +260,10 @@ public class Dashboard_Card extends JPanel {
 		return true;
 	}
 	
+	/**
+	 * private method, to hide date pick UI
+	 * will be called in setDatePickMode
+	 */
 	private void hideDatePickUI() {
 		if (currType == CARD_TYPE_TIME) {
 			ActionListener aniTimer = new ActionListener() {
@@ -242,21 +285,41 @@ public class Dashboard_Card extends JPanel {
 		}
 		
 	}
-	
+	/**
+	 * 
+	 */
 	private void setDatePickMode() {
 		setDatePickMode(!dateCardDisplayMode);
 	}
 	
+	/**
+	 * setter method for Title
+	 * 
+	 * It will set the title of the card
+	 * 
+	 * @param lTitle - title of card 
+	 */
 	public void setTitle(String lTitle) {
 		title = lTitle;
 		updatePanel();
 	}
 	
+	/**
+	 * setter method for content
+	 * 
+	 * It will set the content of the card
+	 * 
+	 * @param lContent - content of the card
+	 */
 	public void setContent(String lContent) {
 		content = lContent;
 		updatePanel();
 	}
 	
+	/**
+	 * update the panel
+	 * 
+	 */
 	public void updatePanel() {
 		if (title != null)
 			titleLabel.setText(title);

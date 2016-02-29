@@ -1,6 +1,7 @@
 package ca.uwo.csd.cs2212.team09;
 
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -22,6 +23,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.CardLayout;
 
+
+/**
+ * @author 
+ * 
+ */
 
 public class MainView implements GeneralCallBack {
 	public final static int BUTTON_ALPHA_NORMAL = 150;

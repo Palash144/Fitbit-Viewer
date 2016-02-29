@@ -1,7 +1,6 @@
 package ca.uwo.csd.cs2212.team09;
 
 import java.awt.EventQueue;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +30,7 @@ public class App {
             UserInterface user = new UserInterface();
             user.refreshData(true, "");
         }
-        else if (args[0].equals("testmode")) {
+        else if (args[0].equals("test")) {
         	System.out.println("Software test mode.");
         	EventQueue.invokeLater(new Runnable() {
     			public void run() {
