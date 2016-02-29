@@ -23,13 +23,15 @@ import java.util.Date;
 import java.awt.CardLayout;
 
 
-public class MainView {
+public class MainView implements GeneralCallBack {
 	public final static int BUTTON_ALPHA_NORMAL = 150;
 	public final static int BUTTON_ALPHA_HIGHLIGHT = 254;
 	public final static Boolean VE_DEV_MODE = false;  //change to false before any release
 	
 	public final static int CARD_SIZE = 196;
 	public final static int CARD_GAP_SIZE = 8;
+	
+	public final static String CALLBACK_ID_LAYOUT_PANEL_AFTER_DATA_REFRESH = "1ad4321278ff123fe32";
 
 	UserData sessionData = new UserData();
 	
@@ -450,9 +452,15 @@ public class MainView {
 				lastupdatedLbl.setText("Last updated: " + df.format(new Date()));
 				
 				System.out.println("Data updated.");
+				callback(CALLBACK_ID_LAYOUT_PANEL_AFTER_DATA_REFRESH);
 			}
 		});
-		
+	}
+	
+	public void callback(String id) {
+		if (id == CALLBACK_ID_LAYOUT_PANEL_AFTER_DATA_REFRESH) {
+			updateDataOnPanels();
+		}
 	}
 	
 	void updateDataOnPanels() {
