@@ -83,7 +83,11 @@ public class UserData {
         return new Achievements();
     }*/
 
-
+    /**
+     *
+     * creates the Daily Goals from the DailyGoals class constructor
+     * @throws JSONException
+     */
     public DailyGoals getDailyGoals( boolean canned) throws JSONException{
         DailyGoals goals = new DailyGoals();
         return goals;

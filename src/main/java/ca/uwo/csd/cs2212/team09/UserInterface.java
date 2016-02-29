@@ -9,7 +9,11 @@ public class UserInterface {
 
         UserData test = new UserData();
         try {
-            System.out.println(test.getDailyGoals(false).caloriesOut);
+            System.out.println(test.getDailyGoals(false).getCaloriesOutGoal());
+            System.out.println(test.getDailyGoals(false).getDistanceGoal());
+            System.out.println(test.getDailyGoals(false).getFloorsGoal());
+            System.out.println(test.getDailyGoals(false).getStepsGoal());
+
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
