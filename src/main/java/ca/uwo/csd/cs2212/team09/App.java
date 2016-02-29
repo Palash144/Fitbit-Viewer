@@ -15,8 +15,15 @@ public class App {
         //To run this: (uncanned data)
         //java -jar target/team09_FitBitProject-1.0-SNAPSHOT-jar-with-dependencies.jar
         if (args.length == 0){
-            UserInterface user = new UserInterface();
-            user.refreshData(false, "");
+        	EventQueue.invokeLater(new Runnable() {
+    			public void run() {
+    				try {
+    					MainView window = new MainView(false);
+    				} catch (Exception e) {
+    					e.printStackTrace();
+    				}
+    			}
+    		});
         }
         //To run this: (canned data)
         //java -jar target/team09_FitBitProject-1.0-SNAPSHOT-jar-with-dependencies.jar canned
@@ -24,12 +31,12 @@ public class App {
             UserInterface user = new UserInterface();
             user.refreshData(true, "");
         }
-        else if (args[0].equals("UITEST")) {
-        	System.out.println("UITest mode.");
+        else if (args[0].equals("testmode")) {
+        	System.out.println("Software test mode.");
         	EventQueue.invokeLater(new Runnable() {
     			public void run() {
     				try {
-    					MainView window = new MainView();
+    					MainView window = new MainView(true);
     				} catch (Exception e) {
     					e.printStackTrace();
     				}

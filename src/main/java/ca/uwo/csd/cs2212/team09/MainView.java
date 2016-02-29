@@ -94,7 +94,8 @@ public class MainView {
 	/**
 	 * Create the application.
 	 */
-	public MainView() {
+	public MainView(boolean isTestMode) {
+		testMode = isTestMode;
 		initialize();
 		mainView.setVisible(true);
 	}
@@ -494,9 +495,6 @@ public class MainView {
 		dashboardPanel.layoutPanel(layoutMode);
 	}
 	
-	private Dashboard_Card createCards(int width, int height) {
-		return createCards(width, height, Dashboard_Card.CARD_TYPE_DEFAULT, "", "");
-	}
 	
 	private Dashboard_Card createCards(int width, int height, int type, String title, String content) {
 		Dashboard_Card panel = new Dashboard_Card(width, height, type, title, content);
