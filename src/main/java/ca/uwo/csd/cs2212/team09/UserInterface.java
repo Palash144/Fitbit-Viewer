@@ -9,9 +9,11 @@ public class UserInterface {
 
         UserData test = new UserData();
         try {
-            System.out.println(test.getCardioZone(false, "2016-01-07").getCaloriesOut());
-            System.out.println(test.getCardioZone(false, "2016-01-07").getMinutes());
-            System.out.println(test.getCardioZone(false, "2016-01-07").getName());
+            HeartRateZones[] foo = test.getHeartRateZones("2016-01-07", false);
+            System.out.println("name "+foo[3].getName());
+            System.out.println("calories "+foo[3].getCaloriesOut());
+            System.out.println("minutes "+foo[3].getMinutes());
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

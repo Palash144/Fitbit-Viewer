@@ -97,22 +97,32 @@ public class UserData {
 
     }
 
-    public HeartRateZones getOutOfRangeZone( boolean canned, String date) throws JSONException{
-        HeartRateZones zone = new HeartRateZones("Out of Range", date);
-        return zone;
-    }
+    /**
+     *
+     * creates an array of heart rate zones storing each zone
+     * because only the default ones are used 0 will store Out of Range, 1 will store Fat Burn, 2 Cardio, 3 Peak
+     *
+     * @param date determines what day to use
+     * @param canned
+     * @return
+     * @throws JSONException
+     */
+    public  HeartRateZones[] getHeartRateZones (String date, boolean canned) throws JSONException{
 
-    public HeartRateZones getFatBurnZone( boolean canned, String date) throws JSONException{
-        HeartRateZones zone = new HeartRateZones("Fat Burn", date);
-        return zone;
-    }
-    public HeartRateZones getCardioZone( boolean canned, String date) throws JSONException{
-        HeartRateZones zone = new HeartRateZones("Cardio", date);
-        return zone;
-    }
-    public HeartRateZones getPeakZone( boolean canned, String date) throws JSONException{
-        HeartRateZones zone = new HeartRateZones("Peak", date);
-        return zone;
+        Request getData = new Request();
+        final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/" + date + "/1d.json"));
+        final JSONArray fitData = obj.getJSONArray(("activities-heart"));
+
+        final JSONObject fitAttribute = fitData.getJSONObject(0);
+        final JSONObject values = fitAttribute.getJSONObject("value");
+        final JSONArray zones = values.getJSONArray("heartRateZones");
+
+        HeartRateZones[] heartZones = new HeartRateZones[zones.length()];
+
+        for (int i = 0; i < zones.length(); i++){
+            heartZones[i] = new HeartRateZones (i,date);
+        }
+        return heartZones;
     }
 
 }
