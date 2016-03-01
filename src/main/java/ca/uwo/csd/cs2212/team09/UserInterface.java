@@ -19,7 +19,7 @@ public class UserInterface {
     //TODO: Test class to test UserData refreshAll(), remove after
     public static void main(String[] args) {
         UserData testSessionData = new UserData();
-        Double[] testreceive = testSessionData.refreshAll(false, "2016-01-08");
+        double[] testreceive = testSessionData.refreshAll(false, "2016-01-08");
 
         System.out.println("testing return data:");
         for (int i = 0; i < testreceive.length; i++){
