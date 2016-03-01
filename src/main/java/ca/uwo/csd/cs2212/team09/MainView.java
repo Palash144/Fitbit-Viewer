@@ -48,12 +48,15 @@ public class MainView implements GeneralCallBack {
 	private final static int DATA_DAILY_ACTIVE_MINUTES = 4;
 	private final static int DATA_DAILY_SEDENTARY_MINUTES = 5;
 	
-	private final static int DATA_BEST_DISTANCE = 0;
-	private final static int DATA_LT_DISTANCE = 1;
-	private final static int DATA_BEST_FLOORS = 2;
-	private final static int DATA_LT_FLOORS = 3;
-	private final static int DATA_BEST_STEPS = 4;
-	private final static int DATA_LT_STEPS = 5;
+	private final static int DATA_BEST_DISTANCE_DATE = 0;
+	private final static int DATA_BEST_DISTANCE = 1;
+	private final static int DATA_BEST_FLOORS_DATE = 2;
+	private final static int DATA_BEST_FLOORS = 3;
+	private final static int DATA_BEST_STEPS_DATE = 4;
+	private final static int DATA_BEST_STEPS = 5;
+	private final static int DATA_LT_DISTANCE = 6;
+	private final static int DATA_LT_FLOORS = 7;
+	private final static int DATA_LT_STEPS = 8;
 	
 	private final static int PAGE_DAILY_DASHBOARD = 0;
 	private final static int PAGE_MY_SUMMARY = 1;
@@ -62,7 +65,7 @@ public class MainView implements GeneralCallBack {
 	private final static int PAGE_GOALS = 4;
 	
 	private double dailyData[] = {0, 0, 0, 0, 0, 0};
-	private int bestnltDate[] = {0, 0, 0, 0, 0, 0};
+	private String bestnltDate[] = {"", "0", "", "0", "", "0", "0" , "0" ,"0"};
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
 	public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
@@ -557,7 +560,12 @@ public class MainView implements GeneralCallBack {
 			break;
 		}
 		case PAGE_MY_SUMMARY: {
-			mysummaryPanel.setData(bestnltDate[DATA_BEST_DISTANCE], bestnltDate[DATA_LT_DISTANCE], bestnltDate[DATA_BEST_FLOORS], bestnltDate[DATA_LT_FLOORS], bestnltDate[DATA_BEST_STEPS], bestnltDate[DATA_LT_STEPS]);
+			mysummaryPanel.setData("<html><div style='text-align: center;'>" + bestnltDate[DATA_BEST_DISTANCE] + "<br>" + bestnltDate[DATA_BEST_DISTANCE_DATE] + "</HTML>",
+									bestnltDate[DATA_LT_DISTANCE]+"", 
+									"<html><div style='text-align: center;'>" + bestnltDate[DATA_BEST_FLOORS] + "<br>" + bestnltDate[DATA_BEST_FLOORS_DATE] + "</HTML>",
+									bestnltDate[DATA_LT_FLOORS]+"", 
+									"<html><div style='text-align: center;'>" + bestnltDate[DATA_BEST_STEPS] + "<br>" + bestnltDate[DATA_BEST_STEPS_DATE] + "</HTML>",
+									bestnltDate[DATA_LT_STEPS]+"");
 			break;
 		}
 		case PAGE_TIME_SERIES: {
