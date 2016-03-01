@@ -37,6 +37,11 @@ public class Utils {
 		btn.setIcon(icon);
 	}
 	
+	public static void styleImage(JLabel btn, Image image, int width, int height) {
+		ImageIcon icon = new ImageIcon(image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH));
+		btn.setIcon(icon);
+	}
+	
 	public static Color normalButtonColor() {
 		return new Color(166, 171, 173);
 	}

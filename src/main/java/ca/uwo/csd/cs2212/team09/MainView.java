@@ -61,7 +61,6 @@ public class MainView implements GeneralCallBack {
 	private Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
 	private Boolean testMode = true;
-	private String currentDate;
 	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
 	class MainView_Frame_Resize_Adapter extends java.awt.event.ComponentAdapter {
@@ -90,16 +89,18 @@ public class MainView implements GeneralCallBack {
 	private static String pageNames[] = {"name_1456030182851147000", "name_1456033158027647000", "name_1456030885832917000", "name_1456030906465778000", "name_1456030920510772000", ""};
 	private Dimension currLayout;
 	
-	JLabel dashboardBtn = new JLabel("Dashboard");
-	JLabel timeseriesBtn = new JLabel("TimeSeries");
-	JLabel heartzoneBtn = new JLabel("HeartZone");
-	JLabel userLbl = new JLabel("User01");
-	JLabel lastupdatedLbl = new JLabel("Data outdated. Please refresh.");
-	JLabel goalsBtn = new JLabel("Goals");
-	JLabel mainTitleLabel = new JLabel("Home");
-	JLabel userBtn = new JLabel();
-	JLabel refreshBtn = new JLabel();
-	JLabel settingsBtn = new JLabel();
+	private JLabel dashboardBtn = new JLabel("Dashboard");
+	private JLabel timeseriesBtn = new JLabel("TimeSeries");
+	private JLabel heartzoneBtn = new JLabel("HeartZone");
+	private JLabel userLbl = new JLabel("User01");
+	private JLabel lastupdatedLbl = new JLabel("Data outdated. Please refresh.");
+	private JLabel goalsBtn = new JLabel("Goals");
+	private JLabel mainTitleLabel = new JLabel("Home");
+	private JLabel userBtn = new JLabel();
+	private JLabel refreshBtn = new JLabel();
+	private JLabel settingsBtn = new JLabel();
+	private final JLabel fitbitLogo = new JLabel("");
+	
 	private final JPanel mainPanel = new JPanel();
 	private CardLayout cardLayout = new CardLayout();
 	private final Dashboard_Panel dashboardPanel = new Dashboard_Panel(this);
@@ -108,6 +109,7 @@ public class MainView implements GeneralCallBack {
 	private final JPanel goalsPanel = new JPanel();
 	private final JLabel mysummaryBtn = new JLabel("MySummary");
 	private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
+	
 	
 
 	/**
@@ -131,8 +133,6 @@ public class MainView implements GeneralCallBack {
 		mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainView.getContentPane().setBackground(new Color(38, 50, 56));
 		mainView.setMinimumSize(new Dimension(1025, 540));
-		
-		currentDate = df.format(new Date());
 		
 		JPanel rightSidePanel = new JPanel();
 		rightSidePanel.setBackground(new Color(0, 150, 136));
@@ -356,7 +356,7 @@ public class MainView implements GeneralCallBack {
 		gl_rightSidePanel.setHorizontalGroup(
 			gl_rightSidePanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_rightSidePanel.createSequentialGroup()
-					.addContainerGap(16, Short.MAX_VALUE)
+					.addContainerGap()
 					.addGroup(gl_rightSidePanel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_rightSidePanel.createSequentialGroup()
 							.addComponent(userBtn, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
@@ -366,13 +366,11 @@ public class MainView implements GeneralCallBack {
 								.addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 								.addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
 							.addGap(14))))
+				.addGroup(gl_rightSidePanel.createSequentialGroup()
+					.addGap(3)
+					.addComponent(fitbitLogo, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+					.addContainerGap())
 		);
-		refreshBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				updateTime();
-			}
-		});
 		gl_rightSidePanel.setVerticalGroup(
 			gl_rightSidePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rightSidePanel.createSequentialGroup()
@@ -382,9 +380,20 @@ public class MainView implements GeneralCallBack {
 					.addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(334, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 269, Short.MAX_VALUE)
+					.addComponent(fitbitLogo, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
+		refreshBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				updateTime();
+			}
+		});
 		rightSidePanel.setLayout(gl_rightSidePanel);
+		
+		Utils.styleImage(fitbitLogo, new ImageIcon(getClass().getResource("/FitbitLogo.png")).getImage(), 60, 15);
+		
 		mainView.getContentPane().setLayout(groupLayout);
 	}
 	
@@ -475,7 +484,7 @@ public class MainView implements GeneralCallBack {
 	}
 	
 	public void updateTime() {
-		System.out.println("Date changed and now will refresh data.");
+		System.out.println("Now will refresh data.");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
