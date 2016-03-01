@@ -494,6 +494,7 @@ public class MainView implements GeneralCallBack {
 			            }
 						//TODO: Fill in the date as a string in this format: 2016-01-08
 			            dailyData = sessionData.refreshAll(canVar, currentDate);
+			            bestnltDate = sessionData.refreshMySummary(canVar);
 			        } catch (Exception e) {
 			            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
 			        }
