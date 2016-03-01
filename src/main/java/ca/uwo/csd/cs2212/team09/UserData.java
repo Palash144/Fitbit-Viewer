@@ -278,20 +278,20 @@ public class UserData {
 
     }
 
-    public HeartRateZones getOutOfRangeZone( boolean canned, String date) throws JSONException{
+    public HeartRateZones getOutOfRangeZone(boolean canned, String date) throws JSONException{
         HeartRateZones zone = new HeartRateZones("Out of Range", date);
         return zone;
     }
 
-    public HeartRateZones getFatBurnZone( boolean canned, String date) throws JSONException{
+    public HeartRateZones getFatBurnZone(boolean canned, String date) throws JSONException{
         HeartRateZones zone = new HeartRateZones("Fat Burn", date);
         return zone;
     }
-    public HeartRateZones getCardioZone( boolean canned, String date) throws JSONException{
+    public HeartRateZones getCardioZone(boolean canned, String date) throws JSONException{
         HeartRateZones zone = new HeartRateZones("Cardio", date);
         return zone;
     }
-    public HeartRateZones getPeakZone( boolean canned, String date) throws JSONException{
+    public HeartRateZones getPeakZone(boolean canned, String date) throws JSONException{
         HeartRateZones zone = new HeartRateZones("Peak", date);
         return zone;
     }
