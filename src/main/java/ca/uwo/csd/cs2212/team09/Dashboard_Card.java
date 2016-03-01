@@ -255,7 +255,6 @@ public class Dashboard_Card extends JPanel {
 	public boolean setNewDate(String date, boolean callback) {
 		try {
 			currentDate = df.parse(date);
-			parentView.changeDate();
 			contentLabel.setText(df.format(currentDate));
 			if (callback) {
 				parentView.changeDate(date);
