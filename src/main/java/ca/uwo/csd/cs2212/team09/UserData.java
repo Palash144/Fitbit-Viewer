@@ -77,16 +77,17 @@ public class UserData {
 
     //return new data from fitbit
     public String[] refreshMySummary(boolean canned) {
-        String[] returnData = new String[8];
+        String[] returnData = new String[9];
         if (canned == true) {
-            returnData[0] = "3";
-            returnData[1] = "4";
-            returnData[2] = "5";
-            returnData[3] = "6";
-            returnData[4] = "7";
-            returnData[5] = "8";
-            returnData[6] = "9";
-            returnData[7] = "10";
+            returnData[0] = "03-01-2016"; //best distance (date)
+            returnData[1] = "4";          //best distance
+            returnData[2] = "03-01-2016"; //best floors (date)
+            returnData[3] = "6";          //best floors
+            returnData[4] = "03-01-2016"; //best steps (date)
+            returnData[5] = "8";          //best steps
+            returnData[6] = "9";          //lifetime distance
+            returnData[7] = "10";         //lifetime floors
+            returnData[8] = "11";         //lifetime steps
             return returnData;
         }
         Request getData = new Request();
@@ -98,44 +99,38 @@ public class UserData {
 
             final JSONObject trackerData = fitData.getJSONObject("tracker");
 
-/*            JSONObject bestValue = trackerData.getJSONObject("caloriesOut");
-            System.out.println("best calories date: " + bestValue.getString("date"));
-            System.out.println("best calories: " + bestValue.getString("value"));
-            returnData[0] = (bestValue.getString("value"));*/
-
             JSONObject bestValue = trackerData.getJSONObject("distance");
             System.out.println("best distance date: " + bestValue.getString("date"));
             System.out.println("best distance: " + bestValue.getString("value"));
-            returnData[1] = (bestValue.getString("date") + "/"  + bestValue.getString("value"));
+            returnData[0] = bestValue.getString("date");
+            returnData[1] = bestValue.getString("value");
 
             bestValue = trackerData.getJSONObject("floors"); //TODO: This returns an unrounded double; Fix it by casting to int
             System.out.println("best floors date: " + bestValue.getString("date"));
             System.out.println("best floors: " + bestValue.getString("value"));
-            returnData[2] = (bestValue.getString("date") + "/"  + bestValue.getString("value"));
+            returnData[2] = bestValue.getString("date");
+            returnData[3] = bestValue.getString("value");
 
             bestValue = trackerData.getJSONObject("steps");
             System.out.println("best steps date: " + bestValue.getString("date"));
             System.out.println("best steps: " + bestValue.getString("value"));
-            returnData[3] = (bestValue.getString("date") + "/"  + bestValue.getString("value"));
+            returnData[4] = bestValue.getString("date");
+            returnData[5] = bestValue.getString("value");
 
             final JSONObject lifeTime = obj.getJSONObject("lifetime");
             bestValue = lifeTime.getJSONObject("total");
 
-            String totalValue = bestValue.getString("caloriesOut");   //Calories are -1, to be discussed
-            System.out.println("total Calories burned: " + totalValue);
-            returnData[4] = (totalValue);
-
-            totalValue = bestValue.getString("distance");
+            String totalValue = bestValue.getString("distance");
             System.out.println("total Distance travelled: " + totalValue);
-            returnData[5] = (totalValue);
+            returnData[6] = (totalValue);
 
             totalValue = bestValue.getString("floors");
             System.out.println("total Floors climbed: " + totalValue);
-            returnData[6] = (totalValue);
+            returnData[7] = (totalValue);
 
             totalValue = bestValue.getString("steps");
             System.out.println("total Steps taken: " + totalValue);
-            returnData[7] = (totalValue);
+            returnData[8] = (totalValue);
 
 
         } catch (Exception e) {
