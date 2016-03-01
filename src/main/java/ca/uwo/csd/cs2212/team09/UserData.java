@@ -6,6 +6,16 @@ import org.json.JSONObject;
 
 public class UserData {
 
+    private int bestSteps = -1;
+    private int bestFloors = -1;
+    private int bestCalories = -1;
+    private int bestDistance = -1;
+
+    private int totalSteps = -1;
+    private int totalFloors = -1;
+    private int totalCalories = -1;
+    private int totalDistance = -1;
+    
     public String[] refreshAll(boolean canned, String date) {
         String[] returnData = new String[6];
         if (canned == true) {
@@ -54,11 +64,82 @@ public class UserData {
         return returnData;
     }
 
+    //TODO: write method to return cached data for my summary
+
+    //return new data from fitbit
+    public String[] refreshMySummary(boolean canned) {
+        String[] returnData = new String[8];
+        if (canned == true) {
+            returnData[0] = "3";
+            returnData[1] = "4";
+            returnData[2] = "5";
+            returnData[3] = "6";
+            returnData[4] = "7";
+            returnData[5] = "8";
+            returnData[6] = "9";
+            returnData[7] = "10";
+            return returnData;
+        }
+        Request getData = new Request();
+        try {
+            //final JSONObject obj = new JSONObject(getData.requestFor("activities/date/2016-01-08.json"));
+            final JSONObject obj = new JSONObject(getData.requestFor("activities.json"));
+
+            final JSONObject fitData = obj.getJSONObject("best");
+
+            final JSONObject trackerData = fitData.getJSONObject("tracker");
+
+/*            JSONObject bestValue = trackerData.getJSONObject("caloriesOut");
+            System.out.println("best calories date: " + bestValue.getString("date"));
+            System.out.println("best calories: " + bestValue.getString("value"));
+            returnData[0] = (bestValue.getString("value"));*/
+            
+            JSONObject bestValue = trackerData.getJSONObject("distance");
+            System.out.println("best distance date: " + bestValue.getString("date"));
+            System.out.println("best distance: " + bestValue.getString("value"));
+            returnData[1] = (bestValue.getString("date") + "/"  + bestValue.getString("value"));
+
+            bestValue = trackerData.getJSONObject("floors"); //TODO: This returns an unrounded double; Fix it by casting to int
+            System.out.println("best floors date: " + bestValue.getString("date"));
+            System.out.println("best floors: " + bestValue.getString("value"));
+            returnData[2] = (bestValue.getString("date") + "/"  + bestValue.getString("value"));
+
+            bestValue = trackerData.getJSONObject("steps");
+            System.out.println("best steps date: " + bestValue.getString("date"));
+            System.out.println("best steps: " + bestValue.getString("value"));
+            returnData[3] = (bestValue.getString("date") + "/"  + bestValue.getString("value"));
+
+            final JSONObject lifeTime = obj.getJSONObject("lifetime");
+            bestValue = lifeTime.getJSONObject("total");
+
+            String totalValue = bestValue.getString("caloriesOut");   //Calories are -1, to be discussed
+            System.out.println("total Calories burned: " + totalValue);
+            returnData[4] = (totalValue);
+
+            totalValue = bestValue.getString("distance");
+            System.out.println("total Distance travelled: " + totalValue);
+            returnData[5] = (totalValue);
+
+            totalValue = bestValue.getString("floors");
+            System.out.println("total Floors climbed: " + totalValue);
+            returnData[6] = (totalValue);
+
+            totalValue = bestValue.getString("steps");
+            System.out.println("total Steps taken: " + totalValue);
+            returnData[7] = (totalValue);
+
+
+        } catch (Exception e) {
+            //TODO: Throw an exception
+            System.out.println("Failed to refresh all data: " + e.getMessage());
+        }
+        return returnData;
+    }
+
     /**
      * @param canned true returns canned data
      * @return the number of steps taken
      */
-
     public int getSteps(boolean canned, String date) {
         if (canned == true) {
             return 1337;
