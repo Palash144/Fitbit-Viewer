@@ -25,8 +25,8 @@ public class UserData {
      * @param date date of the data retrieved in the format "yyyy-mm-dd"
      * @return An array of strings storing the user's data
      */
-    public Double[] refreshAll(boolean canned, String date) {
-        Double[] returnData = new Double[6];
+    public double[] refreshAll(boolean canned, String date) {
+        double[] returnData = new double[6];
         if (canned == true) {
             returnData[0] = 123.0;
             returnData[1] = 1234.0;
