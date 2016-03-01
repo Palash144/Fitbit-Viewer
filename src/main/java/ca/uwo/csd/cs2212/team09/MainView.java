@@ -66,8 +66,6 @@ public class MainView implements GeneralCallBack {
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
 	public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
-	
-	
 	private Boolean testMode = true;
 	public String currentDate;
 	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -383,6 +381,7 @@ public class MainView implements GeneralCallBack {
 					.addComponent(fitbitLogo, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
 					.addContainerGap())
 		);
+		
 		gl_rightSidePanel.setVerticalGroup(
 			gl_rightSidePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rightSidePanel.createSequentialGroup()
@@ -402,11 +401,24 @@ public class MainView implements GeneralCallBack {
 				updateTime(currentDate);
 			}
 		});
+		
+		settingsBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				loadSettingView();
+			}
+		});
+		
 		rightSidePanel.setLayout(gl_rightSidePanel);
 		
 		Utils.styleImage(fitbitLogo, new ImageIcon(getClass().getResource("/FitbitLogo.png")).getImage(), 60, 15);
 		
 		mainView.getContentPane().setLayout(groupLayout);
+	}
+	
+	private void loadSettingView() {
+		SettingsView sv = new SettingsView(this, true); 
+		sv.setVisible(true);
 	}
 	
 	private void updateLeftSideButton() {
