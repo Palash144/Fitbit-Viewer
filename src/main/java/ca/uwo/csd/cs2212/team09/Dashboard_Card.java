@@ -55,6 +55,8 @@ public class Dashboard_Card extends JPanel {
 	private Timer uiTimer;
 
 	private Date currentDate = new Date();
+	
+	private Dashboard_Panel parentView;
 
 	/**
 	 * Constructor
@@ -68,13 +70,15 @@ public class Dashboard_Card extends JPanel {
 	 * @param type -type of card
 	 * @param lTitle -title of card
 	 * @param lContent -content of card
+	 * @param p - parent panel
 	 */
-	public Dashboard_Card(int width, int height, int type, String lTitle, String lContent) {
+	public Dashboard_Card(int width, int height, int type, String lTitle, String lContent, Dashboard_Panel p) {
 		setSize(196, 196);
 		hideDatePickUI();
 		title = lTitle;
 		content = lContent;
 		currType = type;
+		parentView = p;
 		
 		if (title != null)
 			titleLabel.setText(title);
@@ -251,7 +255,7 @@ public class Dashboard_Card extends JPanel {
 	private boolean setNewDate(String date) {
 		try {
 			currentDate = df.parse(date);
-			System.out.println("Set current date to: " + df.format(currentDate));
+			parentView.changeDate();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

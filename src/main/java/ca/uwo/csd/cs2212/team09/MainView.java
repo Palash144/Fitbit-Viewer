@@ -41,18 +41,28 @@ public class MainView implements GeneralCallBack {
 
 	UserData sessionData = new UserData();
 	
-	private int DATA_DAILY_CALORIES = 0;
-	private int DATA_DAILY_DISTANCE = 1;
-	private int DATA_DAILY_FLOORS = 2;
-	private int DATA_DAILY_STEPS = 3;
-	private int DATA_DAILY_ACTIVE_MINUTES = 4;
-	private int DATA_DAILY_SEDENTARY_MINUTES = 5;
+	private final static int DATA_DAILY_CALORIES = 0;
+	private final static int DATA_DAILY_DISTANCE = 1;
+	private final static int DATA_DAILY_FLOORS = 2;
+	private final static int DATA_DAILY_STEPS = 3;
+	private final static int DATA_DAILY_ACTIVE_MINUTES = 4;
+	private final static int DATA_DAILY_SEDENTARY_MINUTES = 5;
+	
+	private final static int DATA_BEST_DISTANCE = 0;
+	private final static int DATA_LT_DISTANCE = 1;
+	private final static int DATA_BEST_FLOORS = 2;
+	private final static int DATA_LT_FLOORS = 3;
+	private final static int DATA_BEST_STEPS = 4;
+	private final static int DATA_LT_STEPS = 5;
 	
 	private int dailyData[] = {0, 0, 0, 0, 0, 0};
+	private int bestnltDate[] = {0, 0, 0, 0, 0, 0};
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
 	private Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
 	private Boolean testMode = true;
+	private String currentDate;
+	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
 	class MainView_Frame_Resize_Adapter extends java.awt.event.ComponentAdapter {
 		  MainView adaptee;
@@ -92,12 +102,13 @@ public class MainView implements GeneralCallBack {
 	JLabel settingsBtn = new JLabel();
 	private final JPanel mainPanel = new JPanel();
 	private CardLayout cardLayout = new CardLayout();
-	private final Dashboard_Panel dashboardPanel = new Dashboard_Panel();
+	private final Dashboard_Panel dashboardPanel = new Dashboard_Panel(this);
 	private final JPanel timeseriesPanel = new JPanel();
 	private final JPanel heartzonePanel = new JPanel();
 	private final JPanel goalsPanel = new JPanel();
 	private final JLabel mysummaryBtn = new JLabel("MySummary");
-	private final JPanel mysummaryPanel = new JPanel();
+	private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
+	
 
 	/**
 	 * Create the application.
@@ -120,6 +131,8 @@ public class MainView implements GeneralCallBack {
 		mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainView.getContentPane().setBackground(new Color(38, 50, 56));
 		mainView.setMinimumSize(new Dimension(1025, 540));
+		
+		currentDate = df.format(new Date());
 		
 		JPanel rightSidePanel = new JPanel();
 		rightSidePanel.setBackground(new Color(0, 150, 136));
@@ -313,7 +326,7 @@ public class MainView implements GeneralCallBack {
 		mainPanel.add(goalsPanel, "name_1456030920510772000");
 		
 		currLayout = getFitLayout();
-		layoutAllPanels(currLayout);
+		layoutPanels(currLayout, true);
 		
 		
 		userBtn.addMouseListener(new MouseAdapter() {
@@ -357,17 +370,7 @@ public class MainView implements GeneralCallBack {
 		refreshBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				EventQueue.invokeLater(new Runnable() {
-	    			public void run() {
-	    				try {
-	    					refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
-	    				} catch (Exception e) {
-	    					e.printStackTrace();
-	    				} finally {
-	    					updateDataOnPanels();
-	    				}
-	    			}
-	    		});
+				updateTime();
 			}
 		});
 		gl_rightSidePanel.setVerticalGroup(
@@ -421,7 +424,8 @@ public class MainView implements GeneralCallBack {
 			break;
 		}
 		}
-		//mainView.repaint();
+		updateDataOnPanels();
+		layoutPanels(getFitLayout(), false);
 	}
 	
 	Dimension getFitLayout() {
@@ -458,6 +462,7 @@ public class MainView implements GeneralCallBack {
 				lastupdatedLbl.setText("Last updated: " + df.format(new Date()));
 				
 				System.out.println("Data updated.");
+				
 				callback(CALLBACK_ID_LAYOUT_PANEL_AFTER_DATA_REFRESH);
 			}
 		});
@@ -469,61 +474,135 @@ public class MainView implements GeneralCallBack {
 		}
 	}
 	
-	void updateDataOnPanels() {
-		int j = 0;
-		for (int i=0;i<dailyData.length;i++) {
-			if (dailyDataCustomization[i]) {
-				j++;
-				Dashboard_Card panel = dashboardPanel.modifyAt(j);
-				panel.setTitle(dailyDataMsg[i]);
-				panel.setContent(dailyData[i]+"");
-				panel.updatePanel();
-				dashboardPanel.updateUI();
-			}
-		}
-	}
-	
-	void layoutAllPanels(Dimension layoutMode) {
-		try {
-			refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
-		}
-		catch(Exception e) {
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			refreshAllDataWithDate(df.format(new Date()), testMode);
-		}
-		finally {
-			
-		}
-		
-		if (dashboardPanel.subviewCount() == 0) {
-			Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "");
-			dashboardPanel.add(dateCard, false);
-			for (int i=0;i<dailyData.length;i++) {
-				if (dailyDataCustomization[i]) {
-					Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i]+"");
-					dashboardPanel.add(t, false);
+	public void updateTime() {
+		System.out.println("Date changed and now will refresh data.");
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					updateDataOnPanels();
 				}
 			}
+		});
+	}
+	
+	void updateDataOnPanels() {
+		switch (currentPage) {
+		case 0: {
+			int j = 0;
+			for (int i=0;i<dailyData.length;i++) {
+				if (dailyDataCustomization[i]) {
+					j++;
+					Dashboard_Card panel = dashboardPanel.modifyAt(j);
+					panel.setTitle(dailyDataMsg[i]);
+					panel.setContent(dailyData[i]+"");
+					panel.updatePanel();
+					dashboardPanel.updateUI();
+				}
+			}
+			break;
 		}
-		
-		dashboardPanel.layoutPanel(layoutMode);
+		case 1: {
+			mysummaryPanel.setData(bestnltDate[DATA_BEST_DISTANCE], bestnltDate[DATA_LT_DISTANCE], bestnltDate[DATA_BEST_FLOORS], bestnltDate[DATA_LT_FLOORS], bestnltDate[DATA_BEST_STEPS], bestnltDate[DATA_LT_STEPS]);
+			break;
+		}
+		case 2: {
+			
+			break;
+		}
+		case 3: {
+			
+			break;
+		}
+		case 4: {
+			
+			break;
+		}
+		case 5: {
+			
+			break;
+		}
+		default: {
+			break;
+		}
+		}
+	}
+	
+	void layoutPanels(Dimension layoutMode, boolean updateData) {
+		switch (currentPage) {
+		case 0: {
+			if (updateData) {
+				try {
+					refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
+				}
+				catch(Exception e) {
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					refreshAllDataWithDate(df.format(new Date()), testMode);
+				}
+				finally {
+					
+				}
+			}
+			
+			if (dashboardPanel.subviewCount() == 0) {
+				Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
+				dashboardPanel.add(dateCard, false);
+				for (int i=0;i<dailyData.length;i++) {
+					if (dailyDataCustomization[i]) {
+						Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i]+"", dashboardPanel);
+						dashboardPanel.add(t, false);
+					}
+				}
+			}
+			
+			dashboardPanel.layoutPanel(layoutMode);
+			break;
+		}
+		case 1: {
+			
+			break;
+		}
+		case 2: {
+			
+			break;
+		}
+		case 3: {
+			
+			break;
+		}
+		case 4: {
+			
+			break;
+		}
+		case 5: {
+			
+			break;
+		}
+		default: {
+			break;
+		}
+		}
 	}
 	
 	
-	private Dashboard_Card createCards(int width, int height, int type, String title, String content) {
-		Dashboard_Card panel = new Dashboard_Card(width, height, type, title, content);
+	private Dashboard_Card createCards(int width, int height, int type, String title, String content, Dashboard_Panel p) {
+		Dashboard_Card panel = new Dashboard_Card(width, height, type, title, content, p);
 		Color backgroundColor = Utils.normalButtonColor();
 		panel.setBackground(backgroundColor);
 		
 		return panel;
 	}
 	
-	void frameResized(ComponentEvent e) {
+	private void frameResized(ComponentEvent e) {
 		Dimension tLayout = getFitLayout();
 	     if (currLayout.height != tLayout.getHeight()) {
 	    	 //System.out.println("Relayout needed." + currLayout + getFitLayout());
 	    	 currLayout = getFitLayout();
-	    	 layoutAllPanels(currLayout);
+	    	 layoutPanels(currLayout, false);
 	     }
- }
+	}
+	
 }

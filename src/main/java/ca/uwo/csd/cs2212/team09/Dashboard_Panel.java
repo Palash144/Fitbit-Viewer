@@ -14,8 +14,10 @@ public class Dashboard_Panel extends JPanel {
 	private List<JPanel>panels = new ArrayList<JPanel>();
 	private Dimension currLayout;
 
-	public Dashboard_Panel() {
-		
+	private MainView parentView;
+	
+	public Dashboard_Panel(MainView p) {
+		parentView = p;
 	}
 
 	public void add(JPanel panel, Boolean layoutNow) {
@@ -33,6 +35,10 @@ public class Dashboard_Panel extends JPanel {
 	
 	public void remove(JPanel panel) {
 		
+	}
+	
+	public void changeDate() {
+		parentView.updateTime();
 	}
 	
 	public int subviewCount() {

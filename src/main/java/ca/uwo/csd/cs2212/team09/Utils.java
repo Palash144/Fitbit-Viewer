@@ -6,6 +6,7 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * @author 
@@ -20,6 +21,10 @@ public class Utils {
 		btn.setOpaque(true);
 		btn.setBackground(normalButtonColor());
 		btn.setForeground(new Color(51, 51, 51));
+	}
+	
+	public static void stylePanel(JPanel panel) {
+		panel.setBackground(normalButtonColor());
 	}
 	
 	/**
