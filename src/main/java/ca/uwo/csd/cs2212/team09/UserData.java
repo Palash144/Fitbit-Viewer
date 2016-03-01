@@ -4,6 +4,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/** Class used to store and manipulate the data of the user
+ * @author Team 9
+ *
+ */
 public class UserData {
 
     private int bestSteps = -1;
@@ -15,7 +19,12 @@ public class UserData {
     private int totalFloors = -1;
     private int totalCalories = -1;
     private int totalDistance = -1;
-    
+
+    /** Refreshes the user's data
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return An array of strings storing the user's data
+     */
     public String[] refreshAll(boolean canned, String date) {
         String[] returnData = new String[6];
         if (canned == true) {
@@ -93,7 +102,7 @@ public class UserData {
             System.out.println("best calories date: " + bestValue.getString("date"));
             System.out.println("best calories: " + bestValue.getString("value"));
             returnData[0] = (bestValue.getString("value"));*/
-            
+
             JSONObject bestValue = trackerData.getJSONObject("distance");
             System.out.println("best distance date: " + bestValue.getString("date"));
             System.out.println("best distance: " + bestValue.getString("value"));
@@ -138,6 +147,9 @@ public class UserData {
 
     /**
      * @param canned true returns canned data
+    /** Retrieves the steps taken for the User
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
      * @return the number of steps taken
      */
     public int getSteps(boolean canned, String date) {
@@ -161,6 +173,11 @@ public class UserData {
         return -1;
     }
 
+    /** Retrieves the number of floors climbed by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of floors climbed by the user
+     */
     public int getFloors(boolean canned, String date) {
         if (canned == true) {
             return 137;
@@ -179,7 +196,11 @@ public class UserData {
         return -1;
     }
 
-
+    /** Retrieves the number of calories burned by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of calories burned by the user
+     */
     public int getCalories(boolean canned, String date) {
         //TODO: Complete this method
         if (canned == true) {
@@ -199,6 +220,12 @@ public class UserData {
         return -1;
     }
 
+
+    /** Retrieves the distance travelled by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of floors climbed by the user
+     */
     public int getDistance(boolean canned, String date) {
         //TODO: Complete this method
         if (canned == true) {
@@ -218,6 +245,11 @@ public class UserData {
         return -1;
     }
 
+    /** Retrieves the number of active minutes by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of active minutes by the user
+     */
     public int getActiveMinutes(boolean canned, String date) {
         //TODO: Complete this method; We will add together lightly active, fairly active and very active
         int activeMinutes = 0;
@@ -240,6 +272,11 @@ public class UserData {
         return activeMinutes;
     }
 
+    /** Retrieves the number of sedentary minutes by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of sedentary minutes by the user
+     */
     public int getSedentaryMinutes(boolean canned, String date) {
         //TODO: Complete this method
         if (canned == true) {
