@@ -563,9 +563,9 @@ public class MainView implements GeneralCallBack {
 		case PAGE_MY_SUMMARY: {
 			mysummaryPanel.setData("<html><div style='text-align: center;'>" + String.format("%.2f", Double.parseDouble(bestnltDate[DATA_BEST_DISTANCE])) + "<br>" + bestnltDate[DATA_BEST_DISTANCE_DATE] + "</HTML>",
 									bestnltDate[DATA_LT_DISTANCE]+"", 
-									"<html><div style='text-align: center;'>" + String.format("%.2f", Double.parseDouble(bestnltDate[DATA_BEST_FLOORS])) + "<br>" + bestnltDate[DATA_BEST_FLOORS_DATE] + "</HTML>",
+									"<html><div style='text-align: center;'>" + String.format("%.0f", Double.parseDouble(bestnltDate[DATA_BEST_FLOORS])) + "<br>" + bestnltDate[DATA_BEST_FLOORS_DATE] + "</HTML>",
 									bestnltDate[DATA_LT_FLOORS]+"", 
-									"<html><div style='text-align: center;'>" + String.format("%.2f", Double.parseDouble(bestnltDate[DATA_BEST_STEPS])) + "<br>" + bestnltDate[DATA_BEST_STEPS_DATE] + "</HTML>",
+									"<html><div style='text-align: center;'>" + String.format("%.0f", Double.parseDouble(bestnltDate[DATA_BEST_STEPS])) + "<br>" + bestnltDate[DATA_BEST_STEPS_DATE] + "</HTML>",
 									bestnltDate[DATA_LT_STEPS]+"");
 			break;
 		}
