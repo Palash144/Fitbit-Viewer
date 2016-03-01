@@ -25,15 +25,15 @@ public class UserData {
      * @param date date of the data retrieved in the format "yyyy-mm-dd"
      * @return An array of strings storing the user's data
      */
-    public String[] refreshAll(boolean canned, String date) {
-        String[] returnData = new String[6];
+    public Double[] refreshAll(boolean canned, String date) {
+        Double[] returnData = new Double[6];
         if (canned == true) {
-            returnData[0] = "123";
-            returnData[1] = "1234";
-            returnData[2] = "12";
-            returnData[3] = "13";
-            returnData[4] = "23";
-            returnData[5] = "1223";
+            returnData[0] = 123.0;
+            returnData[1] = 1234.0;
+            returnData[2] = 12.0;
+            returnData[3] = 13.0;
+            returnData[4] = 23.0;
+            returnData[5] = 1223.0;
             return returnData;
         }
         Request getData = new Request();
@@ -43,28 +43,28 @@ public class UserData {
 
             final JSONObject fitData = obj.getJSONObject("summary");
             System.out.println("steps: " + fitData.getString("steps"));
-            returnData[3] = (fitData.getString("steps"));
+            returnData[3] = (fitData.getDouble("steps"));
 
             final JSONArray distanceArray = fitData.getJSONArray("distances");
             final JSONObject totalDistance = distanceArray.getJSONObject(0);
             System.out.println("distance: " + totalDistance.getString("distance"));
-            returnData[1] = (totalDistance.getString("distance"));
+            returnData[1] = (totalDistance.getDouble("distance"));
 
-            System.out.println("floors: " + fitData.getString("floors"));
-            returnData[2] = (fitData.getString("floors"));
+            System.out.println("floors: " + fitData.getDouble("floors"));
+            returnData[2] = (fitData.getDouble("floors"));
 
-            System.out.println("calories: " + fitData.getString("caloriesOut"));
-            returnData[0] = (fitData.getString("caloriesOut"));
+            System.out.println("calories: " + fitData.getDouble("caloriesOut"));
+            returnData[0] = (fitData.getDouble("caloriesOut"));
 
-            int activeMinutes = 0;
+            double activeMinutes = 0;
             activeMinutes += Integer.parseInt(fitData.getString("fairlyActiveMinutes"));
             activeMinutes += Integer.parseInt(fitData.getString("lightlyActiveMinutes"));
             activeMinutes += Integer.parseInt(fitData.getString("veryActiveMinutes"));
             System.out.println("active minutes: " + activeMinutes);
-            returnData[4] = activeMinutes + "";
+            returnData[4] = activeMinutes;
 
             System.out.println("sedentary minutes: " + fitData.getString("sedentaryMinutes"));
-            returnData[5] = (fitData.getString("sedentaryMinutes"));
+            returnData[5] = (fitData.getDouble("sedentaryMinutes"));
 
         } catch (Exception e) {
             //TODO: Throw an exception
