@@ -37,8 +37,8 @@ public class Dashboard_Panel extends JPanel {
 		
 	}
 	
-	public void changeDate() {
-		parentView.updateTime();
+	public void changeDate(String date) {
+		parentView.updateTime(date);
 	}
 	
 	public int subviewCount() {

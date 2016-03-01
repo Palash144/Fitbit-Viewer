@@ -55,12 +55,21 @@ public class MainView implements GeneralCallBack {
 	private final static int DATA_BEST_STEPS = 4;
 	private final static int DATA_LT_STEPS = 5;
 	
+	private final static int PAGE_DAILY_DASHBOARD = 0;
+	private final static int PAGE_MY_SUMMARY = 1;
+	private final static int PAGE_TIME_SERIES = 2;
+	private final static int PAGE_HEART_ZONE = 3;
+	private final static int PAGE_GOALS = 4;
+	
 	private int dailyData[] = {0, 0, 0, 0, 0, 0};
 	private int bestnltDate[] = {0, 0, 0, 0, 0, 0};
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
-	private Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
+	public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
+	
+	
 	
 	private Boolean testMode = true;
+	public String currentDate;
 	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
 	class MainView_Frame_Resize_Adapter extends java.awt.event.ComponentAdapter {
@@ -105,7 +114,7 @@ public class MainView implements GeneralCallBack {
 	private CardLayout cardLayout = new CardLayout();
 	private final Dashboard_Panel dashboardPanel = new Dashboard_Panel(this);
 	private final JPanel timeseriesPanel = new JPanel();
-	private final JPanel heartzonePanel = new JPanel();
+	private final Dashboard_Panel heartzonePanel = new Dashboard_Panel(this);
 	private final JPanel goalsPanel = new JPanel();
 	private final JLabel mysummaryBtn = new JLabel("MySummary");
 	private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
@@ -136,6 +145,8 @@ public class MainView implements GeneralCallBack {
 		
 		JPanel rightSidePanel = new JPanel();
 		rightSidePanel.setBackground(new Color(0, 150, 136));
+		
+		currentDate = df.format(new Date());
 		
 		mainTitleLabel.setForeground(Color.WHITE);
 		mainTitleLabel.setFont(new Font("Lucida Grande", Font.BOLD, 28));
@@ -314,6 +325,7 @@ public class MainView implements GeneralCallBack {
 		mainPanel.setBackground(new Color(38, 50, 56));
 		
 		dashboardPanel.setBackground(new Color(38, 50, 56));
+		heartzonePanel.setBackground(new Color(38, 50, 56));
 		
 		mainPanel.add(dashboardPanel, "name_1456030182851147000");
 		
@@ -387,7 +399,7 @@ public class MainView implements GeneralCallBack {
 		refreshBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				updateTime();
+				updateTime(currentDate);
 			}
 		});
 		rightSidePanel.setLayout(gl_rightSidePanel);
@@ -405,23 +417,23 @@ public class MainView implements GeneralCallBack {
 		goalsBtn.setBackground(Utils.normalButtonColor());
 		cardLayout.show(mainPanel, pageNames[currentPage]);
 		switch (currentPage) {
-		case 0: {
+		case PAGE_DAILY_DASHBOARD: {
 			dashboardBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
-		case 1: {
+		case PAGE_MY_SUMMARY: {
 			mysummaryBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
-		case 2: {
+		case PAGE_TIME_SERIES: {
 			timeseriesBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
-		case 3: {
+		case PAGE_HEART_ZONE: {
 			heartzoneBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
-		case 4: {
+		case PAGE_GOALS: {
 			goalsBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
@@ -444,6 +456,7 @@ public class MainView implements GeneralCallBack {
 	}
 	
 	void refreshAllDataWithDate(String date, Boolean canned) {
+		currentDate = date;
 		final Boolean canVar = canned;
 		lastupdatedLbl.setText("Refreshing...");
 		EventQueue.invokeLater(new Runnable() {
@@ -483,12 +496,13 @@ public class MainView implements GeneralCallBack {
 		}
 	}
 	
-	public void updateTime() {
+	public void updateTime(String time) {
 		System.out.println("Now will refresh data.");
+		currentDate = time;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
+					refreshAllDataWithDate(currentDate, testMode);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -500,7 +514,8 @@ public class MainView implements GeneralCallBack {
 	
 	void updateDataOnPanels() {
 		switch (currentPage) {
-		case 0: {
+		case PAGE_DAILY_DASHBOARD: {
+			dashboardPanel.modifyAt(0).setNewDate(currentDate, false);
 			int j = 0;
 			for (int i=0;i<dailyData.length;i++) {
 				if (dailyDataCustomization[i]) {
@@ -514,19 +529,19 @@ public class MainView implements GeneralCallBack {
 			}
 			break;
 		}
-		case 1: {
+		case PAGE_MY_SUMMARY: {
 			mysummaryPanel.setData(bestnltDate[DATA_BEST_DISTANCE], bestnltDate[DATA_LT_DISTANCE], bestnltDate[DATA_BEST_FLOORS], bestnltDate[DATA_LT_FLOORS], bestnltDate[DATA_BEST_STEPS], bestnltDate[DATA_LT_STEPS]);
 			break;
 		}
-		case 2: {
+		case PAGE_TIME_SERIES: {
 			
 			break;
 		}
-		case 3: {
-			
+		case PAGE_HEART_ZONE: {
+			heartzonePanel.modifyAt(0).setNewDate(currentDate, false);
 			break;
 		}
-		case 4: {
+		case PAGE_GOALS: {
 			
 			break;
 		}
@@ -541,59 +556,42 @@ public class MainView implements GeneralCallBack {
 	}
 	
 	void layoutPanels(Dimension layoutMode, boolean updateData) {
-		switch (currentPage) {
-		case 0: {
-			if (updateData) {
-				try {
-					refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
-				}
-				catch(Exception e) {
-					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-					refreshAllDataWithDate(df.format(new Date()), testMode);
-				}
-				finally {
-					
+		if (updateData) {
+			try {
+				refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
+			}
+			catch(Exception e) {
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				refreshAllDataWithDate(df.format(new Date()), testMode);
+			}
+			finally {
+				
+			}
+		}
+		
+		if (dashboardPanel.subviewCount() == 0) {
+			Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
+			dashboardPanel.add(dateCard, false);
+			for (int i=0;i<dailyData.length;i++) {
+				if (dailyDataCustomization[i]) {
+					Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i]+"", dashboardPanel);
+					dashboardPanel.add(t, false);
 				}
 			}
+		}
+		
+		dashboardPanel.layoutPanel(layoutMode);
+		
+		
+		if (heartzonePanel.subviewCount() == 0) {
+			Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
+			dateCard.setNewDate(dashboardPanel.modifyAt(0).getDate(), false);
+			heartzonePanel.add(dateCard, false);
 			
-			if (dashboardPanel.subviewCount() == 0) {
-				Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
-				dashboardPanel.add(dateCard, false);
-				for (int i=0;i<dailyData.length;i++) {
-					if (dailyDataCustomization[i]) {
-						Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i]+"", dashboardPanel);
-						dashboardPanel.add(t, false);
-					}
-				}
-			}
 			
-			dashboardPanel.layoutPanel(layoutMode);
-			break;
 		}
-		case 1: {
-			
-			break;
-		}
-		case 2: {
-			
-			break;
-		}
-		case 3: {
-			
-			break;
-		}
-		case 4: {
-			
-			break;
-		}
-		case 5: {
-			
-			break;
-		}
-		default: {
-			break;
-		}
-		}
+		
+		heartzonePanel.layoutPanel(layoutMode);
 	}
 	
 	
