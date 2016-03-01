@@ -24,9 +24,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * @author       
- * @version     
- * @since       
+ * Implements cards to be displayed on the dashboard
+ * @author Team 9
+ * @version Stage 2
  */
 public class Dashboard_Card extends JPanel {
 
@@ -59,18 +59,15 @@ public class Dashboard_Card extends JPanel {
 	private Dashboard_Panel parentView;
 
 	/**
-	 * Constructor
+	 * Constructor creating a panel with inputted width, height,
+	 * type, title, and content
 	 * 
-	 * It would create a panel with input parameter, which include width, height
-	 * type, title and content
-	 * 
-	 * Create the card.
-	 * @param width - width of card
-	 * @param height -height of card
-	 * @param type -type of card
-	 * @param lTitle -title of card
-	 * @param lContent -content of card
-	 * @param p - parent panel
+	 * @param width width of card
+	 * @param height height of card
+	 * @param type type of card
+	 * @param lTitle title of card
+	 * @param lContent content of card
+	 * @param p  parent panel
 	 */
 	public Dashboard_Card(int width, int height, int type, String lTitle, String lContent, Dashboard_Panel p) {
 		setSize(196, 196);
@@ -152,7 +149,7 @@ public class Dashboard_Card extends JPanel {
 	}
 	
 	/**
-	 * the method would set date pick mode,
+	 * Sets date pick mode,
 	 * true if load date pick UI
 	 * false if hide date pick UI
 	 * @param mode - boolean, true for load, false for hide
@@ -166,9 +163,10 @@ public class Dashboard_Card extends JPanel {
 			hideDatePickUI();
 		}
 	}
+	
 	/**
-	 * private method, to load date pick UI
-	 * will be called in setDatePickMode
+	 * Loads date pick UI
+	 * to be called in setDatePickMode
 	 */
 	private void loadDatePickUI() {
 		if (currType != CARD_TYPE_TIME) 
@@ -209,7 +207,7 @@ public class Dashboard_Card extends JPanel {
 		dateConfirmBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (setNewDate(dateInputText.getText(), true)) {
+				if (setNewDate(dateInputText.getText())) {
 					hideDatePickUI();
 				}
 				else {
@@ -236,7 +234,7 @@ public class Dashboard_Card extends JPanel {
 	
 	
 	/**
-	 * getter method for getDate
+	 * Getter method to get date
 	 * 
 	 * @return - String of the current date
 	 */
@@ -246,19 +244,17 @@ public class Dashboard_Card extends JPanel {
 		else
 			return df.format(new Date());
 	}
+	
 	/**
-	 * setter method to set a new date
-	 * @param date - the new date we want to set
-	 * @return true - if set successful
-	 * 		   false - if get ParseException
+	 * Setter method to set a new date
+	 * @param date the new date we want to set
+	 * @return true if set successful,
+	 * 		   false if ParseException occurs
 	 */
-	public boolean setNewDate(String date, boolean callback) {
+	private boolean setNewDate(String date) {
 		try {
 			currentDate = df.parse(date);
-			contentLabel.setText(df.format(currentDate));
-			if (callback) {
-				parentView.changeDate(date);
-			}
+			parentView.changeDate();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -268,7 +264,7 @@ public class Dashboard_Card extends JPanel {
 	}
 	
 	/**
-	 * private method, to hide date pick UI
+	 * Hides date pick UI
 	 * will be called in setDatePickMode
 	 */
 	private void hideDatePickUI() {
@@ -292,19 +288,16 @@ public class Dashboard_Card extends JPanel {
 		}
 		
 	}
-	/**
-	 * 
+	/** TO DO:
+	 * Sets date pick UI
 	 */
 	private void setDatePickMode() {
 		setDatePickMode(!dateCardDisplayMode);
 	}
 	
 	/**
-	 * setter method for Title
-	 * 
-	 * It will set the title of the card
-	 * 
-	 * @param lTitle - title of card 
+	 * Changes the title of the card
+	 * @param lTitle new title of card 
 	 */
 	public void setTitle(String lTitle) {
 		title = lTitle;
@@ -312,11 +305,9 @@ public class Dashboard_Card extends JPanel {
 	}
 	
 	/**
-	 * setter method for content
+	 * Changes the content of the card
 	 * 
-	 * It will set the content of the card
-	 * 
-	 * @param lContent - content of the card
+	 * @param lContent new content of the card
 	 */
 	public void setContent(String lContent) {
 		content = lContent;
@@ -324,7 +315,7 @@ public class Dashboard_Card extends JPanel {
 	}
 	
 	/**
-	 * update the panel
+	 * Updates the panel's title and content
 	 * 
 	 */
 	public void updatePanel() {

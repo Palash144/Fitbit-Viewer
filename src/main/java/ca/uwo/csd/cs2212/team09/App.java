@@ -4,10 +4,18 @@ import java.awt.EventQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-//Main class
+/** This is the main class that runs the program
+ * @author Team 9
+ *
+ */
 public class App {
     static Logger logger = LogManager.getLogger(App.class.getName());
 
+    /** Main method that launches the User Interface
+     * @param args Used to test program. Use no argument to run using API. Use "canned" to display canned 
+     * data on terminal (does not launch GUI). Use "test" to launch software test mode 
+     * using canned data (launches GUI).
+     */
     public static void main(String[] args) {
         System.out.println("Starting session");
 
@@ -24,8 +32,9 @@ public class App {
     			}
     		});
         }
-        //To run this: (canned data)
-        //java -jar target/team09_FitBitProject-1.0-SNAPSHOT-jar-with-dependencies.jar canned
+        //To run using canned data and output to terminal, use argument canned
+        //To run using canned data and launch dashboard, use argument test
+        //java -jar target/team09_FitBitProject-1.0-STAGE2-jar-with-dependencies.jar [canned,test]
         else if (args[0].equals("canned")) {
             UserInterface user = new UserInterface();
             user.refreshData(true, "");

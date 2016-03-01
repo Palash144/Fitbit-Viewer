@@ -27,7 +27,7 @@ public class SSheet_Panel extends JPanel {
 	public boolean firstShow = true;
 	
 	/**
-	 * Create the panel.
+	 * Creates the panel.
 	 */
 	public SSheet_Panel() {
 		Utils.stylePanel(this);
@@ -133,6 +133,14 @@ public class SSheet_Panel extends JPanel {
 
 	}
 	
+	/** Sets the data of the panel
+	 * @param distBest User's best distance walked in a day
+	 * @param distLT User's lifetime distance walked
+	 * @param floorsBest User's best floors climbed in a day
+	 * @param floorsLT User's lifetime floors climbed
+	 * @param stepsBest User's best number of steps taken in a day
+	 * @param stepsLT User's lifetime steps taken
+	 */
 	public void setData(int distBest, int distLT, int floorsBest, int floorsLT, int stepsBest, int stepsLT) {
 		lblDistanceBest.setText(distBest + "");
 		lblDistanceLT.setText(distLT + "");

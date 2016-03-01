@@ -24,8 +24,8 @@ import java.util.Date;
 import java.awt.CardLayout;
 
 
-/**
- * @author 
+/** Implements the main dashboard, displaying panels and data
+ * @author Team 9
  * 
  */
 
@@ -55,19 +55,13 @@ public class MainView implements GeneralCallBack {
 	private final static int DATA_BEST_STEPS = 4;
 	private final static int DATA_LT_STEPS = 5;
 	
-	private final static int PAGE_DAILY_DASHBOARD = 0;
-	private final static int PAGE_MY_SUMMARY = 1;
-	private final static int PAGE_TIME_SERIES = 2;
-	private final static int PAGE_HEART_ZONE = 3;
-	private final static int PAGE_GOALS = 4;
-	
 	private int dailyData[] = {0, 0, 0, 0, 0, 0};
 	private int bestnltDate[] = {0, 0, 0, 0, 0, 0};
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
-	public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
+	private Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
 	private Boolean testMode = true;
-	public String currentDate;
+	private String currentDate;
 	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	
 	class MainView_Frame_Resize_Adapter extends java.awt.event.ComponentAdapter {
@@ -96,31 +90,28 @@ public class MainView implements GeneralCallBack {
 	private static String pageNames[] = {"name_1456030182851147000", "name_1456033158027647000", "name_1456030885832917000", "name_1456030906465778000", "name_1456030920510772000", ""};
 	private Dimension currLayout;
 	
-	private JLabel dashboardBtn = new JLabel("Dashboard");
-	private JLabel timeseriesBtn = new JLabel("TimeSeries");
-	private JLabel heartzoneBtn = new JLabel("HeartZone");
-	private JLabel userLbl = new JLabel("User01");
-	private JLabel lastupdatedLbl = new JLabel("Data outdated. Please refresh.");
-	private JLabel goalsBtn = new JLabel("Goals");
-	private JLabel mainTitleLabel = new JLabel("Home");
-	private JLabel userBtn = new JLabel();
-	private JLabel refreshBtn = new JLabel();
-	private JLabel settingsBtn = new JLabel();
-	private final JLabel fitbitLogo = new JLabel("");
-	
+	JLabel dashboardBtn = new JLabel("Dashboard");
+	JLabel timeseriesBtn = new JLabel("TimeSeries");
+	JLabel heartzoneBtn = new JLabel("HeartZone");
+	JLabel userLbl = new JLabel("User01");
+	JLabel lastupdatedLbl = new JLabel("Data outdated. Please refresh.");
+	JLabel goalsBtn = new JLabel("Goals");
+	JLabel mainTitleLabel = new JLabel("Home");
+	JLabel userBtn = new JLabel();
+	JLabel refreshBtn = new JLabel();
+	JLabel settingsBtn = new JLabel();
 	private final JPanel mainPanel = new JPanel();
 	private CardLayout cardLayout = new CardLayout();
 	private final Dashboard_Panel dashboardPanel = new Dashboard_Panel(this);
 	private final JPanel timeseriesPanel = new JPanel();
-	private final Dashboard_Panel heartzonePanel = new Dashboard_Panel(this);
+	private final JPanel heartzonePanel = new JPanel();
 	private final JPanel goalsPanel = new JPanel();
 	private final JLabel mysummaryBtn = new JLabel("MySummary");
 	private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
 	
-	
 
-	/**
-	 * Create the application.
+	/** Creates the application (dashboard)
+	 * @param isTestMode true if running the application in test mode, otherwise false.
 	 */
 	public MainView(boolean isTestMode) {
 		testMode = isTestMode;
@@ -141,10 +132,10 @@ public class MainView implements GeneralCallBack {
 		mainView.getContentPane().setBackground(new Color(38, 50, 56));
 		mainView.setMinimumSize(new Dimension(1025, 540));
 		
+		currentDate = df.format(new Date());
+		
 		JPanel rightSidePanel = new JPanel();
 		rightSidePanel.setBackground(new Color(0, 150, 136));
-		
-		currentDate = df.format(new Date());
 		
 		mainTitleLabel.setForeground(Color.WHITE);
 		mainTitleLabel.setFont(new Font("Lucida Grande", Font.BOLD, 28));
@@ -323,7 +314,6 @@ public class MainView implements GeneralCallBack {
 		mainPanel.setBackground(new Color(38, 50, 56));
 		
 		dashboardPanel.setBackground(new Color(38, 50, 56));
-		heartzonePanel.setBackground(new Color(38, 50, 56));
 		
 		mainPanel.add(dashboardPanel, "name_1456030182851147000");
 		
@@ -366,7 +356,7 @@ public class MainView implements GeneralCallBack {
 		gl_rightSidePanel.setHorizontalGroup(
 			gl_rightSidePanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_rightSidePanel.createSequentialGroup()
-					.addContainerGap()
+					.addContainerGap(16, Short.MAX_VALUE)
 					.addGroup(gl_rightSidePanel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_rightSidePanel.createSequentialGroup()
 							.addComponent(userBtn, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
@@ -376,12 +366,13 @@ public class MainView implements GeneralCallBack {
 								.addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 								.addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
 							.addGap(14))))
-				.addGroup(gl_rightSidePanel.createSequentialGroup()
-					.addGap(3)
-					.addComponent(fitbitLogo, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
-					.addContainerGap())
 		);
-		
+		refreshBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				updateTime();
+			}
+		});
 		gl_rightSidePanel.setVerticalGroup(
 			gl_rightSidePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rightSidePanel.createSequentialGroup()
@@ -391,36 +382,15 @@ public class MainView implements GeneralCallBack {
 					.addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 269, Short.MAX_VALUE)
-					.addComponent(fitbitLogo, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addContainerGap(334, Short.MAX_VALUE))
 		);
-		refreshBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				updateTime(currentDate);
-			}
-		});
-		
-		settingsBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				loadSettingView();
-			}
-		});
-		
 		rightSidePanel.setLayout(gl_rightSidePanel);
-		
-		Utils.styleImage(fitbitLogo, new ImageIcon(getClass().getResource("/FitbitLogo.png")).getImage(), 60, 15);
-		
 		mainView.getContentPane().setLayout(groupLayout);
 	}
 	
-	private void loadSettingView() {
-		SettingsView sv = new SettingsView(this, true); 
-		sv.setVisible(true);
-	}
-	
+	/**
+	 * Used to update the left side button
+	 */
 	private void updateLeftSideButton() {
 		dashboardBtn.setBackground(Utils.normalButtonColor());
 		mysummaryBtn.setBackground(Utils.normalButtonColor());
@@ -429,23 +399,23 @@ public class MainView implements GeneralCallBack {
 		goalsBtn.setBackground(Utils.normalButtonColor());
 		cardLayout.show(mainPanel, pageNames[currentPage]);
 		switch (currentPage) {
-		case PAGE_DAILY_DASHBOARD: {
+		case 0: {
 			dashboardBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
-		case PAGE_MY_SUMMARY: {
+		case 1: {
 			mysummaryBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
-		case PAGE_TIME_SERIES: {
+		case 2: {
 			timeseriesBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
-		case PAGE_HEART_ZONE: {
+		case 3: {
 			heartzoneBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
-		case PAGE_GOALS: {
+		case 4: {
 			goalsBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
 			break;
 		}
@@ -461,14 +431,20 @@ public class MainView implements GeneralCallBack {
 		layoutPanels(getFitLayout(), false);
 	}
 	
+	/** Used to retrieve the dimensions of the dashboard
+	 * @return Dimension of the dashboard
+	 */
 	Dimension getFitLayout() {
 		//actually we don't need to care about the width
 		int etcOpHeight = 148;  //148
 		return new Dimension(3, (this.mainView.getHeight()-etcOpHeight) / CARD_SIZE);
 	}
 	
+	/** Used to refresh all user data on the dashboard
+	 * @param date date of data to be retrieved as "yyyy-mm-dd"
+	 * @param canned true if retrieving canned (fake) data
+	 */
 	void refreshAllDataWithDate(String date, Boolean canned) {
-		currentDate = date;
 		final Boolean canVar = canned;
 		lastupdatedLbl.setText("Refreshing...");
 		EventQueue.invokeLater(new Runnable() {
@@ -502,19 +478,24 @@ public class MainView implements GeneralCallBack {
 		});
 	}
 	
+	/** 
+	 * @param id
+	 */
 	public void callback(String id) {
 		if (id == CALLBACK_ID_LAYOUT_PANEL_AFTER_DATA_REFRESH) {
 			updateDataOnPanels();
 		}
 	}
 	
-	public void updateTime(String time) {
-		System.out.println("Now will refresh data.");
-		currentDate = time;
+	/**
+	 * Used to update the date of the user data displayed on the dashboard
+	 */
+	public void updateTime() {
+		System.out.println("Date changed and now will refresh data.");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					refreshAllDataWithDate(currentDate, testMode);
+					refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -524,10 +505,12 @@ public class MainView implements GeneralCallBack {
 		});
 	}
 	
+	/**
+	 * Used to update the data on the panels displaying the user data
+	 */
 	void updateDataOnPanels() {
 		switch (currentPage) {
-		case PAGE_DAILY_DASHBOARD: {
-			dashboardPanel.modifyAt(0).setNewDate(currentDate, false);
+		case 0: {
 			int j = 0;
 			for (int i=0;i<dailyData.length;i++) {
 				if (dailyDataCustomization[i]) {
@@ -541,19 +524,19 @@ public class MainView implements GeneralCallBack {
 			}
 			break;
 		}
-		case PAGE_MY_SUMMARY: {
+		case 1: {
 			mysummaryPanel.setData(bestnltDate[DATA_BEST_DISTANCE], bestnltDate[DATA_LT_DISTANCE], bestnltDate[DATA_BEST_FLOORS], bestnltDate[DATA_LT_FLOORS], bestnltDate[DATA_BEST_STEPS], bestnltDate[DATA_LT_STEPS]);
 			break;
 		}
-		case PAGE_TIME_SERIES: {
+		case 2: {
 			
 			break;
 		}
-		case PAGE_HEART_ZONE: {
-			heartzonePanel.modifyAt(0).setNewDate(currentDate, false);
+		case 3: {
+			
 			break;
 		}
-		case PAGE_GOALS: {
+		case 4: {
 			
 			break;
 		}
@@ -567,46 +550,76 @@ public class MainView implements GeneralCallBack {
 		}
 	}
 	
+	/**
+	 * @param layoutMode
+	 * @param updateData
+	 */
 	void layoutPanels(Dimension layoutMode, boolean updateData) {
-		if (updateData) {
-			try {
-				refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
-			}
-			catch(Exception e) {
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-				refreshAllDataWithDate(df.format(new Date()), testMode);
-			}
-			finally {
-				
-			}
-		}
-		
-		if (dashboardPanel.subviewCount() == 0) {
-			Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
-			dashboardPanel.add(dateCard, false);
-			for (int i=0;i<dailyData.length;i++) {
-				if (dailyDataCustomization[i]) {
-					Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i]+"", dashboardPanel);
-					dashboardPanel.add(t, false);
+		switch (currentPage) {
+		case 0: {
+			if (updateData) {
+				try {
+					refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
+				}
+				catch(Exception e) {
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					refreshAllDataWithDate(df.format(new Date()), testMode);
+				}
+				finally {
+					
 				}
 			}
-		}
-		
-		dashboardPanel.layoutPanel(layoutMode);
-		
-		
-		if (heartzonePanel.subviewCount() == 0) {
-			Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
-			dateCard.setNewDate(dashboardPanel.modifyAt(0).getDate(), false);
-			heartzonePanel.add(dateCard, false);
 			
+			if (dashboardPanel.subviewCount() == 0) {
+				Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
+				dashboardPanel.add(dateCard, false);
+				for (int i=0;i<dailyData.length;i++) {
+					if (dailyDataCustomization[i]) {
+						Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i]+"", dashboardPanel);
+						dashboardPanel.add(t, false);
+					}
+				}
+			}
 			
+			dashboardPanel.layoutPanel(layoutMode);
+			break;
 		}
-		
-		heartzonePanel.layoutPanel(layoutMode);
+		case 1: {
+			
+			break;
+		}
+		case 2: {
+			
+			break;
+		}
+		case 3: {
+			
+			break;
+		}
+		case 4: {
+			
+			break;
+		}
+		case 5: {
+			
+			break;
+		}
+		default: {
+			break;
+		}
+		}
 	}
 	
 	
+	/** Create dashboard panels
+	 * @param width the width of the panel to be created
+	 * @param height the height of the panel to be created
+	 * @param type the type of the panel to be created
+	 * @param title the title of the panel to be created
+	 * @param content the content to be displayed on the panel to be created
+	 * @param p corresponding Dashboard_Panel
+	 * @return the created dashboard panel
+	 */
 	private Dashboard_Card createCards(int width, int height, int type, String title, String content, Dashboard_Panel p) {
 		Dashboard_Card panel = new Dashboard_Card(width, height, type, title, content, p);
 		Color backgroundColor = Utils.normalButtonColor();
@@ -615,6 +628,9 @@ public class MainView implements GeneralCallBack {
 		return panel;
 	}
 	
+	/** Resize frames
+	 * @param e
+	 */
 	private void frameResized(ComponentEvent e) {
 		Dimension tLayout = getFitLayout();
 	     if (currLayout.height != tLayout.getHeight()) {

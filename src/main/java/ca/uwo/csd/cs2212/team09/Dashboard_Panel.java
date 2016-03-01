@@ -7,6 +7,11 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+/** This class implements the panel that will be on the dashboard
+ * and will display various data.
+ * @author Team 9
+ *
+ */
 public class Dashboard_Panel extends JPanel {
 	
 	
@@ -16,16 +21,28 @@ public class Dashboard_Panel extends JPanel {
 
 	private MainView parentView;
 	
+	/** Constructs a panel for the dashboard
+	 * @param p the main dashboard for which the panel is on
+	 */
 	public Dashboard_Panel(MainView p) {
 		parentView = p;
 	}
 
+	
+	/** Adds a panel to the dashboard
+	 * @param panel
+	 * @param layoutNow
+	 */
 	public void add(JPanel panel, Boolean layoutNow) {
 		panels.add(panel);
 		if (layoutNow)
 			layoutPanel(currLayout);
 	}
 	
+	/** 
+	 * @param cardIndex
+	 * @return
+	 */
 	public Dashboard_Card modifyAt(int cardIndex) {
 		if (cardIndex >= panels.size()) {
 			return null;
@@ -33,20 +50,32 @@ public class Dashboard_Panel extends JPanel {
 		return (Dashboard_Card)panels.get(cardIndex);
 	}
 	
+	/** Removes a panel from the dashboard
+	 * @param panel the panel to be removed
+	 */
 	public void remove(JPanel panel) {
 		
 	}
 	
-	public void changeDate(String date) {
-		parentView.updateTime(date);
+	/**
+	 * Updates the date of the panel
+	 */
+	public void changeDate() {
+		parentView.updateTime();
 	}
 	
+	/**
+	 * @return
+	 */
 	public int subviewCount() {
 		if (panels == null)
 			return 0;
 		return panels.size();
 	}
 	
+	/**
+	 * @param layoutMode
+	 */
 	public void layoutPanel(Dimension layoutMode) {
 		if (layoutMode == null)
 			return;

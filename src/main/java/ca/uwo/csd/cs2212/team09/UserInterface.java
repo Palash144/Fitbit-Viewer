@@ -1,5 +1,10 @@
 package ca.uwo.csd.cs2212.team09;
 
+/**
+ * Class that implements the UI of the dashboard and user data
+ * @author Team 9
+ *
+ */
 public class UserInterface {
     UserData sessionData = new UserData();
 
@@ -22,13 +27,16 @@ public class UserInterface {
         }
     }
 
-    //return data from last session
+    /**
+     * Returns data from last session
+     */
     public void getCachedData() {
 
     }
 
-    /**
+    /** Refreshes the data of the user
      * @param canned true returns canned data
+     * @param date date of the data to be returned in the format "yyyy-mm-dd"
      */
     public void refreshData(boolean canned, String date) {
 
@@ -61,8 +69,10 @@ public class UserInterface {
         }
     }
 
-    /**
-     * @param canned true returns canned data
+    /** Retrieves the steps taken for the User
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of steps taken
      */
     public int getSteps(boolean canned, String date) {
         //TODO: Add an additional or case for the data being out of date, or maybe another boolean parameter to force refresh
@@ -73,8 +83,10 @@ public class UserInterface {
         return steps;
     }
 
-    /**
-     * @param canned true returns canned data
+    /** Retrieves the number of floors climbed by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of floors climbed by the user
      */
     public int getFloors(boolean canned, String date) {
         if (floors == -1 || canned){
@@ -83,8 +95,10 @@ public class UserInterface {
         return floors;
     }
 
-    /**
-     * @param canned true returns canned data
+    /** Retrieves the number of calories burned by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of calories burned by the user
      */
     public int getCalories(boolean canned, String date) {
         if (calories == -1 || canned){
@@ -93,8 +107,10 @@ public class UserInterface {
         return calories;
     }
 
-    /**
-     * @param canned true returns canned data
+    /** Retrieves the distance travelled by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of floors climbed by the user
      */
     public int getDistance(boolean canned, String date) {
         if (distance == -1 || canned){
@@ -103,8 +119,10 @@ public class UserInterface {
         return distance;
     }
 
-    /**
-     * @param canned true returns canned data
+    /** Retrieves the number of active minutes by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of active minutes by the user
      */
     public int getActiveMinutes(boolean canned, String date) {
         if (activeMinutes == -1 || canned){
@@ -113,8 +131,10 @@ public class UserInterface {
         return activeMinutes;
     }
 
-    /**
-     * @param canned true returns canned data
+    /** Retrieves the number of sedentary minutes by the user
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the number of sedentary minutes by the user
      */
     public int getSedentaryMinutes(boolean canned, String date) {
         if (sedentaryMinutes == -1 || canned){

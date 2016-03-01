@@ -21,6 +21,10 @@ import com.github.scribejava.apis.service.FitbitOAuth20ServiceImpl;
 import java.awt.Desktop;
 import java.net.URI;
 
+/** The class requests the FitBit API for data
+ * @author Team 9
+ *
+ */
 public class Request {
     private static String CALL_BACK_URI = "http://localhost:8080";
     private static int CALL_BACK_PORT = 8080;
@@ -30,7 +34,7 @@ public class Request {
 
     //TODO: This method needs to be called and return something useful
 
-    /**
+    /** Used to request JSON Objects from the FitBit API
      * @param requestUrlPostfix requests different types of data to return
      * @return TODO: return JSON Object to be parsed by UserData
      */
