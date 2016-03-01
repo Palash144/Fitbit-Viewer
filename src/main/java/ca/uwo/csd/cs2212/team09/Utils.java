@@ -41,6 +41,17 @@ public class Utils {
 		btn.setIcon(icon);
 	}
 	
+	/** Creates a style image
+	 * @param btn
+	 * @param image
+	 * @param width
+	 * @param height
+	 */
+	public static void styleImage(JLabel btn, Image image, int width, int height) {
+		ImageIcon icon = new ImageIcon(image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH));
+		btn.setIcon(icon);
+	}
+	
 	/**
 	 * Stores the colour of default buttons
 	 * @return the colour of the normal buttons

@@ -60,8 +60,8 @@ public class Dashboard_Panel extends JPanel {
 	/**
 	 * Updates the date of the panel
 	 */
-	public void changeDate() {
-		parentView.updateTime();
+	public void changeDate(String date) {
+		parentView.updateTime(date);
 	}
 	
 	/**

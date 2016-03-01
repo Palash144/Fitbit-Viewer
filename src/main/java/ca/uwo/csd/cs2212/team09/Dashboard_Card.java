@@ -207,7 +207,7 @@ public class Dashboard_Card extends JPanel {
 		dateConfirmBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (setNewDate(dateInputText.getText())) {
+				if (setNewDate(dateInputText.getText(), true)) {
 					hideDatePickUI();
 				}
 				else {
@@ -248,13 +248,18 @@ public class Dashboard_Card extends JPanel {
 	/**
 	 * Setter method to set a new date
 	 * @param date the new date we want to set
+	 * @param callback 
 	 * @return true if set successful,
 	 * 		   false if ParseException occurs
 	 */
-	private boolean setNewDate(String date) {
+	public boolean setNewDate(String date, boolean callback) {
 		try {
 			currentDate = df.parse(date);
 			parentView.changeDate();
+			contentLabel.setText(df.format(currentDate));
+			if (callback) {
+				parentView.changeDate(date);
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -288,7 +293,7 @@ public class Dashboard_Card extends JPanel {
 		}
 		
 	}
-	/** TO DO:
+	/**
 	 * Sets date pick UI
 	 */
 	private void setDatePickMode() {
