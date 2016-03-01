@@ -182,4 +182,37 @@ public class UserData {
         //TODO: Complete this method
         return new Achievements();
     }*/
+
+
+    public int getRestingHeartRate(boolean canned, String date) throws JSONException {
+
+        Request getData = new Request();
+        final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/"+ date +"/1d.json"));
+        final JSONArray fitData = obj.getJSONArray(("activities-heart"));
+
+        final JSONObject fitAttribute = fitData.getJSONObject(0);
+        final JSONObject values = fitAttribute.getJSONObject("value");
+        System.out.println(values.toString());
+        return values.getInt("restingHeartRate");
+
+    }
+
+    public HeartRateZones getOutOfRangeZone( boolean canned, String date) throws JSONException{
+        HeartRateZones zone = new HeartRateZones("Out of Range", date);
+        return zone;
+    }
+
+    public HeartRateZones getFatBurnZone( boolean canned, String date) throws JSONException{
+        HeartRateZones zone = new HeartRateZones("Fat Burn", date);
+        return zone;
+    }
+    public HeartRateZones getCardioZone( boolean canned, String date) throws JSONException{
+        HeartRateZones zone = new HeartRateZones("Cardio", date);
+        return zone;
+    }
+    public HeartRateZones getPeakZone( boolean canned, String date) throws JSONException{
+        HeartRateZones zone = new HeartRateZones("Peak", date);
+        return zone;
+    }
+
 }
