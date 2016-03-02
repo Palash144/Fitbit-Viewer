@@ -9,16 +9,23 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+/** Implements cards to display heart rate information
+ * @author Team 9
+ *
+ */
 public class Dashboard_HRCard extends JPanel {
 
 	private JLabel lblTitle = new JLabel("title");
 	private JLabel lblCalories = new JLabel("Calories");
 	private JLabel lblTime = new JLabel("Time");
 	private JLabel lblHeartIcon = new JLabel("");
-	
+
 	/**
-	 * Create the panel.
-	 */
+	 * Create the panel
+	 * @param title Title of the panel
+	 * @param calories The calories to be displayed
+	 * @param time The time to be displayed
+     */
 	public Dashboard_HRCard(String title, String calories, String time) {
 		setSize(196, 196);
 		setTitle(title);
@@ -69,18 +76,30 @@ public class Dashboard_HRCard extends JPanel {
 		
 		Utils.styleImage(lblHeartIcon, new ImageIcon(getClass().getResource("/HRZone_Heart.png")).getImage(), 35, 35);
 	}
-	
+
+	/**
+	 * Changes the title of the panel
+	 * @param title title of the panel
+     */
 	public void setTitle(String title) {
 		lblTitle.setText(title);
 		if (title.contains("Resting")) {
 			lblCalories.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
 		}
 	}
-	
+
+	/**
+	 * Changes the calories of the panel
+	 * @param calories calories of the panel
+     */
 	public void setCalories(String calories) {
 		lblCalories.setText(calories);
 	}
 
+	/**
+	 * Changes the time of the panel
+	 * @param time time of the panel
+     */
 	public void setTime(String time) {
 		lblTime.setText(time);
 	}

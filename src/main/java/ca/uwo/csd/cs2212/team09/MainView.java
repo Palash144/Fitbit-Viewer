@@ -70,7 +70,7 @@ public class MainView implements GeneralCallBack {
 	public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
 	private HeartRateZones ohno = new HeartRateZones(0,"0",true);
-	
+
 	private HeartRateZones hrzoneData[] = {ohno, ohno, ohno, ohno};
 	private int hrzoneData_Resting = 0;
 	
