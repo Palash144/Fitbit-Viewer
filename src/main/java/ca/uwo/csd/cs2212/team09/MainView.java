@@ -69,7 +69,8 @@ public class MainView implements GeneralCallBack {
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
 	public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
-	
+	private HeartRateZones hrzoneData[] = {null, null, null, null};
+	private int hrzoneData_Resting = 0;
 	
 	private Boolean testMode = true;
 	public String currentDate;
@@ -495,6 +496,10 @@ public class MainView implements GeneralCallBack {
 						//TODO: Fill in the date as a string in this format: 2016-01-08
 			            dailyData = sessionData.refreshAll(canVar, currentDate);
 			            bestnltDate = sessionData.refreshMySummary(canVar);
+			            
+			            hrzoneData = sessionData.getHeartRateZones(currentDate, canVar);
+			            hrzoneData_Resting = sessionData.getRestingHeartRate(canVar, currentDate);
+			            
 			        } catch (Exception e) {
 			            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
 			        }
@@ -546,12 +551,12 @@ public class MainView implements GeneralCallBack {
 	void updateDataOnPanels() {
 		switch (currentPage) {
 		case PAGE_DAILY_DASHBOARD: {
-			dashboardPanel.modifyAt(0).setNewDate(currentDate, false);
+			((Dashboard_Card)dashboardPanel.modifyAt(0)).setNewDate(currentDate, false);
 			int j = 0;
 			for (int i=0;i<dailyData.length;i++) {
 				if (dailyDataCustomization[i]) {
 					j++;
-					Dashboard_Card panel = dashboardPanel.modifyAt(j);
+					Dashboard_Card panel = (Dashboard_Card)dashboardPanel.modifyAt(j);
 					panel.setTitle(dailyDataMsg[i]);
 					panel.setContent(dailyData[i]+"");
 					panel.updatePanel();
@@ -574,7 +579,15 @@ public class MainView implements GeneralCallBack {
 			break;
 		}
 		case PAGE_HEART_ZONE: {
-			heartzonePanel.modifyAt(0).setNewDate(currentDate, false);
+			((Dashboard_Card)heartzonePanel.modifyAt(0)).setNewDate(currentDate, false);
+			for (int i=0;i<4;i++) {
+				Dashboard_HRCard panel = (Dashboard_HRCard)heartzonePanel.modifyAt(i+1);
+				panel.setTitle(hrzoneData[i].getName());
+				panel.setCalories(hrzoneData[i].getCaloriesOut() + "");
+				panel.setTime(hrzoneData[i].getMinutes()+ " Mins");
+			}
+			Dashboard_HRCard panel = (Dashboard_HRCard)heartzonePanel.modifyAt(5);
+			panel.setCalories(hrzoneData_Resting + "");
 			break;
 		}
 		case PAGE_GOALS: {
@@ -598,7 +611,7 @@ public class MainView implements GeneralCallBack {
 	void layoutPanels(Dimension layoutMode, boolean updateData) {
 		if (updateData) {
 			try {
-				refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
+				refreshAllDataWithDate(((Dashboard_Card)dashboardPanel.modifyAt(0)).getDate(), testMode);
 			}
 			catch(Exception e) {
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -625,13 +638,29 @@ public class MainView implements GeneralCallBack {
 		
 		if (heartzonePanel.subviewCount() == 0) {
 			Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
-			dateCard.setNewDate(dashboardPanel.modifyAt(0).getDate(), false);
+			dateCard.setNewDate(((Dashboard_Card)dashboardPanel.modifyAt(0)).getDate(), false);
 			heartzonePanel.add(dateCard, false);
-			
+			for (int i=0;i<4;i++) {
+				if (hrzoneData[i] != null) {
+					Dashboard_HRCard t = createHRCards(196, 196, 
+													((HeartRateZones)hrzoneData[i]).getName(),
+													((HeartRateZones)hrzoneData[i]).getCaloriesOut() + "", 
+													((HeartRateZones)hrzoneData[i]).getMinutes() + " Mins", 
+													heartzonePanel);
+					heartzonePanel.add(t, false);
+				}	
+			}
+			Dashboard_HRCard t = createHRCards(196, 196, 
+					"Resting",
+					hrzoneData_Resting + "", 
+					" ", 
+					heartzonePanel);
+			heartzonePanel.add(t, false);
 			
 		}
 		
 		heartzonePanel.layoutPanel(layoutMode);
+		
 	}
 	
 	
@@ -646,6 +675,14 @@ public class MainView implements GeneralCallBack {
 	 */
 	private Dashboard_Card createCards(int width, int height, int type, String title, String content, Dashboard_Panel p) {
 		Dashboard_Card panel = new Dashboard_Card(width, height, type, title, content, p);
+		Color backgroundColor = Utils.normalButtonColor();
+		panel.setBackground(backgroundColor);
+		
+		return panel;
+	}
+	
+	private Dashboard_HRCard createHRCards(int width, int height, String title, String calories, String time, Dashboard_Panel p) {
+		Dashboard_HRCard panel = new Dashboard_HRCard(title, calories, time);
 		Color backgroundColor = Utils.normalButtonColor();
 		panel.setBackground(backgroundColor);
 		
