@@ -321,7 +321,6 @@ public class UserData {
      * @throws JSONException
      */
     public  HeartRateZones[] getHeartRateZones (String date, boolean canned) throws JSONException{
-
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/" + date + "/1d.json"));
         final JSONArray fitData = obj.getJSONArray(("activities-heart"));
@@ -333,7 +332,7 @@ public class UserData {
         HeartRateZones[] heartZones = new HeartRateZones[zones.length()];
 
         for (int i = 0; i < zones.length(); i++){
-            heartZones[i] = new HeartRateZones (i,date);
+            heartZones[i] = new HeartRateZones (i,date,canned);
         }
         return heartZones;
     }
