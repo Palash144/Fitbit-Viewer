@@ -349,7 +349,7 @@ public class MainView implements GeneralCallBack {
 		userBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				 userLbl.setText("Click to change your avatar");
+				 userLbl.setText("Hello");
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -357,6 +357,7 @@ public class MainView implements GeneralCallBack {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 			}
 		});
 		int userBtnSide = 60;
