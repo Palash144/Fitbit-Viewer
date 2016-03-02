@@ -36,7 +36,7 @@ public class HeartRateZones {
             caloriesOut = 1.0;
             minutes = 2;
             name = "abc";
-
+            return;
         }
 
         final JSONObject theZone = getTheZone(zoneNum, date);
