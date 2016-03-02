@@ -141,7 +141,7 @@ public class SSheet_Panel extends JPanel {
 	 * @param stepsBest User's best number of steps taken in a day
 	 * @param stepsLT User's lifetime steps taken
 	 */
-	public void setData(int distBest, int distLT, int floorsBest, int floorsLT, int stepsBest, int stepsLT) {
+	public void setData(String distBest, String distLT, String floorsBest, String floorsLT, String stepsBest, String stepsLT) {
 		lblDistanceBest.setText(distBest + "");
 		lblDistanceLT.setText(distLT + "");
 		lblFloorsBest.setText(floorsBest + "");
