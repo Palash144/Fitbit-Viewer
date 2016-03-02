@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 /**
  * Created by taylor on 2016-02-28.
- *
+ * <p>
  * Used for getting the users heart rate zones
  */
 public class HeartRateZones {
@@ -16,14 +16,10 @@ public class HeartRateZones {
     private String name;
 
     /**
-     *
-     * @param theName
-     * Determines which zone to get the data from; Out of Range, Fat Burn, Cardio, or Peak
-     * @param date
-     * Determines what date to get the data from
+     * @param date Determines what date to get the data from
      * @throws JSONException
      */
-    public HeartRateZones(String theName, String date) throws JSONException {
+    public HeartRateZones(int zoneNum, String date) throws JSONException {
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/" + date + "/1d.json"));
         final JSONArray fitData = obj.getJSONArray(("activities-heart"));
@@ -31,28 +27,11 @@ public class HeartRateZones {
         final JSONObject fitAttribute = fitData.getJSONObject(0);
         final JSONObject values = fitAttribute.getJSONObject("value");
         final JSONArray zones = values.getJSONArray("heartRateZones");
-
-        name = theName;
-
-        int i = -1;
-
-        if (name.equals("Out of Range"))
-            i = 0;
-        else if (name.equals("Fat Burn"))
-            i = 1;
-        else if (name.equals("Cardio"))
-            i = 2;
-        else if (name.equals("Peak"))
-            i = 3;
-
-        final JSONObject theZone = zones.getJSONObject(i);
+        final JSONObject theZone = zones.getJSONObject(zoneNum);
 
         caloriesOut = theZone.getDouble("caloriesOut");
         minutes = theZone.getInt("minutes");
-    }
-
-    public String getName() {
-        return name;
+        name = theZone.getString("name");
     }
 
     public Double getCaloriesOut() {
@@ -63,5 +42,7 @@ public class HeartRateZones {
         return minutes;
     }
 
-
+    public String getName() {
+        return name;
+    }
 }

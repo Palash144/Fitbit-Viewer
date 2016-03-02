@@ -21,9 +21,15 @@ public class UserInterface {
         UserData testSessionData = new UserData();
         double[] testreceive = testSessionData.refreshAll(false, "2016-01-08");
 
-        System.out.println("testing return data:");
-        for (int i = 0; i < testreceive.length; i++){
-            System.out.println(testreceive[i]);
+        UserData test = new UserData();
+        try {
+            HeartRateZones[] foo = test.getHeartRateZones("2016-01-07", false);
+            System.out.println("name "+foo[3].getName());
+            System.out.println("calories "+foo[3].getCaloriesOut());
+            System.out.println("minutes "+foo[3].getMinutes());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         //System.out.println("the dudeman walked " + testSessionData.getSteps(false, "2016-01-08"));
     }
