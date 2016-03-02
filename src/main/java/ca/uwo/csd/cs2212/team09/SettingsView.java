@@ -15,6 +15,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 
+/**
+ * //TODO: This is for stage 3
+ * @author Team 9
+ */
 public class SettingsView extends JDialog {
 	
 	private MainView parent;
@@ -22,7 +26,9 @@ public class SettingsView extends JDialog {
 
 	/**
 	 * Create the dialog.
-	 */
+	 * @param p
+	 * @param modal
+     */
 	public SettingsView(MainView p, boolean modal) {
 		setTitle("Settings");
 		setModal(modal);
