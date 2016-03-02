@@ -32,20 +32,21 @@ public class HeartRateZones {
      * @throws JSONException
      */
     public HeartRateZones(int zoneNum, String date, boolean canned) throws JSONException {
-        if(canned) {
+        if (canned) {
             caloriesOut = 1.0;
             minutes = 2;
             name = "abc";
             return;
+
+        } else {
+
+            final JSONObject theZone = getTheZone(zoneNum, date);
+
+            caloriesOut = theZone.getDouble("caloriesOut");
+            minutes = theZone.getInt("minutes");
+            name = theZone.getString("name");
         }
-
-        final JSONObject theZone = getTheZone(zoneNum, date);
-
-        caloriesOut = theZone.getDouble("caloriesOut");
-        minutes = theZone.getInt("minutes");
-        name = theZone.getString("name");
     }
-
     public Double getCaloriesOut() {
         return caloriesOut;
     }

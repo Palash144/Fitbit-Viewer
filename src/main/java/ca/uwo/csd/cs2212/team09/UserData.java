@@ -322,8 +322,9 @@ public class UserData {
      */
     public  HeartRateZones[] getHeartRateZones (String date, boolean canned) throws JSONException{
         if(canned){
-            HeartRateZones[] foo = new HeartRateZones[0];
-            foo[0] = new HeartRateZones(0,"1",true);
+            HeartRateZones[] foo = new HeartRateZones[3];
+            for(int i = 0;i<4;i++ )
+                foo[i] = new HeartRateZones(0,"1",true);
             return foo;
         }
         Request getData = new Request();
