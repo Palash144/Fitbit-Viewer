@@ -29,9 +29,9 @@ public class HeartRateZones {
 
     /**
      * @param date Determines what date to get the data from
-     * @throws JSONException
+     *
      */
-    public HeartRateZones(int zoneNum, String date, boolean canned) throws JSONException {
+    public HeartRateZones(int zoneNum, String date, boolean canned) {
         if (canned) {
             caloriesOut = 1.0;
             minutes = 2;
@@ -39,14 +39,26 @@ public class HeartRateZones {
             return;
 
         } else {
-
-            final JSONObject theZone = getTheZone(zoneNum, date);
-
+        	fillData(zoneNum, date);
+        }
+    }
+    
+    private void fillData(int zoneNum, String date) {
+    	try {
+    		final JSONObject theZone = getTheZone(zoneNum, date);
             caloriesOut = theZone.getDouble("caloriesOut");
             minutes = theZone.getInt("minutes");
             name = theZone.getString("name");
-        }
+    	}
+    	catch(JSONException e) {
+    		
+    	}
+    	finally {
+    		
+    	}
     }
+    
+    
     public Double getCaloriesOut() {
         return caloriesOut;
     }

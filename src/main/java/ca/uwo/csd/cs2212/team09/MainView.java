@@ -69,7 +69,9 @@ public class MainView implements GeneralCallBack {
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
 	public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
-	private HeartRateZones hrzoneData[] = {null, null, null, null};
+	private HeartRateZones ohno = new HeartRateZones(0,"0",true);
+	
+	private HeartRateZones hrzoneData[] = {ohno, ohno, ohno, ohno};
 	private int hrzoneData_Resting = 0;
 	
 	private Boolean testMode = true;
