@@ -26,11 +26,8 @@ import java.awt.event.MouseEvent;
 /**
  * Implements cards to be displayed on the dashboard
  * @author Team 9
- * @version Stage 2
  */
 public class Dashboard_Card extends JPanel {
-
-	
 	public final static int CARD_TYPE_DEFAULT = 0;
 
 	public final static int CARD_TYPE_TIME = 1;
@@ -248,7 +245,7 @@ public class Dashboard_Card extends JPanel {
 	/**
 	 * Setter method to set a new date
 	 * @param date the new date we want to set
-	 * @param callback 
+	 * @param callback true if you want to refresh data
 	 * @return true if set successful,
 	 * 		   false if ParseException occurs
 	 */
@@ -290,8 +287,8 @@ public class Dashboard_Card extends JPanel {
 			uiTimer = new Timer(1, aniTimer);
 			uiTimer.start();
 		}
-		
 	}
+
 	/**
 	 * Sets date pick UI
 	 */

@@ -8,13 +8,11 @@ import java.util.List;
 import javax.swing.JPanel;
 
 /** This class implements the panel that will be on the dashboard
- * and will display various data.
+ * and will display various data. Parent container of the card
  * @author Team 9
  *
  */
 public class Dashboard_Panel extends JPanel {
-	
-	
 	private static final long serialVersionUID = 8925528422220724438L;
 	private List<JPanel>panels = new ArrayList<JPanel>();
 	private Dimension currLayout;
@@ -30,8 +28,8 @@ public class Dashboard_Panel extends JPanel {
 
 	
 	/** Adds a panel to the dashboard
-	 * @param panel
-	 * @param layoutNow
+	 * @param panel the card itself
+	 * @param layoutNow true to reorganize the panel
 	 */
 	public void add(JPanel panel, Boolean layoutNow) {
 		panels.add(panel);
@@ -39,9 +37,9 @@ public class Dashboard_Panel extends JPanel {
 			layoutPanel(currLayout);
 	}
 	
-	/** 
-	 * @param cardIndex
-	 * @return
+	/** Decides which cards are in the panel
+	 * @param cardIndex position of the card
+	 * @return returns the cards on the panel at cardIndex
 	 */
 	public JPanel modifyAt(int cardIndex) {
 		if (cardIndex >= panels.size()) {
@@ -52,20 +50,21 @@ public class Dashboard_Panel extends JPanel {
 	
 	/** Removes a panel from the dashboard
 	 * @param panel the panel to be removed
-	 */
+	 */ //TODO: Complete this method
 	public void remove(JPanel panel) {
 		
 	}
 	
 	/**
 	 * Updates the date of the panel
+	 * @param date date to be displayed in the panel
 	 */
 	public void changeDate(String date) {
 		parentView.updateTime(date);
 	}
 	
-	/**
-	 * @return
+	/** Returns how many cards are in the panel
+	 * @return number of cards in the panel
 	 */
 	public int subviewCount() {
 		if (panels == null)
@@ -73,8 +72,8 @@ public class Dashboard_Panel extends JPanel {
 		return panels.size();
 	}
 	
-	/**
-	 * @param layoutMode
+	/** Organizes the cards
+	 * @param layoutMode How many cards are in each row
 	 */
 	public void layoutPanel(Dimension layoutMode) {
 		if (layoutMode == null)
