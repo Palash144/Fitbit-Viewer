@@ -15,11 +15,7 @@ public class HeartRateZones {
     private int minutes;
     private String name;
 
-    /**
-     * @param date Determines what date to get the data from
-     * @throws JSONException
-     */
-    public HeartRateZones(int zoneNum, String date) throws JSONException {
+    private JSONObject getTheZone(int zoneNum, String date) throws JSONException {
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/" + date + "/1d.json"));
         final JSONArray fitData = obj.getJSONArray(("activities-heart"));
@@ -28,6 +24,22 @@ public class HeartRateZones {
         final JSONObject values = fitAttribute.getJSONObject("value");
         final JSONArray zones = values.getJSONArray("heartRateZones");
         final JSONObject theZone = zones.getJSONObject(zoneNum);
+        return theZone;
+    }
+
+    /**
+     * @param date Determines what date to get the data from
+     * @throws JSONException
+     */
+    public HeartRateZones(int zoneNum, String date, boolean canned) throws JSONException {
+        if(canned) {
+            caloriesOut = 1.0;
+            minutes = 2;
+            name = "abc";
+
+        }
+
+        final JSONObject theZone = getTheZone(zoneNum, date);
 
         caloriesOut = theZone.getDouble("caloriesOut");
         minutes = theZone.getInt("minutes");
