@@ -21,6 +21,10 @@ import com.github.scribejava.apis.service.FitbitOAuth20ServiceImpl;
 import java.awt.Desktop;
 import java.net.URI;
 
+/** The class requests the FitBit API for data
+ * @author Team 9
+ *
+ */
 public class Request {
     private static String CALL_BACK_URI = "http://localhost:8080";
     private static int CALL_BACK_PORT = 8080;
@@ -30,7 +34,7 @@ public class Request {
 
     //TODO: This method needs to be called and return something useful
 
-    /**
+    /** Used to request JSON Objects from the FitBit API
      * @param requestUrlPostfix requests different types of data to return
      * @return TODO: return JSON Object to be parsed by UserData
      */
@@ -59,14 +63,12 @@ public class Request {
         try {
             // File with service credentials.
 
-            FileReader fileReader =
-                    new FileReader("auth_credentials/Team9Credentials.txt");
-            bufferedReader = new BufferedReader(fileReader);
-            clientID = bufferedReader.readLine();
-            apiKey = bufferedReader.readLine();
-            apiSecret = bufferedReader.readLine();
-            bufferedReader.close();
-            fileReader = new FileReader("auth_credentials/Team9Tokens.txt");
+            clientID = "227DYF";
+            apiKey = "22b14fcadc307d00c62b235d79197d4a";
+            apiSecret = "ca303c5b331e014389fc6012494b596a";
+
+            //bufferedReader.close();
+            FileReader fileReader = new FileReader("src/main/resources/Team9Tokens.txt");
             bufferedReader = new BufferedReader(fileReader);
 
             accessTokenItself = bufferedReader.readLine();
@@ -149,7 +151,7 @@ public class Request {
         switch (statusCode) {
             case 200:
                 System.out.println("Success!");
-                //System.out.println("HTTP response body:\n" + response.getBody());
+                System.out.println("HTTP response body:\n" + response.getBody());
                 HTTPResponse = response.getBody();
                 break;
             case 400:
@@ -200,7 +202,7 @@ public class Request {
         try {
             FileWriter fileWriter;
             fileWriter =
-                    new FileWriter("auth_credentials/Team9Tokens.txt");
+                    new FileWriter("src/main/resources/Team9Tokens.txt");
             bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(accessToken.getToken());
             bufferedWriter.newLine();

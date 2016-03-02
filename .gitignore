@@ -1,5 +1,11 @@
 ### Java template
 *.class
+*.classpath
+.metadata/
+.project
+.settings/
+
+*.DS_Store
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -16,3 +22,6 @@ hs_err_pid*
 
 .idea/
 *.iml
+
+src/main/resources/Team9Tokens.txt
+target/
