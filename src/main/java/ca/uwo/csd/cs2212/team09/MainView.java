@@ -65,7 +65,7 @@ public class MainView implements GeneralCallBack {
 	private final static int PAGE_GOALS = 4;
 	
 	private double dailyData[] = {0, 0, 0, 0, 0, 0};
-	private String bestnltDate[] = {"", "0", "", "0", "", "0", "0" , "0" ,"0"};
+	private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0" ,"0"};
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
 	public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
