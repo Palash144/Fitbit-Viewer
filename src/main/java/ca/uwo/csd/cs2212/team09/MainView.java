@@ -110,7 +110,7 @@ public class MainView implements GeneralCallBack {
     private JLabel dashboardBtn = new JLabel("Dashboard");
     private JLabel timeseriesBtn = new JLabel("TimeSeries");
     private JLabel heartzoneBtn = new JLabel("HeartZone");
-    private JLabel userLbl = new JLabel("User01");
+    private JLabel userLbl = new JLabel("Beth Locke");
     private JLabel lastupdatedLbl = new JLabel("Data outdated. Please refresh.");
     private JLabel goalsBtn = new JLabel("Goals");
     private JLabel mainTitleLabel = new JLabel("Home");
@@ -370,7 +370,7 @@ public class MainView implements GeneralCallBack {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                userLbl.setText("User01");
+                userLbl.setText("Beth Locke");
             }
 
             @Override
