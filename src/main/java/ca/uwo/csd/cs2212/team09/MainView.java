@@ -124,6 +124,7 @@ public class MainView implements GeneralCallBack {
 	private final JPanel goalsPanel = new JPanel();
 	private final JLabel mysummaryBtn = new JLabel("MySummary");
 	private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
+	private final JLabel btnQuit = new JLabel("");
 	
 
 	/** Creates the application (dashboard)
@@ -370,6 +371,8 @@ public class MainView implements GeneralCallBack {
 		
 		Utils.styleSquareImageButton(settingsBtn, new ImageIcon(getClass().getResource("/Tools_Setting.png")).getImage(), sideBtnSize_Small);
 		
+		Utils.styleImage(btnQuit, new ImageIcon(getClass().getResource("/App_Close.png")).getImage(), 40, 40);
+		
 		GroupLayout gl_rightSidePanel = new GroupLayout(rightSidePanel);
 		gl_rightSidePanel.setHorizontalGroup(
 			gl_rightSidePanel.createParallelGroup(Alignment.TRAILING)
@@ -382,14 +385,14 @@ public class MainView implements GeneralCallBack {
 						.addGroup(gl_rightSidePanel.createSequentialGroup()
 							.addGroup(gl_rightSidePanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-								.addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+								.addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
 							.addGap(14))))
 				.addGroup(gl_rightSidePanel.createSequentialGroup()
 					.addGap(3)
 					.addComponent(fitbitLogo, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
 					.addContainerGap())
 		);
-		
 		gl_rightSidePanel.setVerticalGroup(
 			gl_rightSidePanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rightSidePanel.createSequentialGroup()
@@ -399,7 +402,9 @@ public class MainView implements GeneralCallBack {
 					.addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 269, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
+					.addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
 					.addComponent(fitbitLogo, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
@@ -414,6 +419,13 @@ public class MainView implements GeneralCallBack {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				loadSettingView();
+			}
+		});
+		
+		btnQuit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.exit(0);
 			}
 		});
 		
@@ -703,5 +715,4 @@ public class MainView implements GeneralCallBack {
 	    	 layoutPanels(currLayout, false);
 	     }
 	}
-	
 }
