@@ -40,11 +40,36 @@ public class HeartRateZones {
             // gets the obj element from the array specified by the index number (zoneNum)
             final JSONObject theZone = zones.getJSONObject(zoneNum);
 
+    /**
+     * @param date Determines what date to get the data from
+     *
+     */
+    public HeartRateZones(int zoneNum, String date, boolean canned) {
+        if (canned) {
+            caloriesOut = 1.0;
+            minutes = 2;
+            name = "abc";
+            return;
+
+        } else {
+        	fillData(zoneNum, date);
+        }
+    }
+
+    private void fillData(int zoneNum, String date) {
+    	try {
+    		final JSONObject theZone = getTheZone(zoneNum, date);
             // the attributes for the specific zone
             caloriesOut = theZone.getDouble("caloriesOut");
             minutes = theZone.getInt("minutes");
             name = theZone.getString("name");
-        }
+    	}
+    	catch(JSONException e) {
+
+    	}
+    	finally {
+
+    	}
     }
 
     //getters for the zones elements
