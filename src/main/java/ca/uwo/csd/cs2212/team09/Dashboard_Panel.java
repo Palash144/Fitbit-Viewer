@@ -43,11 +43,11 @@ public class Dashboard_Panel extends JPanel {
 	 * @param cardIndex
 	 * @return
 	 */
-	public JPanel modifyAt(int cardIndex) {
+	public Dashboard_Card modifyAt(int cardIndex) {
 		if (cardIndex >= panels.size()) {
 			return null;
 		}
-		return panels.get(cardIndex);
+		return (Dashboard_Card)panels.get(cardIndex);
 	}
 	
 	/** Removes a panel from the dashboard

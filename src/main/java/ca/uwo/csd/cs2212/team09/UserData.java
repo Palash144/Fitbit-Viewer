@@ -296,10 +296,16 @@ public class UserData {
         return new Achievements();
     }*/
 
-
+    /**
+     * gets the user's resting heartrate
+     * @param canned
+     * @param date
+     * @return
+     * @throws JSONException
+     */
     public int getRestingHeartRate(boolean canned, String date) throws JSONException {
 
-        if(canned) return 3;
+        if(canned) return -1;
 
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/"+ date +"/1d.json"));
@@ -323,6 +329,7 @@ public class UserData {
      * @throws JSONException
      */
     public  HeartRateZones[] getHeartRateZones (String date, boolean canned) throws JSONException{
+        //creates 4 heartrate zones for canned data
         if(canned){
             HeartRateZones[] foo = new HeartRateZones[4];
             for(int i = 0;i<4;i++ )
@@ -338,7 +345,7 @@ public class UserData {
         final JSONArray zones = values.getJSONArray("heartRateZones");
 
         HeartRateZones[] heartZones = new HeartRateZones[zones.length()];
-
+        // stores all zones in the heartzones array
         for (int i = 0; i < zones.length(); i++){
             heartZones[i] = new HeartRateZones (i,date,canned);
         }

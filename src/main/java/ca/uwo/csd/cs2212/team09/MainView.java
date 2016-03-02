@@ -48,15 +48,12 @@ public class MainView implements GeneralCallBack {
 	private final static int DATA_DAILY_ACTIVE_MINUTES = 4;
 	private final static int DATA_DAILY_SEDENTARY_MINUTES = 5;
 	
-	private final static int DATA_BEST_DISTANCE_DATE = 0;
-	private final static int DATA_BEST_DISTANCE = 1;
-	private final static int DATA_BEST_FLOORS_DATE = 2;
-	private final static int DATA_BEST_FLOORS = 3;
-	private final static int DATA_BEST_STEPS_DATE = 4;
-	private final static int DATA_BEST_STEPS = 5;
-	private final static int DATA_LT_DISTANCE = 6;
-	private final static int DATA_LT_FLOORS = 7;
-	private final static int DATA_LT_STEPS = 8;
+	private final static int DATA_BEST_DISTANCE = 0;
+	private final static int DATA_LT_DISTANCE = 1;
+	private final static int DATA_BEST_FLOORS = 2;
+	private final static int DATA_LT_FLOORS = 3;
+	private final static int DATA_BEST_STEPS = 4;
+	private final static int DATA_LT_STEPS = 5;
 	
 	private final static int PAGE_DAILY_DASHBOARD = 0;
 	private final static int PAGE_MY_SUMMARY = 1;
@@ -65,12 +62,11 @@ public class MainView implements GeneralCallBack {
 	private final static int PAGE_GOALS = 4;
 	
 	private double dailyData[] = {0, 0, 0, 0, 0, 0};
-	private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0" ,"0"};
+	private int bestnltDate[] = {0, 0, 0, 0, 0, 0};
 	private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
 	public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 	
-	private HeartRateZones hrzoneData[] = {null, null, null, null};
-	private int hrzoneData_Resting = 0;
+
 	
 	private Boolean testMode = true;
 	public String currentDate;
@@ -495,11 +491,6 @@ public class MainView implements GeneralCallBack {
 			            }
 						//TODO: Fill in the date as a string in this format: 2016-01-08
 			            dailyData = sessionData.refreshAll(canVar, currentDate);
-			            bestnltDate = sessionData.refreshMySummary(canVar);
-			            
-			            hrzoneData = sessionData.getHeartRateZones(currentDate, canVar);
-			            hrzoneData_Resting = sessionData.getRestingHeartRate(canVar, currentDate);
-			            
 			        } catch (Exception e) {
 			            System.out.println("Something went horribly wrong, tell Michael about this: " + e);
 			        }
@@ -551,12 +542,12 @@ public class MainView implements GeneralCallBack {
 	void updateDataOnPanels() {
 		switch (currentPage) {
 		case PAGE_DAILY_DASHBOARD: {
-			((Dashboard_Card)dashboardPanel.modifyAt(0)).setNewDate(currentDate, false);
+			dashboardPanel.modifyAt(0).setNewDate(currentDate, false);
 			int j = 0;
 			for (int i=0;i<dailyData.length;i++) {
 				if (dailyDataCustomization[i]) {
 					j++;
-					Dashboard_Card panel = (Dashboard_Card)dashboardPanel.modifyAt(j);
+					Dashboard_Card panel = dashboardPanel.modifyAt(j);
 					panel.setTitle(dailyDataMsg[i]);
 					panel.setContent(dailyData[i]+"");
 					panel.updatePanel();
@@ -566,12 +557,7 @@ public class MainView implements GeneralCallBack {
 			break;
 		}
 		case PAGE_MY_SUMMARY: {
-			mysummaryPanel.setData("<html><div style='text-align: center;'>" + String.format("%.2f", Double.parseDouble(bestnltDate[DATA_BEST_DISTANCE])) + "<br>" + bestnltDate[DATA_BEST_DISTANCE_DATE] + "</HTML>",
-									bestnltDate[DATA_LT_DISTANCE]+"", 
-									"<html><div style='text-align: center;'>" + String.format("%.0f", Double.parseDouble(bestnltDate[DATA_BEST_FLOORS])) + "<br>" + bestnltDate[DATA_BEST_FLOORS_DATE] + "</HTML>",
-									bestnltDate[DATA_LT_FLOORS]+"", 
-									"<html><div style='text-align: center;'>" + String.format("%.0f", Double.parseDouble(bestnltDate[DATA_BEST_STEPS])) + "<br>" + bestnltDate[DATA_BEST_STEPS_DATE] + "</HTML>",
-									bestnltDate[DATA_LT_STEPS]+"");
+			mysummaryPanel.setData(bestnltDate[DATA_BEST_DISTANCE], bestnltDate[DATA_LT_DISTANCE], bestnltDate[DATA_BEST_FLOORS], bestnltDate[DATA_LT_FLOORS], bestnltDate[DATA_BEST_STEPS], bestnltDate[DATA_LT_STEPS]);
 			break;
 		}
 		case PAGE_TIME_SERIES: {
@@ -579,15 +565,7 @@ public class MainView implements GeneralCallBack {
 			break;
 		}
 		case PAGE_HEART_ZONE: {
-			((Dashboard_Card)heartzonePanel.modifyAt(0)).setNewDate(currentDate, false);
-			for (int i=0;i<4;i++) {
-				Dashboard_HRCard panel = (Dashboard_HRCard)heartzonePanel.modifyAt(i+1);
-				panel.setTitle(hrzoneData[i].getName());
-				panel.setCalories(hrzoneData[i].getCaloriesOut() + "");
-				panel.setTime(hrzoneData[i].getMinutes()+ " Mins");
-			}
-			Dashboard_HRCard panel = (Dashboard_HRCard)heartzonePanel.modifyAt(5);
-			panel.setCalories(hrzoneData_Resting + "");
+			heartzonePanel.modifyAt(0).setNewDate(currentDate, false);
 			break;
 		}
 		case PAGE_GOALS: {
@@ -611,7 +589,7 @@ public class MainView implements GeneralCallBack {
 	void layoutPanels(Dimension layoutMode, boolean updateData) {
 		if (updateData) {
 			try {
-				refreshAllDataWithDate(((Dashboard_Card)dashboardPanel.modifyAt(0)).getDate(), testMode);
+				refreshAllDataWithDate(dashboardPanel.modifyAt(0).getDate(), testMode);
 			}
 			catch(Exception e) {
 				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -638,29 +616,13 @@ public class MainView implements GeneralCallBack {
 		
 		if (heartzonePanel.subviewCount() == 0) {
 			Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
-			dateCard.setNewDate(((Dashboard_Card)dashboardPanel.modifyAt(0)).getDate(), false);
+			dateCard.setNewDate(dashboardPanel.modifyAt(0).getDate(), false);
 			heartzonePanel.add(dateCard, false);
-			for (int i=0;i<4;i++) {
-				if (hrzoneData[i] != null) {
-					Dashboard_HRCard t = createHRCards(196, 196, 
-													((HeartRateZones)hrzoneData[i]).getName(),
-													((HeartRateZones)hrzoneData[i]).getCaloriesOut() + "", 
-													((HeartRateZones)hrzoneData[i]).getMinutes() + " Mins", 
-													heartzonePanel);
-					heartzonePanel.add(t, false);
-				}	
-			}
-			Dashboard_HRCard t = createHRCards(196, 196, 
-					"Resting",
-					hrzoneData_Resting + "", 
-					" ", 
-					heartzonePanel);
-			heartzonePanel.add(t, false);
+
 			
 		}
 		
 		heartzonePanel.layoutPanel(layoutMode);
-		
 	}
 	
 	
@@ -675,14 +637,6 @@ public class MainView implements GeneralCallBack {
 	 */
 	private Dashboard_Card createCards(int width, int height, int type, String title, String content, Dashboard_Panel p) {
 		Dashboard_Card panel = new Dashboard_Card(width, height, type, title, content, p);
-		Color backgroundColor = Utils.normalButtonColor();
-		panel.setBackground(backgroundColor);
-		
-		return panel;
-	}
-	
-	private Dashboard_HRCard createHRCards(int width, int height, String title, String calories, String time, Dashboard_Panel p) {
-		Dashboard_HRCard panel = new Dashboard_HRCard(title, calories, time);
 		Color backgroundColor = Utils.normalButtonColor();
 		panel.setBackground(backgroundColor);
 		
