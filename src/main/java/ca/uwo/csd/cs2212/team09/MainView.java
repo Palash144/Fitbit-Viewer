@@ -68,7 +68,7 @@ public class MainView implements GeneralCallBack {
     private double dailyData[] = {0, 0, 0, 0, 0, 0};
     private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0"};
     private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
-    public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
+    public boolean dailyDataCustomization[] = {true, true, true, true, true, true};
 
     private HeartRateZones ohno = new HeartRateZones(0, "0", true);
 
@@ -482,7 +482,7 @@ public class MainView implements GeneralCallBack {
      * //TODO: Finish settings view
      */
     private void loadSettingView() {
-        SettingsView sv = new SettingsView(this, true);
+        SettingsView sv = new SettingsView(this, true, dailyDataCustomization);
         sv.setVisible(true);
     }
 
@@ -780,5 +780,10 @@ public class MainView implements GeneralCallBack {
             currLayout = getFitLayout();
             layoutPanels(currLayout, false);
         }
+    }
+    
+    public void customizeDashboard(boolean[] inArr) {
+    	dailyDataCustomization = inArr;
+    	layoutPanels(getFitLayout(), false);
     }
 }

@@ -24,7 +24,7 @@ import java.awt.event.MouseEvent;
 public class SettingsView extends JDialog {
 	
 	private MainView parent;
-	private JCheckBox chckbxNewCheckBox;
+	private JCheckBox chckbxNewCheckBox = new JCheckBox("Calories burned (out)");
 	JPanel buttonPane = new JPanel();
 	JButton okButton = new JButton("OK");
 	JButton cancelButton = new JButton("Cancel");
@@ -39,7 +39,7 @@ public class SettingsView extends JDialog {
 
 	JLabel lblWhat = new JLabel("Elements shown on your daily dashboard:");
 	
-	Boolean[] selectionArray = new Boolean[6];
+	boolean[] selectionArray = new boolean[6];
 
 
 
@@ -49,6 +49,7 @@ public class SettingsView extends JDialog {
 	 * @param modal
      */
 	public SettingsView(MainView p, boolean modal, boolean[] checkMark) {
+		selectionArray = checkMark;
 		setTitle("Settings");
 		setModal(modal);
 		setAlwaysOnTop(true);
@@ -107,6 +108,7 @@ public class SettingsView extends JDialog {
 						else{
 							selectionArray[5] = false;
 						}
+						parent.customizeDashboard(selectionArray);
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -123,7 +125,6 @@ public class SettingsView extends JDialog {
 			{
 				tabbedPane.addTab("Daily Dashboard", null, panel, null);
 				{
-					chckbxNewCheckBox = new JCheckBox("Calories burned (out)");
 					chckbxNewCheckBox.setSelected(true);
 				}
 				

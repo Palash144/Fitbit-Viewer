@@ -350,4 +350,10 @@ public class UserData {
         }
         return heartZones;
     }
+    /*
+    public TimeSeries_Record[] getTimeSeriesData (String date, boolean canned) {
+    	if (canned) {
+    		
+    	}
+    }*/
 }
