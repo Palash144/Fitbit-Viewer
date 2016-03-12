@@ -457,8 +457,8 @@ public class MainView implements GeneralCallBack {
      * //TODO: Finish settings view
      */
     private void loadSettingView() {
-        //SettingsView sv = new SettingsView(this, true);
-        //sv.setVisible(true);
+        SettingsView sv = new SettingsView(this, true);
+        sv.setVisible(true);
     }
 
     /**
