@@ -63,6 +63,7 @@ public class MainView implements GeneralCallBack {
     private final static int PAGE_TIME_SERIES = 2;
     private final static int PAGE_HEART_ZONE = 3;
     private final static int PAGE_GOALS = 4;
+    private final static int PAGE_ACCOLADES = 5;
 
     private double dailyData[] = {0, 0, 0, 0, 0, 0};
     private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0"};
@@ -118,6 +119,7 @@ public class MainView implements GeneralCallBack {
     private JLabel refreshBtn = new JLabel();
     private JLabel settingsBtn = new JLabel();
     private final JLabel fitbitLogo = new JLabel("");
+    private JLabel accoladeBtn = new JLabel("Accolades");
 
     private final JPanel mainPanel = new JPanel();
     private CardLayout cardLayout = new CardLayout();
@@ -284,63 +286,86 @@ public class MainView implements GeneralCallBack {
         goalsBtn.setForeground(Color.WHITE);
         goalsBtn.setHorizontalAlignment(SwingConstants.CENTER);
         Utils.styleButton(goalsBtn);
-
+        
+        
+        accoladeBtn.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseEntered(MouseEvent e) {
+        		accoladeBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+        	}
+        	@Override
+        	public void mouseExited(MouseEvent e) {
+        		if (currentPage != 5)
+        			accoladeBtn.setBackground(Utils.normalButtonColor());
+        	}
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		currentPage = 5;
+                updateLeftSideButton();
+        	}
+        });
+        accoladeBtn.setForeground(Color.WHITE);
+        accoladeBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        Utils.styleButton(accoladeBtn);
 
         GroupLayout groupLayout = new GroupLayout(mainView.getContentPane());
         groupLayout.setHorizontalGroup(
-                groupLayout.createParallelGroup(Alignment.LEADING)
-                        .addGroup(groupLayout.createSequentialGroup()
-                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addGap(28)
-                                                .addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 407, GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-                                                        .addGroup(groupLayout.createSequentialGroup()
-                                                                .addGap(18)
-                                                                .addComponent(userLbl, GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
-                                                        .addGroup(groupLayout.createSequentialGroup()
-                                                                .addPreferredGap(ComponentPlacement.RELATED)
-                                                                .addComponent(lastupdatedLbl, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))))
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                                                        .addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(mysummaryBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(goalsBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18)
-                                                .addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)))
-                                .addPreferredGap(ComponentPlacement.RELATED)
-                                .addComponent(rightSidePanel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
+        	groupLayout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(groupLayout.createSequentialGroup()
+        			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addGap(28)
+        					.addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 407, GroupLayout.PREFERRED_SIZE)
+        					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+        						.addGroup(groupLayout.createSequentialGroup()
+        							.addGap(18)
+        							.addComponent(userLbl, GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
+        						.addGroup(groupLayout.createSequentialGroup()
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(lastupdatedLbl, GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE))))
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addContainerGap()
+        					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+        						.addComponent(dashboardBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(mysummaryBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(timeseriesBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(heartzoneBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(goalsBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(accoladeBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        					.addGap(18)
+        					.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(rightSidePanel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
         );
         groupLayout.setVerticalGroup(
-                groupLayout.createParallelGroup(Alignment.LEADING)
-                        .addComponent(rightSidePanel, GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
-                        .addGroup(groupLayout.createSequentialGroup()
-                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addGap(17)
-                                                .addComponent(userLbl, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(lastupdatedLbl))
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
-                                .addGap(12)
-                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(12)
-                                                .addComponent(mysummaryBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addComponent(goalsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                .addContainerGap())
+        	groupLayout.createParallelGroup(Alignment.LEADING)
+        		.addComponent(rightSidePanel, GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+        		.addGroup(groupLayout.createSequentialGroup()
+        			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addGap(17)
+        					.addComponent(userLbl, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        					.addComponent(lastupdatedLbl))
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addContainerGap()
+        					.addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
+        			.addGap(12)
+        			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addGap(12)
+        					.addComponent(mysummaryBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(goalsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(accoladeBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+        			.addContainerGap())
         );
         mainPanel.setLayout(cardLayout);
         mainPanel.setBackground(new Color(38, 50, 56));
@@ -457,8 +482,8 @@ public class MainView implements GeneralCallBack {
      * //TODO: Finish settings view
      */
     private void loadSettingView() {
-        //SettingsView sv = new SettingsView(this, true);
-        //sv.setVisible(true);
+        SettingsView sv = new SettingsView(this, true);
+        sv.setVisible(true);
     }
 
     /**
@@ -470,6 +495,7 @@ public class MainView implements GeneralCallBack {
         timeseriesBtn.setBackground(Utils.normalButtonColor());
         heartzoneBtn.setBackground(Utils.normalButtonColor());
         goalsBtn.setBackground(Utils.normalButtonColor());
+        accoladeBtn.setBackground(Utils.normalButtonColor());
         cardLayout.show(mainPanel, pageNames[currentPage]);
         switch (currentPage) {
             case PAGE_DAILY_DASHBOARD: {
@@ -492,8 +518,8 @@ public class MainView implements GeneralCallBack {
                 goalsBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
                 break;
             }
-            case 5: {
-
+            case PAGE_ACCOLADES: {
+            	accoladeBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
                 break;
             }
             default: {
