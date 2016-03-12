@@ -124,7 +124,7 @@ public class MainView implements GeneralCallBack {
     private final JPanel mainPanel = new JPanel();
     private CardLayout cardLayout = new CardLayout();
     private final Dashboard_Panel dashboardPanel = new Dashboard_Panel(this);
-    private final JPanel timeseriesPanel = new JPanel();
+    private final TimeSeries_Panel timeseriesPanel = new TimeSeries_Panel(this);
     private final Dashboard_Panel heartzonePanel = new Dashboard_Panel(this);
     private final JPanel goalsPanel = new JPanel();
     private final JLabel mysummaryBtn = new JLabel("MySummary");
