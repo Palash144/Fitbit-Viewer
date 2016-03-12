@@ -22,8 +22,8 @@ public class Goals_Panel extends JPanel{
 		
 		Panel panel = new Panel();
 		panel.setName("goal1");
-		Color c = new Color();
-		panel.setBackground();
+		//Color c = new Color();
+		//panel.setBackground();
 		list.add(panel);
 		
 		
