@@ -38,7 +38,8 @@ public class SettingsView extends JDialog {
 	JCheckBox chckbxSedentaryMinutes = new JCheckBox("Sedentary minutes");
 
 	JLabel lblWhat = new JLabel("Elements shown on your daily dashboard:");
-
+	
+	Boolean[] selectionArray = new Boolean[6];
 
 
 
@@ -47,7 +48,7 @@ public class SettingsView extends JDialog {
 	 * @param p
 	 * @param modal
      */
-	public SettingsView(MainView p, boolean modal) {
+	public SettingsView(MainView p, boolean modal, boolean[] checkMark) {
 		setTitle("Settings");
 		setModal(modal);
 		setAlwaysOnTop(true);
@@ -63,6 +64,49 @@ public class SettingsView extends JDialog {
 				okButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
+						//calories
+						if(chckbxNewCheckBox.isSelected()){
+							selectionArray[0] = true;
+						}
+						else{
+							selectionArray[0] = false;
+						}
+						//total distance
+						if(chckbxNewCheckBox_1.isSelected()){
+							selectionArray[1] = true;
+						}
+						else{
+							selectionArray[1] = false;
+						}
+						
+						//floors climbed
+						if(chckbxNewCheckBox_2.isSelected()){
+							selectionArray[2] = true;
+						}
+						else{
+							selectionArray[2] = false;
+						}
+						//steps
+						if(chckbxNewCheckBox_3.isSelected()){
+							selectionArray[3] = true;
+						}
+						else{
+							selectionArray[3] = false;
+						}
+						//active minutes
+						if(chckbxNewCheckBox_4.isSelected()){
+							selectionArray[4] = true;
+						}
+						else{
+							selectionArray[4] = false;
+						}
+						//sedentary minutes
+						if(chckbxSedentaryMinutes.isSelected()){
+							selectionArray[5] = true;
+						}
+						else{
+							selectionArray[5] = false;
+						}
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -133,5 +177,17 @@ public class SettingsView extends JDialog {
 				tabbedPane.addTab("About", null, panel, null);
 			}
 		}
+		chckbxNewCheckBox.setSelected(selectionArray[0]);
+		
+		chckbxNewCheckBox_1.setSelected(selectionArray[1]);
+		
+		chckbxNewCheckBox_2.setSelected(selectionArray[2]);
+		
+		chckbxNewCheckBox_3.setSelected(selectionArray[3]);
+		
+		chckbxNewCheckBox_4.setSelected(selectionArray[4]);
+		
+		chckbxSedentaryMinutes.setSelected(selectionArray[5]);
+		
 	}
 }
