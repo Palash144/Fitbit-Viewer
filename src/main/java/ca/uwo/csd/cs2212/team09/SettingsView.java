@@ -23,6 +23,22 @@ public class SettingsView extends JDialog {
 	
 	private MainView parent;
 	private JCheckBox chckbxNewCheckBox;
+	JPanel buttonPane = new JPanel();
+	JButton okButton = new JButton("OK");
+	JButton cancelButton = new JButton("Cancel");
+	JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+	JPanel panel = new JPanel();
+	
+	JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Total distance");
+	JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Floors climbed");
+	JCheckBox chckbxNewCheckBox_3 = new JCheckBox("Steps");
+	JCheckBox chckbxNewCheckBox_4 = new JCheckBox("Active minutes");
+	JCheckBox chckbxSedentaryMinutes = new JCheckBox("Sedentary minutes");
+
+	JLabel lblWhat = new JLabel("Elements shown on your daily dashboard:");
+
+
+
 
 	/**
 	 * Create the dialog.
@@ -38,48 +54,37 @@ public class SettingsView extends JDialog {
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		{
-			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 		{
-			JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 			getContentPane().add(tabbedPane, BorderLayout.CENTER);
 			{
-				JPanel panel = new JPanel();
 				tabbedPane.addTab("Daily Dashboard", null, panel, null);
 				{
 					chckbxNewCheckBox = new JCheckBox("Calories burned (out)");
 					chckbxNewCheckBox.setSelected(true);
 				}
 				
-				JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Total distance");
 				chckbxNewCheckBox_1.setSelected(true);
 				
-				JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Floors climbed");
 				chckbxNewCheckBox_2.setSelected(true);
 				
-				JCheckBox chckbxNewCheckBox_3 = new JCheckBox("Steps");
 				chckbxNewCheckBox_3.setSelected(true);
 				
-				JCheckBox chckbxNewCheckBox_4 = new JCheckBox("Active minutes");
 				chckbxNewCheckBox_4.setSelected(true);
 				
-				JCheckBox chckbxSedentaryMinutes = new JCheckBox("Sedentary minutes");
 				chckbxSedentaryMinutes.setSelected(true);
 				
-				JLabel lblWhat = new JLabel("Elements shown on your daily dashboard:");
 				GroupLayout gl_panel = new GroupLayout(panel);
 				gl_panel.setHorizontalGroup(
 					gl_panel.createParallelGroup(Alignment.LEADING)
@@ -117,7 +122,6 @@ public class SettingsView extends JDialog {
 				panel.setLayout(gl_panel);
 			}
 			{
-				JPanel panel = new JPanel();
 				tabbedPane.addTab("About", null, panel, null);
 			}
 		}
