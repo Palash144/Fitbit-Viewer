@@ -1,21 +1,30 @@
 package ca.uwo.csd.cs2212.team09;
 
+
 import javax.swing.JPanel;
 import org.jfree.chart.*;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
-import org.jfree.data.*;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.Hour;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.EventQueue;
+
 
 public class TimeSeries_Panel extends JPanel {
 
@@ -28,22 +37,54 @@ public class TimeSeries_Panel extends JPanel {
 	private ChartPanel cPanel;
 	private MainView parent;
 	private JTextField textField;
-	
+	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	private JComboBox<String> hourIntBox = new JComboBox<String>();
+	private int currComboBoxIndex = 0;
+	private String[] timeStr = {"", "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00",
+									"07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", 
+									"14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00",
+									"21:00", "22:00", "23:00", "23:59"};
 	
 	public TimeSeries_Panel(MainView p) {
 		parent = p;
 		chartPanel.setBackground(Color.LIGHT_GRAY);
-		JComboBox<String> hourIntBox = new JComboBox<String>();
 		String[] hL = getHourInterval();
 		for (int i=0; i<hL.length;i++) {
 			hourIntBox.addItem(hL[i]);
 		}
+		hourIntBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (hourIntBox.getSelectedIndex() != currComboBoxIndex) {
+					currComboBoxIndex = hourIntBox.getSelectedIndex();
+					setNewDate((hourIntBox.getSelectedIndex() == 0?false:true),
+							currDate, 
+(hourIntBox.getSelectedIndex() == 0?parent.TIME_SERIES_INTERVAL_15_MIN:parent.TIME_SERIES_INTERVAL_1_MIN),
+	(hourIntBox.getSelectedIndex() == 0?"":timeStr[hourIntBox.getSelectedIndex()]), 
+	(hourIntBox.getSelectedIndex() == 0?"":timeStr[hourIntBox.getSelectedIndex()+1]), true);
+				}
+			}
+		});
 		hourIntBox.setSelectedIndex(0);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
 		
 		JButton btnOk = new JButton("OK");
+		btnOk.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (setNewDate((hourIntBox.getSelectedIndex() == 0?false:true),
+															textField.getText(), 
+		(hourIntBox.getSelectedIndex() == 0?parent.TIME_SERIES_INTERVAL_15_MIN:parent.TIME_SERIES_INTERVAL_1_MIN),
+									(hourIntBox.getSelectedIndex() == 0?"":timeStr[hourIntBox.getSelectedIndex()]), 
+									(hourIntBox.getSelectedIndex() == 0?"":timeStr[hourIntBox.getSelectedIndex()+1]), true)) {
+				}
+				else {
+					textField.setText("Format:yyyy-MM-dd");
+					textField.selectAll();
+				}
+			}
+		});
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -75,19 +116,40 @@ public class TimeSeries_Panel extends JPanel {
 		setLayout(groupLayout);
 	}
 	
+	public boolean setNewDate(boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean callback) {
+		try {
+			Date d = df.parse(date);
+			currDate = df.format(d);
+			if (callback) {
+				parent.getTSData(zoomed, currDate, detailLevel, startTime, endTime);
+				EventQueue.invokeLater(new Runnable() {
+		            public void run() {
+		            	parent.updateDataOnPanels();
+		            }
+				});
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	private String[] getHourInterval() {
-		String[] rt = {"Whole day", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12PM",
-									"1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM", "12AM"};
+		String[] rt = {"Whole day", "12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", 
+									"12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"};
 		return rt;
 	}
 	
 	public void drawData(TimeSeries_Record[] data, String date) {
-		final TimeSeries seriesSteps = new TimeSeries("Steps", Minute.class);
-        final TimeSeries seriesCalories = new TimeSeries("Calories", Minute.class);
-        final TimeSeries seriesDistance = new TimeSeries("Distance", Minute.class);
-        final TimeSeries seriesHr = new TimeSeries("Heart Rate", Minute.class);
+		TimeSeries seriesSteps = new TimeSeries("Steps", Minute.class);
+        TimeSeries seriesCalories = new TimeSeries("Calories", Minute.class);
+        TimeSeries seriesDistance = new TimeSeries("Distance", Minute.class);
+        TimeSeries seriesHr = new TimeSeries("Heart Rate", Minute.class);
         
         currDate = date;
+        textField.setText(currDate);
         
         final Day day = new Day();
         for (int i=0;i<data.length;i++) {

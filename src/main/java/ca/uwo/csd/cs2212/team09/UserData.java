@@ -398,19 +398,19 @@ public class UserData {
     	if (zoomed) {
     		//hh:mm:ss
     		for (int i=0;i<60;i++) {
-    			rt[i] = new TimeSeries_Record(ran.nextInt(2000),
-    										  ran.nextInt(2000),
-    										  ran.nextInt(2000),
-    										  ran.nextInt(2000),
-    										  startTime.substring(0, 2)+(i<10?"0"+i:i)+"00");
+    			rt[i] = new TimeSeries_Record(800+ran.nextInt(2000),
+    										  200+ran.nextInt(200),
+    										  500+ran.nextInt(2000),
+    										  50+ran.nextInt(60),
+    										  startTime.substring(0, 2)+":"+(i<10?"0"+i:i)+":00");
     		}
     	}
     	else {
     		for (int i=0;i<24*4;i++) {
-    			rt[i] = new TimeSeries_Record(ran.nextInt(2000),
-    										  ran.nextInt(2000),
-    										  ran.nextInt(2000),
-    										  ran.nextInt(2000),
+    			rt[i] = new TimeSeries_Record(800+ran.nextInt(2000),
+						  					   200+ran.nextInt(200),
+						  					  500+ran.nextInt(2000),
+						  					   	 50+ran.nextInt(60),
     										  ((i/4)<10?("0"+(i/4)):(i/4))+":"+(i%4==0?"00":(i%4)*15)+":00");
     		}
     	}

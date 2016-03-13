@@ -258,7 +258,7 @@ public class Dashboard_Card extends JPanel {
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 		}
 		return true;

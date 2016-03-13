@@ -556,7 +556,7 @@ public class MainView implements GeneralCallBack {
     void refreshAllDataWithDate(String date, Boolean canned) {
         currentDate = date;
         final Boolean canVar = canned;
-        lastupdatedLbl.setText("Refreshing...");
+        lastupdatedLbl.setText("Refreshing..."); 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -589,13 +589,13 @@ public class MainView implements GeneralCallBack {
         });
     }
     
-    void getTSData() {
-    	getTSData(false, currentDate, TIME_SERIES_INTERVAL_1_MIN, "", "", testMode);
+    public void getTSData() {
+    	getTSData(false, currentDate, TIME_SERIES_INTERVAL_1_MIN, "", "");
     }
     
-    void getTSData(boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean canned) {
+    public void getTSData(boolean zoomed, String date, String detailLevel, String startTime, String endTime) {
     	tsDataDate = date;
-    	tsData = sessionData.getTimeSeriesData(zoomed, date, detailLevel, startTime, endTime, canned);
+    	tsData = sessionData.getTimeSeriesData(zoomed, date, detailLevel, startTime, endTime, testMode);
     }
 
     /**
@@ -631,7 +631,7 @@ public class MainView implements GeneralCallBack {
     /**
      * Used to update the data on the panels displaying the user data
      */
-    void updateDataOnPanels() {
+    public void updateDataOnPanels() {
         switch (currentPage) {
             case PAGE_DAILY_DASHBOARD: {
                 ((Dashboard_Card) dashboardPanel.modifyAt(0)).setNewDate(currentDate, false);
