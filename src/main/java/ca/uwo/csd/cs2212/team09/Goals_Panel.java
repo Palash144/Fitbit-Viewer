@@ -2,6 +2,7 @@ package ca.uwo.csd.cs2212.team09;
 
 import javax.swing.JPanel;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +37,16 @@ public class Goals_Panel extends JPanel {
 			 setText(value.toString());  
 			 setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));  
 			 if (isSelected) {  
-				 setBackground(list.getSelectionBackground());  
+				 setBackground(new Color(0, 150, 136));  
 				 setForeground(list.getSelectionForeground());  
 			 } 
 			 else {  
-				 setBackground(list.getBackground());  
+				 if (index % 2 == 1) {
+					 setBackground(new Color(238, 238, 238)); 
+				 }
+				 else {
+					 setBackground(list.getBackground()); 
+				 }
 				 setForeground(list.getForeground());  
 			 }  
 			
@@ -127,6 +133,21 @@ public class Goals_Panel extends JPanel {
 		//TODO:dssdfsdfjioasdjfklajsdklfjalskdjfksajdfklasjdklfjasbkdvcliwl
 		addItem("Steps Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
 		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
+		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
+		addItem("Calories", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
+		
+		addItem("Steps Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
+		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
+		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
+		addItem("Calories", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
+		addItem("Steps Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
+		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
+		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
+		addItem("Calories", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
+		addItem("Steps Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
+		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
+		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
+		addItem("Calories", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
 		
 		DefaultListModel listModel = new DefaultListModel();  
 		for(int i=0;i<titles.size();i++){  
