@@ -133,7 +133,7 @@ public class MainView implements GeneralCallBack {
     private final TimeSeries_Panel timeseriesPanel = new TimeSeries_Panel(this);
     private final Dashboard_Panel heartzonePanel = new Dashboard_Panel(this);
     private final Accolades_Panel accoladesPanel = new Accolades_Panel();
-    private final JPanel goalsPanel = new JPanel();
+    private final Goals_Panel goalsPanel = new Goals_Panel();
     private final JLabel mysummaryBtn = new JLabel("MySummary");
     private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
     private final JLabel btnQuit = new JLabel("");

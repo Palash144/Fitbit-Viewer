@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import java.awt.Image;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -69,4 +70,8 @@ public class Utils {
         return new Color(166, 171, 173);
     }
 
+    
+    public static ImageIcon getImageIconForList(Image orig) {
+       	return new ImageIcon(orig.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH));
+    }
 }
