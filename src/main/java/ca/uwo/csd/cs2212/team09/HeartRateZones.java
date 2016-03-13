@@ -1,5 +1,7 @@
 package ca.uwo.csd.cs2212.team09;
 
+import java.util.Random;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,9 +25,14 @@ public class HeartRateZones {
      */
     public HeartRateZones(int zoneNum, String date, boolean canned) {
         if (canned) {
-            caloriesOut = 1.0;
-            minutes = 2;
-            name = "abc";
+        	Random ran = new Random();
+            caloriesOut = Double.parseDouble(ran.nextInt(2000)+"");
+            minutes = 5 + ran.nextInt(60);
+            name = ran.nextInt(100) > 10 ? "Zone":"HeartBreakZone";
+            if (name == "HeartBreakZone") {
+            	minutes = 0;
+                caloriesOut = 0.0;
+            }
             return;
 
         } else {

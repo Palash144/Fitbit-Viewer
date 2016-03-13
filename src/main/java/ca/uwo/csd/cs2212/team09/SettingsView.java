@@ -40,6 +40,7 @@ public class SettingsView extends JDialog {
 	JLabel lblWhat = new JLabel("Elements shown on your daily dashboard:");
 	
 	boolean[] selectionArray = new boolean[6];
+	private final JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 
 
 
@@ -129,12 +130,12 @@ public class SettingsView extends JDialog {
 			}
 		}
 		{
-			getContentPane().add(tabbedPane, BorderLayout.CENTER);
+			getContentPane().add(tabbedPane, BorderLayout.NORTH);
 			{
 				tabbedPane.addTab("Daily Dashboard", null, panel, null);
-				{
-					chckbxNewCheckBox.setSelected(true);
-				}
+				
+				chckbxNewCheckBox.setSelected(true);
+				
 				
 				chckbxNewCheckBox_1.setSelected(true);
 				
@@ -182,9 +183,8 @@ public class SettingsView extends JDialog {
 				);
 				panel.setLayout(gl_panel);
 			}
-			{
-				tabbedPane.addTab("About", null, panel, null);
-			}
+			
+			
 		}
 		chckbxNewCheckBox.setSelected(selectionArray[0]);
 		
@@ -197,6 +197,8 @@ public class SettingsView extends JDialog {
 		chckbxNewCheckBox_4.setSelected(selectionArray[4]);
 		
 		chckbxSedentaryMinutes.setSelected(selectionArray[5]);
+		
+		tabbedPane.addTab("About", null, tabbedPane_1, null);
 		
 	}
 }
