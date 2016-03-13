@@ -47,7 +47,7 @@ public class TimeSeries_Panel extends JPanel {
 	
 	public TimeSeries_Panel(MainView p) {
 		parent = p;
-		chartPanel.setBackground(Color.LIGHT_GRAY);
+		Utils.stylePanel(this);
 		String[] hL = getHourInterval();
 		for (int i=0; i<hL.length;i++) {
 			hourIntBox.addItem(hL[i]);

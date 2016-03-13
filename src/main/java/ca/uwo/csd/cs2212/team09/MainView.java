@@ -111,7 +111,7 @@ public class MainView implements GeneralCallBack {
      * 5 for accolodes
      */
     private int currentPage;
-    private static String pageNames[] = {"name_1456030182851147000", "name_1456033158027647000", "name_1456030885832917000", "name_1456030906465778000", "name_1456030920510772000", ""};
+    private static String pageNames[] = {"name_1456030182851147000", "name_1456033158027647000", "name_1456030885832917000", "name_1456030906465778000", "name_1456030920510772000", "name_1456030940510773000"};
     private Dimension currLayout;
 
     private JLabel dashboardBtn = new JLabel("Dashboard");
@@ -132,6 +132,7 @@ public class MainView implements GeneralCallBack {
     private final Dashboard_Panel dashboardPanel = new Dashboard_Panel(this);
     private final TimeSeries_Panel timeseriesPanel = new TimeSeries_Panel(this);
     private final Dashboard_Panel heartzonePanel = new Dashboard_Panel(this);
+    private final Accolades_Panel accoladesPanel = new Accolades_Panel();
     private final JPanel goalsPanel = new JPanel();
     private final JLabel mysummaryBtn = new JLabel("MySummary");
     private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
@@ -388,6 +389,8 @@ public class MainView implements GeneralCallBack {
         mainPanel.add(heartzonePanel, "name_1456030906465778000");
 
         mainPanel.add(goalsPanel, "name_1456030920510772000");
+        
+        mainPanel.add(accoladesPanel, "name_1456030940510773000");
 
         currLayout = getFitLayout();
         layoutPanels(currLayout, true);
