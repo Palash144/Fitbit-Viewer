@@ -6,6 +6,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import org.jfree.data.*;
+import org.jfree.data.time.Day;
 import org.jfree.data.time.Hour;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
@@ -32,19 +33,12 @@ public class TimeSeries_Panel extends JPanel {
 	public TimeSeries_Panel(MainView p) {
 		parent = p;
 		chartPanel.setBackground(Color.LIGHT_GRAY);
-		
-		JComboBox<String> minIntBox = new JComboBox<String>();
 		JComboBox<String> hourIntBox = new JComboBox<String>();
 		String[] hL = getHourInterval();
 		for (int i=0; i<hL.length;i++) {
 			hourIntBox.addItem(hL[i]);
 		}
 		hourIntBox.setSelectedIndex(0);
-		String[] mL = getMinuteInterval("Whole day");
-		for (int i=0;i<mL.length;i++) {
-			minIntBox.addItem(mL[i]);
-		}
-		minIntBox.setSelectedIndex(0);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
@@ -59,10 +53,8 @@ public class TimeSeries_Panel extends JPanel {
 					.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnOk)
-					.addPreferredGap(ComponentPlacement.RELATED, 272, Short.MAX_VALUE)
-					.addComponent(hourIntBox, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(minIntBox, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
+					.addComponent(hourIntBox, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
 				.addComponent(chartPanel, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(
@@ -73,7 +65,6 @@ public class TimeSeries_Panel extends JPanel {
 							.addContainerGap()
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(btnOk)
-								.addComponent(minIntBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(hourIntBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(7)
@@ -82,7 +73,6 @@ public class TimeSeries_Panel extends JPanel {
 					.addComponent(chartPanel, GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
 		);
 		setLayout(groupLayout);
-		drawData();
 	}
 	
 	private String[] getHourInterval() {
@@ -91,36 +81,29 @@ public class TimeSeries_Panel extends JPanel {
 		return rt;
 	}
 	
-	private String[] getMinuteInterval(String hourStr) {
-		if (hourStr == "Whole day") {
-			String[] rt = {"15 mins", "30 mins", "45 mins", "1 hour"};
-			return rt;
-		}else {
-			String[] rt = {"1 min", "5 min", "10 min", "15 min"};
-			return rt;
-		}
-	}
-	
-	public void drawData() {
+	public void drawData(TimeSeries_Record[] data, String date) {
 		final TimeSeries seriesSteps = new TimeSeries("Steps", Minute.class);
-        final Hour hour = new Hour();
-        seriesSteps.add(new Minute(1, hour), 1033.2);
-        seriesSteps.add(new Minute(3, hour), 1234.3);
-        seriesSteps.add(new Minute(9, hour), 143.6);
-        seriesSteps.add(new Minute(11, hour), 113.9);
-        seriesSteps.add(new Minute(15, hour), 133.5);
-        seriesSteps.add(new Minute(19, hour), 10.9);
-        
         final TimeSeries seriesCalories = new TimeSeries("Calories", Minute.class);
-        seriesCalories.add(new Minute(1, hour), 15.2);
-        seriesCalories.add(new Minute(3, hour), 1123.3);
-        seriesCalories.add(new Minute(9, hour), 12.6);
-        seriesCalories.add(new Minute(11, hour), 121.9);
-        seriesCalories.add(new Minute(15, hour), 1353.5);
-        seriesCalories.add(new Minute(19, hour), 10.9);
+        final TimeSeries seriesDistance = new TimeSeries("Distance", Minute.class);
+        final TimeSeries seriesHr = new TimeSeries("Heart Rate", Minute.class);
+        
+        currDate = date;
+        
+        final Day day = new Day();
+        for (int i=0;i<data.length;i++) {
+        	Hour hour = new Hour(Integer.parseInt(data[i].getTime().substring(0, 2)), day);
+        	Minute minute = new Minute(Integer.parseInt(data[i].getTime().substring(3, 5)), hour);
+        	seriesSteps.add(minute, data[i].getSteps());
+        	seriesCalories.add(minute, data[i].getCalories());
+        	seriesDistance.add(minute, data[i].getDistance());
+        	seriesHr.add(minute, data[i].getHr());
+        }
         
         final TimeSeriesCollection dataset = new TimeSeriesCollection(seriesSteps);
         dataset.addSeries(seriesCalories);
+        dataset.addSeries(seriesDistance);
+        dataset.addSeries(seriesHr);
+        
         final JFreeChart chart = ChartFactory.createTimeSeriesChart(
             "Time Series on " + currDate,
             "Time", 

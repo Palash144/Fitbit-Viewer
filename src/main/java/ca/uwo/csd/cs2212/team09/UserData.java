@@ -1,5 +1,7 @@
 package ca.uwo.csd.cs2212.team09;
 
+import java.util.Random;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -350,10 +352,69 @@ public class UserData {
         }
         return heartZones;
     }
-    /*
-    public TimeSeries_Record[] getTimeSeriesData (String date, boolean canned) {
-    	if (canned) {
-    		
+    
+    public TimeSeries_Record[] getTimeSeriesData (boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean canned) {
+    	if (!canned) {
+    		Request getData = new Request();
+    		try {
+    			//GET https://api.fitbit.com/1/user/-/[resource-path]/date/[date]/1d/[detail-level]/time/[start-time]/[end-time].json
+    			//GET /1/user/-/activities/steps/date/2014-09-01/1d.json  
+    			//activities/calories  
+    			//activities/steps
+    			//activities/distance  
+    			//activities/floors
+    			String baseReq = "/date/" + date + (zoomed ? "/1d.json":"/"+detailLevel+"/time/"+startTime+"/"+endTime);
+    			
+    			final JSONObject stepObj     = new JSONObject(getData.requestFor("activities/steps" + baseReq));
+    			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/caloires" + baseReq));
+    			final JSONObject distanceObj = new JSONObject(getData.requestFor("activities/distance" + baseReq));
+    			final JSONObject hrObj       = new JSONObject(getData.requestFor("activities/floors" + baseReq));
+    			
+                final JSONArray stepData 	 = 	   stepObj.getJSONObject("activities-log-steps-intraday").getJSONArray("dataset");
+                final JSONArray caloriesData = caloriesObj.getJSONObject("activities-log-calories-intraday").getJSONArray("dataset");
+                final JSONArray distanceData = distanceObj.getJSONObject("activities-log-distance-intraday").getJSONArray("dataset");
+                final JSONArray hrData       = 	     hrObj.getJSONObject("activities-log-floors-intraday").getJSONArray("dataset");
+                
+                TimeSeries_Record[] rt = new TimeSeries_Record[stepData.length()];
+                for (int i=0;i<stepData.length();i++) {
+                	rt[i] = new TimeSeries_Record(stepData.getJSONObject(i).getInt("value"),
+                							  caloriesData.getJSONObject(i).getInt("value"),
+                							  distanceData.getJSONObject(i).getInt("value"),
+                								 	hrData.getJSONObject(i).getInt("value"),
+                								  stepData.getJSONObject(i).getString("time"));
+                }
+    			
+                return rt;
+    		}
+    		catch (Exception e) {
+    			System.out.println("An error happened while fetching timeseries data from fitbit.");
+    		}
+    		finally {
+    			
+    		}
     	}
-    }*/
+    	TimeSeries_Record[] rt = new TimeSeries_Record[(zoomed ? 60:24*4)];
+    	Random ran = new Random();
+    	if (zoomed) {
+    		//hh:mm:ss
+    		for (int i=0;i<60;i++) {
+    			rt[i] = new TimeSeries_Record(ran.nextInt(2000),
+    										  ran.nextInt(2000),
+    										  ran.nextInt(2000),
+    										  ran.nextInt(2000),
+    										  startTime.substring(0, 2)+(i<10?"0"+i:i)+"00");
+    		}
+    	}
+    	else {
+    		for (int i=0;i<24*4;i++) {
+    			rt[i] = new TimeSeries_Record(ran.nextInt(2000),
+    										  ran.nextInt(2000),
+    										  ran.nextInt(2000),
+    										  ran.nextInt(2000),
+    										  ((i/4)<10?("0"+(i/4)):(i/4))+":"+(i%4==0?"00":(i%4)*15)+":00");
+    		}
+    	}
+		return rt;
+		
+    }
 }

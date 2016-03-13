@@ -65,6 +65,9 @@ public class MainView implements GeneralCallBack {
     private final static int PAGE_GOALS = 4;
     private final static int PAGE_ACCOLADES = 5;
 
+    public final static String TIME_SERIES_INTERVAL_1_MIN = "1min";
+    public final static String TIME_SERIES_INTERVAL_15_MIN = "15min";
+    
     private double dailyData[] = {0, 0, 0, 0, 0, 0};
     private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0"};
     private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
@@ -78,6 +81,9 @@ public class MainView implements GeneralCallBack {
     private Boolean testMode = true;
     public String currentDate;
     private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    
+    private TimeSeries_Record tsData[];
+    private String tsDataDate;
 
     /**
      * Adapter to capture the window resize event
@@ -564,7 +570,8 @@ public class MainView implements GeneralCallBack {
 
                         hrzoneData = sessionData.getHeartRateZones(currentDate, canVar);
                         hrzoneData_Resting = sessionData.getRestingHeartRate(canVar, currentDate);
-
+                        
+                        getTSData();
                     } catch (Exception e) {
                         System.out.println("Something went horribly wrong, tell Michael about this: " + e);
                     }
@@ -580,6 +587,15 @@ public class MainView implements GeneralCallBack {
                 callback(CALLBACK_ID_LAYOUT_PANEL_AFTER_DATA_REFRESH);
             }
         });
+    }
+    
+    void getTSData() {
+    	getTSData(false, currentDate, TIME_SERIES_INTERVAL_1_MIN, "", "", testMode);
+    }
+    
+    void getTSData(boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean canned) {
+    	tsDataDate = date;
+    	tsData = sessionData.getTimeSeriesData(zoomed, date, detailLevel, startTime, endTime, canned);
     }
 
     /**
@@ -642,7 +658,7 @@ public class MainView implements GeneralCallBack {
                 break;
             }
             case PAGE_TIME_SERIES: {
-
+            	timeseriesPanel.drawData(tsData, tsDataDate);
                 break;
             }
             case PAGE_HEART_ZONE: {
@@ -688,6 +704,8 @@ public class MainView implements GeneralCallBack {
             }
         }
 
+        dashboardPanel.removeAllCards();
+        
         if (dashboardPanel.subviewCount() == 0) {
             Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
             dashboardPanel.add(dateCard, false);

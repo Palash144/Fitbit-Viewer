@@ -51,8 +51,14 @@ public class Dashboard_Panel extends JPanel {
 	/** Removes a panel from the dashboard
 	 * @param panel the panel to be removed
 	 */ //TODO: Complete this method
-	public void remove(JPanel panel) {
-		
+	public void remove(int cardIndex) {
+		panels.remove(cardIndex);
+		layoutPanel(currLayout);
+	}
+	
+	public void removeAllCards() {
+		removeAll();
+		panels.clear();
 	}
 	
 	/**

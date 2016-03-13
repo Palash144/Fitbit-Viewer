@@ -61,7 +61,6 @@ public class SettingsView extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-
 				okButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -109,6 +108,8 @@ public class SettingsView extends JDialog {
 							selectionArray[5] = false;
 						}
 						parent.customizeDashboard(selectionArray);
+						
+						dispose();
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -117,6 +118,13 @@ public class SettingsView extends JDialog {
 			}
 			{
 				cancelButton.setActionCommand("Cancel");
+				cancelButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						dispose();
+					}
+				});
+				
 				buttonPane.add(cancelButton);
 			}
 		}
