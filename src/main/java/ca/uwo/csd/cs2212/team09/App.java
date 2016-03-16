@@ -9,49 +9,42 @@ import org.apache.logging.log4j.Logger;
  *
  */
 public class App {
-    static Logger logger = LogManager.getLogger(App.class.getName());
+	static Logger logger = LogManager.getLogger(App.class.getName());
 
-    /** Main method that launches the User Interface
-     * @param args Used to test program. Use no argument to run using API. Use "canned" to display canned
-     * data on terminal (does not launch GUI). Use "test" to launch software test mode
-     * using canned data (launches GUI).
-     */
-    public static void main(String[] args) {
-        System.out.println("Starting session");
+	/** Main method that launches the User Interface
+	 * @param args Used to test program. Use no argument to run using API.
+	 * Use "test" to launch software test mode using canned data (launches GUI).
+	 */
+	public static void main(String[] args) {
+		System.out.println("Starting session");
 
-        //To run this: (uncanned data)
-        //java -jar target/team09_FitBitProject-1.0-SNAPSHOT-jar-with-dependencies.jar
-        if (args.length == 0){
-        	EventQueue.invokeLater(new Runnable() {
-    			public void run() {
-    				try {
-    					MainView window = new MainView(false);
-    				} catch (Exception e) {
-    					e.printStackTrace();
-    				}
-    			}
-    		});
-        }
-        //To run using canned data and output to terminal, use argument canned
-        //To run using canned data and launch dashboard, use argument test
-        //java -jar target/team09_FitBitProject-1.0-STAGE2-jar-with-dependencies.jar [canned,test]
-        else if (args[0].equals("canned")) {
-            UserInterface user = new UserInterface();
-            user.refreshData(true, "2016-01-08");
-        }
-        else if (args[0].equals("test")) {
-        	System.out.println("Software test mode.");
-        	EventQueue.invokeLater(new Runnable() {
-    			public void run() {
-    				try {
-    					MainView window = new MainView(true);
-    				} catch (Exception e) {
-    					e.printStackTrace();
-    				}
-    			}
-    		});
-        }
-
-        logger.trace("Exiting main");
-    }
+		//To run this: (uncanned data)
+		//java -jar target/team09_FitBitProject-1.0-SNAPSHOT-jar-with-dependencies.jar
+		if (args.length == 0){
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						MainView window = new MainView(false);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		//To run using canned data and launch dashboard, use argument test
+		//java -jar target/team09_FitBitProject-1.0-STAGE2-jar-with-dependencies.jar test
+		else if (args[0].equals("test")) {
+			System.out.println("Software test mode.");
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						MainView window = new MainView(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+		logger.trace("Exiting main");
+	}
 }

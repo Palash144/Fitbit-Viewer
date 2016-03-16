@@ -3,11 +3,8 @@ package ca.uwo.csd.cs2212.team09;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-/**
- * Created by taylor on 2016-02-27.
- * Fetches the Daily Goals using the constructor
- *
- */
+
+
 public class DailyGoals {
 
     private int caloriesOut;
@@ -16,37 +13,54 @@ public class DailyGoals {
     private int steps;
 
 
-    /**
-     * Constructor assigning the 4 goal attributes to their respective variables
-     * @throws JSONException
-     */
-    public DailyGoals() throws JSONException{
 
-        Request getData = new Request();
-        final JSONObject obj = new JSONObject(getData.requestFor("activities/goals/daily.json"));
-        final JSONObject fitData = obj.getJSONObject("goals");
+    public DailyGoals(boolean canned) throws JSONException{
+        if (canned){
+            caloriesOut =123;
+            distance = 321;
+            floors = 111;
+            steps = 222;
+        }else {
+            Request getData = new Request();
+            final JSONObject obj = new JSONObject(getData.requestFor("activities/goals/daily.json"));
+            final JSONObject fitData = obj.getJSONObject("goals");
 
-        caloriesOut = fitData.getInt("caloriesOut");
-        distance = fitData.getDouble("distance");
-        floors = fitData.getInt("floors");
-        steps = fitData.getInt("steps");
+            caloriesOut = fitData.getInt("caloriesOut");
+            distance = fitData.getDouble("distance");
+            floors = fitData.getInt("floors");
+            steps = fitData.getInt("steps");
+        }
     }
 
-    public int getCaloriesOutGoal() {
+    public int getCaloriesOut() {
         return caloriesOut;
     }
 
-    public double getDistanceGoal() {
+    public void setCaloriesOut(int caloriesOut) {
+        this.caloriesOut = caloriesOut;
+    }
+
+    public double getDistance() {
         return distance;
     }
 
-    public int getFloorsGoal() {
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public int getFloors() {
         return floors;
     }
 
-    public int getStepsGoal() {
+    public void setFloors(int floors) {
+        this.floors = floors;
+    }
+
+    public int getSteps() {
         return steps;
     }
 
-
+    public void setSteps(int steps) {
+        this.steps = steps;
+    }
 }

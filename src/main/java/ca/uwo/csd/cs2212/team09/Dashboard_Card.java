@@ -26,27 +26,24 @@ import java.awt.event.MouseEvent;
 /**
  * Implements cards to be displayed on the dashboard
  * @author Team 9
- * @version Stage 2
  */
 public class Dashboard_Card extends JPanel {
-
-	
 	public final static int CARD_TYPE_DEFAULT = 0;
 
 	public final static int CARD_TYPE_TIME = 1;
 
 	public final static int CARD_TYPE_CALORIES = 2;
-	
+
 	private int currType;
-	
+
 	private boolean dateCardDisplayMode = false;
-	
+
 	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	
+
 	private final JLabel titleLabel = new JLabel("Title");
 	private final JLabel contentLabel = new JLabel("content");
 	String title, content;
-	
+
 	private final JPanel dateInputLayer = new JPanel();
 	private final JLabel dateInputTitleLabel = new JLabel("Input date");
 	private final JLabel dateInputInfoLabel = new JLabel("Format: yyyy-MM-dd");
@@ -55,13 +52,13 @@ public class Dashboard_Card extends JPanel {
 	private Timer uiTimer;
 
 	private Date currentDate = new Date();
-	
+
 	private Dashboard_Panel parentView;
 
 	/**
 	 * Constructor creating a panel with inputted width, height,
 	 * type, title, and content
-	 * 
+	 *
 	 * @param width width of card
 	 * @param height height of card
 	 * @param type type of card
@@ -76,12 +73,12 @@ public class Dashboard_Card extends JPanel {
 		content = lContent;
 		currType = type;
 		parentView = p;
-		
+
 		if (title != null)
 			titleLabel.setText(title);
 		if (content != null)
 			contentLabel.setText(content);
-		
+
 		titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		if (currType == CARD_TYPE_TIME) {
@@ -106,48 +103,48 @@ public class Dashboard_Card extends JPanel {
 				}
 			});
 		}
-		
+
 		contentLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
 		contentLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(contentLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
-						.addComponent(titleLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
-					.addContainerGap())
+				groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(contentLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+										.addComponent(titleLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
+								.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(contentLabel, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-					.addContainerGap())
+				groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(contentLabel, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+								.addContainerGap())
 		);
 		setLayout(groupLayout);
-		
+
 		//setSize(width, height);
-		
+
 		switch (currType) {
-		case CARD_TYPE_DEFAULT:{
-			//keep current layout
-			break;
-		}
-		case CARD_TYPE_TIME:{
-			content = df.format(new Date());
-			contentLabel.setText(content);
-			break;
-		}
-		default: {
-			break;
-		}
+			case CARD_TYPE_DEFAULT:{
+				//keep current layout
+				break;
+			}
+			case CARD_TYPE_TIME:{
+				content = df.format(new Date());
+				contentLabel.setText(content);
+				break;
+			}
+			default: {
+				break;
+			}
 		}
 	}
-	
+
 	/**
 	 * Sets date pick mode,
 	 * true if load date pick UI
@@ -163,44 +160,44 @@ public class Dashboard_Card extends JPanel {
 			hideDatePickUI();
 		}
 	}
-	
+
 	/**
 	 * Loads date pick UI
 	 * to be called in setDatePickMode
 	 */
 	private void loadDatePickUI() {
-		if (currType != CARD_TYPE_TIME) 
+		if (currType != CARD_TYPE_TIME)
 			return;
-		
+
 		dateInputLayer.setLayout(null);
-		
+
 		dateInputLayer.setLocation(0, getSize().height);
 		dateInputLayer.setSize(getSize());
 		dateInputLayer.setVisible(true);
 		dateInputLayer.removeAll();
-		
+
 		dateInputLayer.add(dateInputTitleLabel);
 		dateInputLayer.add(dateInputText);
 		dateInputLayer.add(dateInputInfoLabel);
 		dateInputLayer.add(dateConfirmBtn);
-		
+
 		dateInputTitleLabel.setLocation(0, 0);
 		dateInputTitleLabel.setSize(getSize().width, 50);
 		dateInputTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		dateInputTitleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
 		dateInputTitleLabel.setVisible(true);
-		
+
 		dateInputInfoLabel.setLocation(0, dateInputTitleLabel.getSize().height);
 		dateInputInfoLabel.setSize(getSize().width, 50);
 		dateInputInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		dateInputInfoLabel.setText("<html><div style='text-align: center;'>" + dateInputInfoLabel.getText() + "<br>  (e.g. " + df.format(currentDate) + ")</HTML>");
 		dateInputInfoLabel.setVisible(true);
-		
+
 		dateInputText.setLocation(0, dateInputInfoLabel.getLocation().y + dateInputInfoLabel.getSize().height);
 		dateInputText.setSize(getSize().width, 35);
 		dateInputText.setText(df.format(currentDate));
 		dateInputText.setVisible(true);
-		
+
 		dateConfirmBtn.setLocation(getSize().width / 4, dateInputText.getLocation().y + dateInputText.getHeight() + 15);
 		dateConfirmBtn.setSize(getSize().width / 2, 35);
 		dateConfirmBtn.removeMouseListener(dateConfirmBtn.getMouseListeners()[0]);
@@ -216,9 +213,9 @@ public class Dashboard_Card extends JPanel {
 			}
 		});
 		dateConfirmBtn.setVisible(true);
-		
+
 		add(dateInputLayer, 0);
-		
+
 		ActionListener aniTimer = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				dateInputLayer.setLocation(0, dateInputLayer.getLocation().y - 2);
@@ -231,11 +228,11 @@ public class Dashboard_Card extends JPanel {
 		uiTimer = new Timer(1, aniTimer);
 		uiTimer.start();
 	}
-	
-	
+
+
 	/**
 	 * Getter method to get date
-	 * 
+	 *
 	 * @return - String of the current date
 	 */
 	public String getDate() {
@@ -244,11 +241,11 @@ public class Dashboard_Card extends JPanel {
 		else
 			return df.format(new Date());
 	}
-	
+
 	/**
 	 * Setter method to set a new date
 	 * @param date the new date we want to set
-	 * @param callback 
+	 * @param callback true if you want to refresh data
 	 * @return true if set successful,
 	 * 		   false if ParseException occurs
 	 */
@@ -266,7 +263,7 @@ public class Dashboard_Card extends JPanel {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Hides date pick UI
 	 * will be called in setDatePickMode
@@ -290,37 +287,37 @@ public class Dashboard_Card extends JPanel {
 			uiTimer = new Timer(1, aniTimer);
 			uiTimer.start();
 		}
-		
 	}
+
 	/**
 	 * Sets date pick UI
 	 */
 	private void setDatePickMode() {
 		setDatePickMode(!dateCardDisplayMode);
 	}
-	
+
 	/**
 	 * Changes the title of the card
-	 * @param lTitle new title of card 
+	 * @param lTitle new title of card
 	 */
 	public void setTitle(String lTitle) {
 		title = lTitle;
 		updatePanel();
 	}
-	
+
 	/**
 	 * Changes the content of the card
-	 * 
+	 *
 	 * @param lContent new content of the card
 	 */
 	public void setContent(String lContent) {
 		content = lContent;
 		updatePanel();
 	}
-	
+
 	/**
 	 * Updates the panel's title and content
-	 * 
+	 *
 	 */
 	public void updatePanel() {
 		if (title != null)

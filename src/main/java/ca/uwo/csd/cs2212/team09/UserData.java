@@ -75,7 +75,11 @@ public class UserData {
 
     //TODO: write method to return cached data for my summary
 
-    //return new data from fitbit
+    /**
+     * Refreshes userdata for the mysummary panel
+     * @param canned true if using test data
+     * @return the userdata
+     */
     public String[] refreshMySummary(boolean canned) {
         String[] returnData = new String[9];
         if (canned == true) {
@@ -141,8 +145,7 @@ public class UserData {
     }
 
     /**
-     * @param canned true returns canned data
-    /** Retrieves the steps taken for the User
+     * Retrieves the steps taken for the User
      * @param canned true if using canned/test data
      * @param date date of the data retrieved in the format "yyyy-mm-dd"
      * @return the number of steps taken
@@ -197,7 +200,6 @@ public class UserData {
      * @return the number of calories burned by the user
      */
     public int getCalories(boolean canned, String date) {
-        //TODO: Complete this method
         if (canned == true) {
             return 1500;
         }
@@ -222,7 +224,6 @@ public class UserData {
      * @return the number of floors climbed by the user
      */
     public int getDistance(boolean canned, String date) {
-        //TODO: Complete this method
         if (canned == true) {
             return 50;
         }
@@ -246,7 +247,6 @@ public class UserData {
      * @return the number of active minutes by the user
      */
     public int getActiveMinutes(boolean canned, String date) {
-        //TODO: Complete this method; We will add together lightly active, fairly active and very active
         int activeMinutes = 0;
         if (canned == true) {
             return 69;
@@ -273,7 +273,6 @@ public class UserData {
      * @return the number of sedentary minutes by the user
      */
     public int getSedentaryMinutes(boolean canned, String date) {
-        //TODO: Complete this method
         if (canned == true) {
             return 1222;
         }
@@ -296,8 +295,16 @@ public class UserData {
         return new Achievements();
     }*/
 
-
+    /**
+     * gets the user's resting heartrate
+     * @param canned true if using canned/test data
+     * @param date date of the data retrieved in the format "yyyy-mm-dd"
+     * @return the user's resting heart rate
+     * @throws JSONException
+     */
     public int getRestingHeartRate(boolean canned, String date) throws JSONException {
+
+        if(canned) return -1;
 
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/"+ date +"/1d.json"));
@@ -316,12 +323,18 @@ public class UserData {
      * because only the default ones are used 0 will store Out of Range, 1 will store Fat Burn, 2 Cardio, 3 Peak
      *
      * @param date determines what day to use
-     * @param canned
-     * @return
+     * @param canned true if using canned/test data
+     * @return heart rate zones
      * @throws JSONException
      */
     public  HeartRateZones[] getHeartRateZones (String date, boolean canned) throws JSONException{
-
+        //creates 4 heartrate zones for canned data
+        if(canned){
+            HeartRateZones[] foo = new HeartRateZones[4];
+            for(int i = 0;i<4;i++ )
+                foo[i] = new HeartRateZones(0,"1",true);
+            return foo;
+        }
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/" + date + "/1d.json"));
         final JSONArray fitData = obj.getJSONArray(("activities-heart"));
@@ -331,11 +344,31 @@ public class UserData {
         final JSONArray zones = values.getJSONArray("heartRateZones");
 
         HeartRateZones[] heartZones = new HeartRateZones[zones.length()];
-
+        // stores all zones in the heartzones array
         for (int i = 0; i < zones.length(); i++){
-            heartZones[i] = new HeartRateZones (i,date);
+            heartZones[i] = new HeartRateZones (i,date,canned);
         }
         return heartZones;
     }
 
+    public DailyGoals getDailyGoals( boolean canned) throws JSONException{
+        if (canned){
+            DailyGoals goals = new DailyGoals(true);
+            return goals;
+        }
+        DailyGoals goals = new DailyGoals(false);
+        return goals;
+    }
+
+    public Boolean isAtGoal(boolean canned) throws JSONException {
+        if (canned) {
+            return true;
+        } else {
+            DailyGoals goals = new DailyGoals(false);
+
+            return null;
+        }
+    }
 }
+
+
