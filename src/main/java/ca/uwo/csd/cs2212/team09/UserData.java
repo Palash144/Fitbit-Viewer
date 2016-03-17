@@ -93,6 +93,43 @@ public class UserData {
         return goals;
     }
 
+    /** TODO: Complete
+     * Checks if user is at daily goal
+     * @param canned Whether canned data is used or not
+     * @return a string of True or Falses, in the order of
+     * Calories, Distance, Floors, and Steps (ex. TTFT)
+     * @throws JSONException
+     */
     public String isAtGoal(boolean canned) throws JSONException{
         DailyGoals goals = new DailyGoals();
+        
+        String s = "";
+        
+        //Calories
+        if (getCalories(canned) < goals.getCaloriesOutGoal())
+        	s = "F";
+        else
+        	s = "T";
+        
+        //Distance
+        if (getDistance(canned) < goals.getDistanceGoal())
+        	s += "F";
+        else
+        	s +="T";
+        
+        //Floors
+        if (getFloors(canned) < goals.getFloorsGoal())
+        	s += "F";
+        else
+        	s += "T";
+        
+        //Steps
+        if (getSteps(canned) < goals.getStepsGoal())
+        	s += "F";
+        else
+        	s += "T";
+        
+        //Return statement
+        return s;
+    }
  }
