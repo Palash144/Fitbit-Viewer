@@ -21,12 +21,291 @@ public class Accolades implements Serializable {
     private AccAchievement MiddleMan;
     private AccAchievement ImmovableObject;
 
+    private AccAchievement[][] dailyDates;
+
     private static final long serialVersionUID = 1L;
 
     public Accolades() {
         //TODO: this(); //Get all our shit from the main UI class here
         //Do our calculations on our shit here
         //Set relevant achievements
+
+        AccAchievement[][] dailyDates = new AccAchievement[1000][6];
+
+        double Ddistance = -1;
+        double Ldistance = -1;
+        double Dcalories = -1;
+        double Lcalories = -1;
+        double Dfloors = -1;
+        double Lfloors = -1;
+        double Dsteps = -1;
+        double Lsteps = -1;
+        double SedentaryM = -1;
+        double Very_ActiveM = -1;
+        double Fairly_AtiveM = -1;
+        double Lightly_ActiveM = -1;
+
+         DailyDistance.setDaily(true);
+         DailyCalories.setDaily(true);
+         DailyFloors.setDaily(true);
+         DailySteps.setDaily(true);
+         MotorVated.setDaily(true);
+         DayOff.setDaily(true);
+
+         LifeDistance.setLifetime(true);
+         LifeCalories.setLifetime(true);
+         LifeFloors.setLifetime(true);
+         LifeSteps.setLifetime(true);
+         MiddleMan.setLifetime(true);
+         ImmovableObject.setLifetime(true);
+
+        //Daily Accolades are calculated here
+        /*------------------------------------------------------------------------*/
+        if (Ddistance >= 15) {
+            if (!DailyDistance.isTier3()) {
+                DailyDistance.setTier3(true);
+            }
+            if (!DailyDistance.isTier2()) {
+                DailyDistance.setTier2(true);
+            }
+            if (!DailyDistance.isTier1()) {
+                DailyDistance.setTier1(true);
+            }
+        } else if (Ddistance >= 7) {
+            if (!DailyDistance.isTier2()) {
+                DailyDistance.setTier2(true);
+            }
+            if (!DailyDistance.isTier1()) {
+                DailyDistance.setTier1(true);
+            }
+        } else if (Ddistance >= 2) {
+            if (!DailyDistance.isTier1()) {
+                DailyDistance.setTier1(true);
+            }
+        }
+        
+        /*--------------------------------------------------------------*/
+        if (Dcalories >= 3000) {
+            if (!DailyCalories.isTier3() ) {
+                DailyCalories.setTier3(true);
+            }
+            if (!DailyCalories.isTier2() ) {
+                DailyCalories.setTier2(true);
+            }
+            if (!DailyCalories.isTier1() ) {
+                DailyCalories.setTier1(true);
+            }
+        } else if (Dcalories >= 2500) {
+            if (!DailyCalories.isTier2() ) {
+                DailyCalories.setTier2(true);
+            }
+            if (!DailyCalories.isTier1() ) {
+                DailyCalories.setTier1(true);
+            }
+        } else if (Dcalories >= 2000) {
+            if (!DailyCalories.isTier1() ) {
+                DailyCalories.setTier1(true);
+            }
+        }
+        /*--------------------------------------------------------------*/
+        if (Dfloors >= 25) {
+            if (!DailyFloors.isTier3() ) {
+                DailyFloors.setTier3(true);
+            }
+            if (!DailyFloors.isTier2() ) {
+                DailyFloors.setTier2(true);
+            }
+            if (!DailyFloors.isTier1() ) {
+                DailyFloors.setTier1(true);
+            }
+        } else if (Dfloors >= 15) {
+            if (!DailyFloors.isTier2() ) {
+                DailyFloors.setTier2(true);
+            }
+            if (!DailyFloors.isTier1() ) {
+                DailyFloors.setTier1(true);
+            }
+        } else if (Dfloors >= 5) {
+            if (!DailyFloors.isTier1() ) {
+                DailyFloors.setTier1(true);
+            }
+        }
+        
+        /*--------------------------------------------------------------*/
+        if (Dfloors >= 25) {
+            if (!DailyFloors.isTier3() ) {
+                DailyFloors.setTier3(true);
+            }
+            if (!DailyFloors.isTier2() ) {
+                DailyFloors.setTier2(true);
+            }
+            if (!DailyFloors.isTier1() ) {
+                DailyFloors.setTier1(true);
+            }
+        } else if (Dfloors >= 15) {
+            if (!DailyFloors.isTier2() ) {
+                DailyFloors.setTier2(true);
+            }
+            if (!DailyFloors.isTier1() ) {
+                DailyFloors.setTier1(true);
+            }
+        } else if (Dfloors >= 5) {
+            if (!DailyFloors.isTier1() ) {
+                DailyFloors.setTier1(true);
+            }
+        }
+        
+        /*--------------------------------------------------------------*/
+        if (Dsteps >= 1000) {
+            if (!DailySteps.isTier3() ) {
+                DailySteps.setTier3(true);
+            }
+            if (!DailySteps.isTier2() ) {
+                DailySteps.setTier2(true);
+            }
+            if (!DailySteps.isTier1() ) {
+                DailySteps.setTier1(true);
+            }
+        } else if (Dsteps >= 750) {
+            if (!DailySteps.isTier2() ) {
+                DailySteps.setTier2(true);
+            }
+            if (!DailySteps.isTier1() ) {
+                DailySteps.setTier1(true);
+            }
+        } else if (Dsteps >= 500) {
+            if (!DailySteps.isTier1() ) {
+                DailySteps.setTier1(true);
+            }
+        }
+
+        /*--------------------------------------------------------------*/
+        if (Very_ActiveM > Lightly_ActiveM) {
+            if (!MotorVated.isTier1() ) {
+                MotorVated.setTier1(true);
+            }
+        }
+        /*--------------------------------------------------------------*/
+        if(SedentaryM >= 18) {
+            if (!DayOff.isTier1() ) {
+                DayOff.setTier1(true);
+            }
+        }
+/*--------------------------------------------------------------------------------------------*/
+
+        //Lifetime Accolades are calculated here
+
+        if (Ldistance >= 1000000) {
+            if (!LifeDistance.isTier3() ) {
+                LifeDistance.setTier3(true);
+            }
+            if (!LifeDistance.isTier2() ) {
+                LifeDistance.setTier2(true);
+            }
+            if (!LifeDistance.isTier1() ) {
+                LifeDistance.setTier1(true);
+            }
+        } else if (Ldistance >= 750000) {
+            if (!LifeDistance.isTier2() ) {
+                LifeDistance.setTier2(true);
+            }
+            if (!LifeDistance.isTier1() ) {
+                LifeDistance.setTier1(true);
+            }
+        } else if (Ldistance >= 500000) {
+            if (!LifeDistance.isTier1() ) {
+                LifeDistance.setTier1(true);
+            }
+        }
+        
+        /*--------------------------------------------------------------*/
+        if (Lcalories >= 300000) {
+            if (!LifeCalories.isTier3() ) {
+                LifeCalories.setTier3(true);
+            }
+            if (!LifeCalories.isTier2() ) {
+                LifeCalories.setTier2(true);
+            }
+            if (!LifeCalories.isTier1() ) {
+                LifeCalories.setTier1(true);
+            }
+        } else if (Lcalories >= 250000) {
+            if (!LifeCalories.isTier2() ) {
+                LifeCalories.setTier2(true);
+            }
+            if (!LifeCalories.isTier1() ) {
+                LifeCalories.setTier1(true);
+            }
+        } else if (Lcalories >= 200000) {
+            if (!LifeCalories.isTier1() ) {
+                LifeCalories.setTier1(true);
+            }
+        }
+        /*--------------------------------------------------------------*/
+       
+        
+        /*--------------------------------------------------------------*/
+        if (Lfloors >= 600000) {
+            if (!LifeFloors.isTier3() ) {
+                LifeFloors.setTier3(true);
+            }
+            if (!LifeFloors.isTier2() ) {
+                LifeFloors.setTier2(true);
+            }
+            if (!LifeFloors.isTier1() ) {
+                LifeFloors.setTier1(true);
+            }
+        } else if (Lfloors >= 300000) {
+            if (!LifeFloors.isTier2() ) {
+                LifeFloors.setTier2(true);
+            }
+            if (!LifeFloors.isTier1() ) {
+                LifeFloors.setTier1(true);
+            }
+        } else if (Lfloors >= 100000) {
+            if (!LifeFloors.isTier1() ) {
+                LifeFloors.setTier1(true);
+            }
+        }
+        
+        /*--------------------------------------------------------------*/
+        if (Lsteps >= 1000000) {
+            if (!LifeSteps.isTier3() ) {
+                LifeSteps.setTier3(true);
+            }
+            if (!LifeSteps.isTier2() ) {
+                LifeSteps.setTier2(true);
+            }
+            if (!LifeSteps.isTier1() ) {
+                LifeSteps.setTier1(true);
+            }
+        } else if (Lsteps >= 7500000) {
+            if (!LifeSteps.isTier2() ) {
+                LifeSteps.setTier2(true);
+            }
+            if (!LifeSteps.isTier1() ) {
+                LifeSteps.setTier1(true);
+            }
+        } else if (Lsteps >= 500000) {
+            if (!LifeSteps.isTier1() ) {
+                LifeSteps.setTier1(true);
+            }
+        }
+        /*--------------------------------------------------------------*/
+        if(Fairly_AtiveM >= 100000) {
+            if (!MiddleMan.isTier1() ) {
+                MiddleMan.setTier1(true);
+            }
+        }
+        /*--------------------------------------------------------------*/
+        if(SedentaryM >= 400000) {
+            if (!ImmovableObject.isTier1() ) {
+                ImmovableObject.setTier1(true);
+            }
+        }
+/*---------------------------------------------------------------------------------*/
+
+
     }
 
     public AccAchievement getDailyDistance() {
@@ -130,232 +409,14 @@ public class Accolades implements Serializable {
 
      int D = 1500;
      Accolades kay = new Accolades();
-     kay.loadDaily(D);
+
  }
-
-
-    public void loadDaily(int D) {
-
-        try {
-            BufferedReader in = new BufferedReader(new FileReader("src/main/resources/Accolades.txt"));
-            BufferedWriter out = new BufferedWriter(new FileWriter("src/main/resources/Accolades.txt"));
-
-            StringBuilder StrLine = null;
-            String Accolades = in.readLine();
-            String Detail = in.readLine();
-            String Names = in.readLine();
-            // int Distance = ;
- /*----------------------------------------------------------------------------------------------*/
-
-            //TODO: get object of distance. For now call it D.
-
-            String DailyDistance = in.readLine();
-            String tokens[] = DailyDistance.split(" ");
-            if (D > 15) {
-                tokens[2] = "1";
-                tokens[3] = "1";
-                tokens[4] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            } else if (D > 7) {
-                tokens[2] = "1";
-                tokens[3] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            } else if (D > 2) {
-                tokens[2] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
-
- /*----------------------------------------------------------------------------------------------*/
-/*
-            //TODO: get object of Calories. For now call it C
-
-            DailyDistance = in.readLine();
-            tokens = DailyDistance.split(" ");
-
-            if( C >= 3000){
-                tokens[2] = "1";tokens[3] = "1";tokens[4] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
-            else if( C >= 2500){
-                tokens[2] = "1";tokens[3] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
-            else if( C >= 2000){
-                tokens[2] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
- /*----------------------------------------------------------------------------------------------*/
-/*
-            //TODO: get objects of Floors. For now call it F.
-
-            DailyDistance = in.readLine();
-            tokens = DailyDistance.split(" ");
-
-            if( F >= 25){
-                tokens[2] = "1";tokens[3] = "1";tokens[4] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
-            else if( F >= 15){
-                tokens[2] = "1";tokens[3] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
-            else if( F >= 5){
-                tokens[2] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
- /*----------------------------------------------------------------------------------------------*/
-/*
-            //TODO: get objects of Steps. For now call it S.
-
-            DailyDistance = in.readLine();
-            tokens = DailyDistance.split(" ");
-
-            if( S >= 1000){
-                tokens[2] = "1";tokens[3] = "1";tokens[4] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
-            else if( S >= 750){
-                tokens[2] = "1";tokens[3] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
-            else if( S >= 500){
-                tokens[2] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2] + " " + tokens[3] + " " + tokens[4];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
- /*----------------------------------------------------------------------------------------------*/
-/*
-            //TODO: get objects of Very-Active minutes and lightly active minutes. For now call them VA & LA
-
-            DailyDistance = in.readLine();
-            tokens = DailyDistance.split(" ");
-
-            if (VA > LA){
-                tokens[2] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
-/*-----------------------------------------------------------------------------------------------*/
-/*
-            //TODO: get objects of Sedentary-Minutes. For now call it SM
-
-            DailyDistance = in.readLine();
-            tokens = DailyDistance.split(" ");
-
-            if ( SM > 18 ){
-                tokens[2] = "1";
-                String newline = tokens[0] + " " + tokens[1] + " " + tokens[2];
-                StrLine.append(newline);
-                out.write(StrLine.toString());
-            }
-/*-----------------------------------------------------------------------------------------------*/
-
-
-            out.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-
-
-    public void loadLifetime(){
-
-
-        try {
-            BufferedReader in = new BufferedReader(new FileReader("Accolades.txt"));
-            BufferedWriter out = new BufferedWriter(new FileWriter("Accolades.txt"));
-
-            StringBuilder StrLine = null;
-            String Accolades = in.readLine();
-            String Detail = in.readLine();
-            String Names = in.readLine();
-            String line;
-
-            for (int i = 0; (line = in.readLine()) != null && i!=5 ; i++){
-            }
-
-
-
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
 
     public void GetAchievements() {
 
 
     }
-
-    public void dailyReset() {
-/*
-        try {
-            BufferedReader in = new BufferedReader(new FileReader("Accolades.txt"));
-            BufferedWriter out = new BufferedWriter(new FileWriter("Accolades.txt"));
-
-            StringBuilder StrLine = null;
-            String Accolades = in.readLine();
-            String Details = in.readLine();
-            String Names = in.readLine();
-            String[] tokens = Names.split(" ");
-            String line;
-            int i = 0;
-
-            while((line = in.readLine()) != null && i != 6){
-
-                if(i < 4){
-
-                    line = tokens[i] + " 0 0 0 0";
-                    StrLine.append(line);
-                    out.write(StrLine.toString());
-                }
-
-                if( i >= 4){
-
-                    line = tokens[i] + " 0 0";
-                    StrLine.append(line);
-                    out.write(StrLine.toString());
-                }
-
-                i++;
-            }
-
-            out.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/    }
 
 
 }

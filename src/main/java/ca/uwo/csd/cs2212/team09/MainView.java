@@ -29,7 +29,7 @@ import java.awt.CardLayout;
  *
  * @author Team 9
  */
-public class MainView implements GeneralCallBack implements Serializable {
+public class MainView implements GeneralCallBack { //TODO: ADD Serialization to MainView
     public final static int BUTTON_ALPHA_NORMAL = 150;
     public final static int BUTTON_ALPHA_HIGHLIGHT = 254;
     public final static Boolean VE_DEV_MODE = false;  //change to false before any release
