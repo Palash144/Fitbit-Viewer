@@ -4,58 +4,60 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 
-public class DailyGoals {
 
-    private int caloriesOut;
-    private double distance;
-    private int floors;
-    private int steps;
+public class DailyGoals implements Serializable {
+
+    private int caloriesOutGoal;
+    private double distanceGoal;
+    private int floorsGoal;
+    private int stepsGoal;
 
 
     public DailyGoals(int theCalories, int theDistance, int theFloors, int theSteps) throws JSONException {
-        caloriesOut = theCalories;
-        distance = theDistance;
-        floors = theFloors;
-        steps = theSteps;
+        caloriesOutGoal = theCalories;
+        distanceGoal = theDistance;
+        floorsGoal = theFloors;
+        stepsGoal = theSteps;
     }
 
     public DailyGoals() {
-        caloriesOut = 750;
-        distance = 100;
-        floors = 200;
-        steps = 2500;
+        caloriesOutGoal = 750;
+        distanceGoal = 100;
+        floorsGoal = 200;
+        stepsGoal = 2500;
     }
 
-    public int getCaloriesOut() {
-        return caloriesOut;
+    public int getCaloriesOutGoal() {
+        return caloriesOutGoal;
     }
 
-    public void setCaloriesOut(int caloriesOut) {
-        this.caloriesOut = caloriesOut;
+    public void setCaloriesOutGoal(int caloriesOutGoal) {
+        this.caloriesOutGoal = caloriesOutGoal;
     }
 
-    public double getDistance() {
-        return distance;
+    public double getDistanceGoal() {
+        return distanceGoal;
     }
 
-    public void setDistance(double distance) {
-        this.distance = distance;
+    public void setDistanceGoal(double distanceGoal) {
+        this.distanceGoal = distanceGoal;
     }
 
-    public int getFloors() {
-        return floors;
+    public int getFloorsGoal() {
+        return floorsGoal;
     }
 
-    public void setFloors(int floors) {
-        this.floors = floors;
+    public void setFloorsGoal(int floorsGoal) {
+        this.floorsGoal = floorsGoal;
     }
 
-    public int getSteps() {
-        return steps;
+    public int getStepsGoal() {
+        return stepsGoal;
     }
 
-    public void setSteps(int steps) {
-        this.steps = steps;
+    public void setStepsGoal(int stepsGoal) {
+        this.stepsGoal = stepsGoal;
     }
 }

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 public class UserData {
     private int Total;
     private int Best;
+    private DailyGoals goals = new DailyGoals();
 
     /**
      * @param canned true returns canned data
@@ -88,8 +89,10 @@ public class UserData {
      * creates the Daily Goals from the DailyGoals class constructor
      * @throws JSONException
      */
+
+
+
     public DailyGoals getDailyGoals( boolean canned) throws JSONException{
-        DailyGoals goals = new DailyGoals();
         return goals;
     }
 
@@ -133,25 +136,5 @@ public class UserData {
         return s;
     }
  }
-
-        if (canned){
-            DailyGoals goals = new DailyGoals();
-            return goals;
-        }else {
-            DailyGoals goals = new DailyGoals();
-            return goals;
-        }
-    }
-
-    public Boolean isAtGoal(boolean canned) throws JSONException {
-        if (canned) {
-            return true;
-        } else {
-            DailyGoals goals = new DailyGoals();
-
-            return null;
-        }
-    }
-}
 
 
