@@ -352,19 +352,21 @@ public class UserData {
     }
 
     public DailyGoals getDailyGoals( boolean canned) throws JSONException{
+
         if (canned){
-            DailyGoals goals = new DailyGoals(true);
+            DailyGoals goals = new DailyGoals();
+            return goals;
+        }else {
+            DailyGoals goals = new DailyGoals();
             return goals;
         }
-        DailyGoals goals = new DailyGoals(false);
-        return goals;
     }
 
     public Boolean isAtGoal(boolean canned) throws JSONException {
         if (canned) {
             return true;
         } else {
-            DailyGoals goals = new DailyGoals(false);
+            DailyGoals goals = new DailyGoals();
 
             return null;
         }

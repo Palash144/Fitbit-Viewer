@@ -13,23 +13,18 @@ public class DailyGoals {
     private int steps;
 
 
+    public DailyGoals(int theCalories, int theDistance, int theFloors, int theSteps) throws JSONException {
+        caloriesOut = theCalories;
+        distance = theDistance;
+        floors = theFloors;
+        steps = theSteps;
+    }
 
-    public DailyGoals(boolean canned) throws JSONException{
-        if (canned){
-            caloriesOut =123;
-            distance = 321;
-            floors = 111;
-            steps = 222;
-        }else {
-            Request getData = new Request();
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/goals/daily.json"));
-            final JSONObject fitData = obj.getJSONObject("goals");
-
-            caloriesOut = fitData.getInt("caloriesOut");
-            distance = fitData.getDouble("distance");
-            floors = fitData.getInt("floors");
-            steps = fitData.getInt("steps");
-        }
+    public DailyGoals() {
+        caloriesOut = 750;
+        distance = 100;
+        floors = 200;
+        steps = 2500;
     }
 
     public int getCaloriesOut() {
