@@ -44,28 +44,28 @@ public class UserData {
             final JSONObject obj = new JSONObject(getData.requestFor("activities/date/" + date + ".json"));
 
             final JSONObject fitData = obj.getJSONObject("summary");
-            System.out.println("steps: " + fitData.getString("steps"));
+            //System.out.println("steps: " + fitData.getString("steps"));
             returnData[3] = (fitData.getDouble("steps"));
 
             final JSONArray distanceArray = fitData.getJSONArray("distances");
             final JSONObject totalDistance = distanceArray.getJSONObject(0);
-            System.out.println("distance: " + totalDistance.getString("distance"));
+            //System.out.println("distance: " + totalDistance.getString("distance"));
             returnData[1] = (totalDistance.getDouble("distance"));
 
-            System.out.println("floors: " + fitData.getDouble("floors"));
+            //System.out.println("floors: " + fitData.getDouble("floors"));
             returnData[2] = (fitData.getDouble("floors"));
 
-            System.out.println("calories: " + fitData.getDouble("caloriesOut"));
+            //System.out.println("calories: " + fitData.getDouble("caloriesOut"));
             returnData[0] = (fitData.getDouble("caloriesOut"));
 
             double activeMinutes = 0;
             activeMinutes += Integer.parseInt(fitData.getString("fairlyActiveMinutes"));
             activeMinutes += Integer.parseInt(fitData.getString("lightlyActiveMinutes"));
             activeMinutes += Integer.parseInt(fitData.getString("veryActiveMinutes"));
-            System.out.println("active minutes: " + activeMinutes);
+            //System.out.println("active minutes: " + activeMinutes);
             returnData[4] = activeMinutes;
 
-            System.out.println("sedentary minutes: " + fitData.getString("sedentaryMinutes"));
+            //System.out.println("sedentary minutes: " + fitData.getString("sedentaryMinutes"));
             returnData[5] = (fitData.getDouble("sedentaryMinutes"));
 
         } catch (Exception e) {
@@ -106,20 +106,20 @@ public class UserData {
             final JSONObject trackerData = fitData.getJSONObject("tracker");
 
             JSONObject bestValue = trackerData.getJSONObject("distance");
-            System.out.println("best distance date: " + bestValue.getString("date"));
-            System.out.println("best distance: " + bestValue.getString("value"));
+            //System.out.println("best distance date: " + bestValue.getString("date"));
+            //System.out.println("best distance: " + bestValue.getString("value"));
             returnData[0] = bestValue.getString("date");
             returnData[1] = bestValue.getString("value");
 
             bestValue = trackerData.getJSONObject("floors"); //TODO: This returns an unrounded double; Fix it by casting to int
-            System.out.println("best floors date: " + bestValue.getString("date"));
-            System.out.println("best floors: " + bestValue.getString("value"));
+            //System.out.println("best floors date: " + bestValue.getString("date"));
+            //System.out.println("best floors: " + bestValue.getString("value"));
             returnData[2] = bestValue.getString("date");
             returnData[3] = bestValue.getString("value");
 
             bestValue = trackerData.getJSONObject("steps");
-            System.out.println("best steps date: " + bestValue.getString("date"));
-            System.out.println("best steps: " + bestValue.getString("value"));
+            //System.out.println("best steps date: " + bestValue.getString("date"));
+            //System.out.println("best steps: " + bestValue.getString("value"));
             returnData[4] = bestValue.getString("date");
             returnData[5] = bestValue.getString("value");
 
@@ -127,15 +127,15 @@ public class UserData {
             bestValue = lifeTime.getJSONObject("total");
 
             String totalValue = bestValue.getString("distance");
-            System.out.println("total Distance travelled: " + totalValue);
+           // System.out.println("total Distance travelled: " + totalValue);
             returnData[6] = (totalValue);
 
             totalValue = bestValue.getString("floors");
-            System.out.println("total Floors climbed: " + totalValue);
+            //System.out.println("total Floors climbed: " + totalValue);
             returnData[7] = (totalValue);
 
             totalValue = bestValue.getString("steps");
-            System.out.println("total Steps taken: " + totalValue);
+            //System.out.println("total Steps taken: " + totalValue);
             returnData[8] = (totalValue);
 
 
@@ -364,7 +364,7 @@ public class UserData {
     			//activities/distance  
     			//activities/floors
     			String baseReq = "/date/" + date + (zoomed ? "/1d.json":"/"+detailLevel+"/time/"+startTime+"/"+endTime);
-    			
+    			System.out.println(baseReq);
     			final JSONObject stepObj     = new JSONObject(getData.requestFor("activities/steps" + baseReq));
     			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/caloires" + baseReq));
     			final JSONObject distanceObj = new JSONObject(getData.requestFor("activities/distance" + baseReq));

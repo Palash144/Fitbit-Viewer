@@ -567,14 +567,21 @@ public class MainView implements GeneralCallBack {
                         if (canVar) {
                             System.out.println("Returning canned data...");
                         }
+                        
                         //TODO: Fill in the date as a string in this format: 2016-01-08
                         dailyData = sessionData.refreshAll(canVar, currentDate);
+                        
+                        getTSData();
+                        
                         bestnltDate = sessionData.refreshMySummary(canVar);
 
                         hrzoneData = sessionData.getHeartRateZones(currentDate, canVar);
                         hrzoneData_Resting = sessionData.getRestingHeartRate(canVar, currentDate);
                         
-                        getTSData();
+                        
+                        //tsDataDate = currentDate;
+                    	//tsData = sessionData.getTimeSeriesData(false, currentDate, TIME_SERIES_INTERVAL_1_MIN, "", "", testMode);
+                    	
                     } catch (Exception e) {
                         System.out.println("Something went horribly wrong, tell Michael about this: " + e);
                     }
