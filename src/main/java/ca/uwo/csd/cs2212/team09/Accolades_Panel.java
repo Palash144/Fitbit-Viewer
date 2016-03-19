@@ -139,7 +139,7 @@ public class Accolades_Panel extends JPanel {
 		addItem("trekker", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
 		addItem("fit-active", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
 		
-		addItem("CALORIES", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
+		addItem("CALORIES", (new ImageIcon(getClass().getResource("/calorie.png"))), true);
 		addItem("awake", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
 		addItem("activie", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
 		addItem("fit-junkie", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
