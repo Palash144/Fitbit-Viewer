@@ -28,7 +28,6 @@ public class Accolades {
         double Lfloors = Double.parseDouble(ltData[7]);
         double Lsteps = Double.parseDouble(ltData[8]);
 
-
         double Ddistance = data[1];
         double Dcalories = data[0];
         double Dfloors = data[2];
