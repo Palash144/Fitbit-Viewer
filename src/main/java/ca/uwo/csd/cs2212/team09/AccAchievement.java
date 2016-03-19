@@ -12,7 +12,7 @@ public class AccAchievement implements Serializable {
 
 
 
-    private AccAchievement(){
+    private AccAchievement(String date){
 
     }
 

@@ -21,16 +21,19 @@ public class Accolades implements Serializable {
     private AccAchievement MiddleMan;
     private AccAchievement ImmovableObject;
 
+    private boolean Canned;
+
     private AccAchievement[][] dailyDates;
 
     private static final long serialVersionUID = 1L;
 
-    public Accolades() {
+    public Accolades(Boolean Canned, String date) {
         //TODO: this(); //Get all our shit from the main UI class here
         //Do our calculations on our shit here
         //Set relevant achievements
+        this.Canned = Canned;
 
-        AccAchievement[][] dailyDates = new AccAchievement[1000][6];
+        AccAchievement[][] dailyDates = new AccAchievement[1000][7];
 
         double Ddistance = -1;
         double Ldistance = -1;
@@ -42,8 +45,29 @@ public class Accolades implements Serializable {
         double Lsteps = -1;
         double SedentaryM = -1;
         double Very_ActiveM = -1;
-        double Fairly_AtiveM = -1;
+        double Fairly_ActiveM = -1;
         double Lightly_ActiveM = -1;
+
+        /*------------------------------------------------------------*/
+        if(Canned == true){
+
+            Ldistance = 550654;
+            Lcalories = 1200739;
+            Lfloors = 204582;
+            Lsteps = 3202458;
+
+
+            //TODO: Method creating data based on string date;
+            Ddistance = 13;
+            Dcalories = 2608;
+            Dfloors = 4;
+            Dsteps = 5078;
+            SedentaryM = 181;
+            Very_ActiveM = 75;
+            Fairly_ActiveM = 65;
+            Lightly_ActiveM = 200;
+        }
+        /*------------------------------------------------------------*/
 
          DailyDistance.setDaily(true);
          DailyCalories.setDaily(true);
@@ -156,7 +180,7 @@ public class Accolades implements Serializable {
         }
         
         /*--------------------------------------------------------------*/
-        if (Dsteps >= 1000) {
+        if (Dsteps >= 3500) {
             if (!DailySteps.isTier3() ) {
                 DailySteps.setTier3(true);
             }
@@ -166,14 +190,14 @@ public class Accolades implements Serializable {
             if (!DailySteps.isTier1() ) {
                 DailySteps.setTier1(true);
             }
-        } else if (Dsteps >= 750) {
+        } else if (Dsteps >= 2500) {
             if (!DailySteps.isTier2() ) {
                 DailySteps.setTier2(true);
             }
             if (!DailySteps.isTier1() ) {
                 DailySteps.setTier1(true);
             }
-        } else if (Dsteps >= 500) {
+        } else if (Dsteps >= 1000) {
             if (!DailySteps.isTier1() ) {
                 DailySteps.setTier1(true);
             }
@@ -186,7 +210,7 @@ public class Accolades implements Serializable {
             }
         }
         /*--------------------------------------------------------------*/
-        if(SedentaryM >= 18) {
+        if(SedentaryM >= 240) {
             if (!DayOff.isTier1() ) {
                 DayOff.setTier1(true);
             }
@@ -219,7 +243,7 @@ public class Accolades implements Serializable {
         }
         
         /*--------------------------------------------------------------*/
-        if (Lcalories >= 300000) {
+        if (Lcalories >= 1500000) {
             if (!LifeCalories.isTier3() ) {
                 LifeCalories.setTier3(true);
             }
@@ -229,14 +253,14 @@ public class Accolades implements Serializable {
             if (!LifeCalories.isTier1() ) {
                 LifeCalories.setTier1(true);
             }
-        } else if (Lcalories >= 250000) {
+        } else if (Lcalories >= 1000000) {
             if (!LifeCalories.isTier2() ) {
                 LifeCalories.setTier2(true);
             }
             if (!LifeCalories.isTier1() ) {
                 LifeCalories.setTier1(true);
             }
-        } else if (Lcalories >= 200000) {
+        } else if (Lcalories >= 750000) {
             if (!LifeCalories.isTier1() ) {
                 LifeCalories.setTier1(true);
             }
@@ -269,7 +293,7 @@ public class Accolades implements Serializable {
         }
         
         /*--------------------------------------------------------------*/
-        if (Lsteps >= 1000000) {
+        if (Lsteps >= 10000000) {
             if (!LifeSteps.isTier3() ) {
                 LifeSteps.setTier3(true);
             }
@@ -286,19 +310,19 @@ public class Accolades implements Serializable {
             if (!LifeSteps.isTier1() ) {
                 LifeSteps.setTier1(true);
             }
-        } else if (Lsteps >= 500000) {
+        } else if (Lsteps >= 3000000) {
             if (!LifeSteps.isTier1() ) {
                 LifeSteps.setTier1(true);
             }
         }
         /*--------------------------------------------------------------*/
-        if(Fairly_AtiveM >= 100000) {
+        if(Fairly_ActiveM >= 1000000) {
             if (!MiddleMan.isTier1() ) {
                 MiddleMan.setTier1(true);
             }
         }
         /*--------------------------------------------------------------*/
-        if(SedentaryM >= 400000) {
+        if(SedentaryM >= 2500000) {
             if (!ImmovableObject.isTier1() ) {
                 ImmovableObject.setTier1(true);
             }
@@ -413,10 +437,12 @@ public class Accolades implements Serializable {
  }
 
 
-    public void GetAchievements() {
-
+    public void getAccAchievements(String date) {
 
     }
 
+    public void getLifetime(){
+
+    }
 
 }
