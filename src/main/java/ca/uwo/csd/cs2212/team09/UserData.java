@@ -28,14 +28,21 @@ public class UserData {
      * @return An array of strings storing the user's data
      */
     public double[] refreshAll(boolean canned, String date) {
-        double[] returnData = new double[6];
+        double[] returnData = new double[9];
         if (canned == true) {
-            returnData[0] = 123.0;
-            returnData[1] = 1234.0;
-            returnData[2] = 12.0;
-            returnData[3] = 13.0;
-            returnData[4] = 23.0;
-            returnData[5] = 1223.0;
+            String[] tempSplit = date.split("-");
+            int genVal = Integer.parseInt(tempSplit[0]) + Integer.parseInt(tempSplit[1]) + Integer.parseInt(tempSplit[2]);
+            System.out.println("our hash is: " + genVal);
+
+            genVal = genVal % 31;
+
+            //Use mod 31 to generate different values
+            returnData[0] = 1000.0 + (genVal * 50);
+            returnData[1] = 12.0 + (genVal * 2);
+            returnData[2] = 3.0 + (genVal);
+            returnData[3] = 2378.0 + (480 * (genVal / 3)) + genVal;
+            returnData[4] = 54.0 + (genVal * 14);
+            returnData[5] = 1440.0 - returnData[4];
             return returnData;
         }
         Request getData = new Request();
@@ -68,6 +75,10 @@ public class UserData {
             //System.out.println("sedentary minutes: " + fitData.getString("sedentaryMinutes"));
             returnData[5] = (fitData.getDouble("sedentaryMinutes"));
 
+            returnData[6] = Integer.parseInt(fitData.getString("lightlyActiveMinutes"));
+            returnData[7] = Integer.parseInt(fitData.getString("fairlyActiveMinutes"));
+            returnData[8] = Integer.parseInt(fitData.getString("veryActiveMinutes"));
+
         } catch (Exception e) {
             //TODO: Throw an exception
             System.out.println("Failed to refresh all data: " + e.getMessage());
@@ -75,17 +86,15 @@ public class UserData {
         return returnData;
     }
 
-    //TODO: write method to return cached data for my summary
-
     /**
      * Refreshes userdata for the mysummary panel
      * @param canned true if using test data
      * @return the userdata
      */
     public String[] refreshMySummary(boolean canned) {
-        String[] returnData = new String[9];
+        String[] returnData = new String[10];
         if (canned == true) {
-            returnData[0] = "03-01-2016"; //best distance (date)
+            returnData[0] = "02-25-2016"; //best distance (date)
             returnData[1] = "4";          //best distance
             returnData[2] = "03-01-2016"; //best floors (date)
             returnData[3] = "6";          //best floors
@@ -94,6 +103,7 @@ public class UserData {
             returnData[6] = "9";          //lifetime distance
             returnData[7] = "10";         //lifetime floors
             returnData[8] = "11";         //lifetime steps
+            returnData[9] = "11";         //lifetime calories
             return returnData;
         }
         Request getData = new Request();
@@ -138,6 +148,9 @@ public class UserData {
             //System.out.println("total Steps taken: " + totalValue);
             returnData[8] = (totalValue);
 
+            totalValue = bestValue.getString("caloriesOut");
+            System.out.println("total calories: " + totalValue);
+            returnData[9] = (totalValue);
 
         } catch (Exception e) {
             //TODO: Throw an exception
@@ -193,102 +206,6 @@ public class UserData {
         } catch (Exception e) {
             System.out.println("Failed to get floors: " + e.getMessage());
         }
-        return -1;
-    }
-
-    /** Retrieves the number of calories burned by the user
-     * @param canned true if using canned/test data
-     * @param date date of the data retrieved in the format "yyyy-mm-dd"
-     * @return the number of calories burned by the user
-     */
-    public int getCalories(boolean canned, String date) {
-        if (canned == true) {
-            return 1500;
-        }
-
-        Request getData = new Request();
-        try {
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/calories/date/" + date + "/1d.json"));
-            final JSONArray fitData = obj.getJSONArray("activities-calories");
-            final JSONObject fitAttribute = fitData.getJSONObject(0);
-            return fitAttribute.getInt("value");
-        } catch (Exception e) {
-            System.out.println("Failed to get calories: " + e.getMessage());
-        }
-        //Something has gone horribly wrong if we reach this point, throw an exception here and let someone else deal with it
-        return -1;
-    }
-
-
-    /** Retrieves the distance travelled by the user
-     * @param canned true if using canned/test data
-     * @param date date of the data retrieved in the format "yyyy-mm-dd"
-     * @return the number of floors climbed by the user
-     */
-    public int getDistance(boolean canned, String date) {
-        if (canned == true) {
-            return 50;
-        }
-
-        Request getData = new Request();
-        try {
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/distance/date/" + date + "/1d.json"));
-            final JSONArray fitData = obj.getJSONArray("activities-distance");
-            final JSONObject fitAttribute = fitData.getJSONObject(0);
-            return fitAttribute.getInt("value");
-        } catch (Exception e) {
-            System.out.println("Failed to get distance: " + e.getMessage());
-        }
-        //Something has gone horribly wrong if we reach this point, throw an exception here and let someone else deal with it
-        return -1;
-    }
-
-    /** Retrieves the number of active minutes by the user
-     * @param canned true if using canned/test data
-     * @param date date of the data retrieved in the format "yyyy-mm-dd"
-     * @return the number of active minutes by the user
-     */
-    public int getActiveMinutes(boolean canned, String date) {
-        int activeMinutes = 0;
-        if (canned == true) {
-            return 69;
-        }
-
-        Request getData = new Request();
-        try {
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/date/" + date + ".json"));
-            final JSONObject fitData = obj.getJSONObject("summary");
-
-            activeMinutes += Integer.parseInt(fitData.getString("fairlyActiveMinutes"));
-            activeMinutes += Integer.parseInt(fitData.getString("lightlyActiveMinutes"));
-            activeMinutes += Integer.parseInt(fitData.getString("veryActiveMinutes"));
-        } catch (Exception e) {
-            System.out.println("Failed to get get active minutes: " + e.getMessage());
-        }
-
-        return activeMinutes;
-    }
-
-    /** Retrieves the number of sedentary minutes by the user
-     * @param canned true if using canned/test data
-     * @param date date of the data retrieved in the format "yyyy-mm-dd"
-     * @return the number of sedentary minutes by the user
-     */
-    public int getSedentaryMinutes(boolean canned, String date) {
-        if (canned == true) {
-            return 1222;
-        }
-
-        Request getData = new Request();
-        try {
-            final JSONObject obj = new JSONObject(getData.requestFor("activities/minutesSedentary/date/" + date + "/1d.json"));
-            final JSONArray fitData = obj.getJSONArray("activities-minutesSedentary");
-            final JSONObject fitAttribute = fitData.getJSONObject(0);
-            return fitAttribute.getInt("value");
-        } catch (Exception e) {
-            System.out.println("Failed to get sedentary minutes: " + e.getMessage());
-        }
-        //Something has gone horribly wrong if we reach this point, throw an exception here and let someone else deal with it
         return -1;
     }
 
@@ -363,17 +280,17 @@ public class UserData {
     			//activities/steps
     			//activities/distance  
     			//activities/floors
-    			String baseReq = "/date/" + date + (zoomed ? "/1d.json":"/"+detailLevel+"/time/"+startTime+"/"+endTime);
-    			System.out.println(baseReq);
+    			String baseReq = "/date/" + date + (!zoomed ? "/1d.json":"/1d/"+detailLevel+"/time/"+startTime+((startTime == null || startTime.length()==0) ? "":"/")+endTime+".json");
+    			System.out.println("activities/steps" + baseReq);
     			final JSONObject stepObj     = new JSONObject(getData.requestFor("activities/steps" + baseReq));
-    			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/caloires" + baseReq));
+    			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/calories" + baseReq));
     			final JSONObject distanceObj = new JSONObject(getData.requestFor("activities/distance" + baseReq));
     			final JSONObject hrObj       = new JSONObject(getData.requestFor("activities/floors" + baseReq));
     			
-                final JSONArray stepData 	 = 	   stepObj.getJSONObject("activities-log-steps-intraday").getJSONArray("dataset");
-                final JSONArray caloriesData = caloriesObj.getJSONObject("activities-log-calories-intraday").getJSONArray("dataset");
-                final JSONArray distanceData = distanceObj.getJSONObject("activities-log-distance-intraday").getJSONArray("dataset");
-                final JSONArray hrData       = 	     hrObj.getJSONObject("activities-log-floors-intraday").getJSONArray("dataset");
+                final JSONArray stepData 	 = 	   stepObj.getJSONObject("activities-steps-intraday").getJSONArray("dataset");
+                final JSONArray caloriesData = caloriesObj.getJSONObject("activities-calories-intraday").getJSONArray("dataset");
+                final JSONArray distanceData = distanceObj.getJSONObject("activities-distance-intraday").getJSONArray("dataset");
+                final JSONArray hrData       = 	     hrObj.getJSONObject("activities-floors-intraday").getJSONArray("dataset");
                 
                 TimeSeries_Record[] rt = new TimeSeries_Record[stepData.length()];
                 for (int i=0;i<stepData.length();i++) {

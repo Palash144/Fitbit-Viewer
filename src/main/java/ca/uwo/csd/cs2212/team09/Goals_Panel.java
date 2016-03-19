@@ -135,7 +135,6 @@ public class Goals_Panel extends JPanel {
 		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
 		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
 		addItem("Calories", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
-		
 		addItem("Steps Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
 		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
 		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
