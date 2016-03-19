@@ -64,6 +64,7 @@ public class Accolades_Panel extends JPanel {
 	private JScrollPane scrollPane = new JScrollPane();
 	
 	private ArrayList<String> titles = new ArrayList<String>();
+
 	private ArrayList<ImageIcon> images = new ArrayList<ImageIcon>();
 	
 	private JLabel imageLbl = new JLabel("Click a goal to see detail!");
@@ -132,7 +133,80 @@ public class Accolades_Panel extends JPanel {
 		
 		//Demo only
 		//TODO:dssdfsdfjioasdjfklajsdklfjalskdjfksajdfklasjdklfjasbkdvcliwl
-		addItem("DAILY ACCOLADES", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
+		
+		
+		ArrayList<String[]> items = new ArrayList<String []>(30);
+		String[] item0 = {"Baby-step", "Distance","daliy","lock"};
+		items.add(item0);
+		String[] item1 = {"Trekker", "Distance","daliy","lock"};
+		items.add(item1);
+		String[] item2 = {"Fit-active", "Distance","daliy", "lock"};
+		items.add(item2);
+		String[] item3 = {"Awake", "Clories","daliy", "lock"};
+		items.add(item3);
+		String[] item4 = {"Active", "Clories","daliy", "lock"};
+		items.add(item4);
+		String[] item5 = {"Fit-Junkie", "Clories","daliy", "lock"};
+		items.add(item5);
+		String[] item6 = {"Climber", "Floors","daliy", "lock"};
+		items.add(item6);
+		String[] item7 = {"No Elevators", "Floors","daliy", "lock"};
+		items.add(item7);
+		String[] item8 = {"Floor-It!", "Floors","daliy", "lock"};
+		items.add(item8);
+		String[] item9 = {"Toddler", "Steps","daliy","lock"};
+		items.add(item9);
+		String[] item10 = {"All Around", "Steps","daliy","lock"};
+		items.add(item10);
+		String[] item11 = {"Place to Go!", "Steps","daliy", "lock"};
+		items.add(item11);
+		String[] item12 = {"Motor-Vated!", "","daliy", "lock"};
+		items.add(item12);
+		String[] item13 = {"Day-off", "", "daliy","lock"};
+		items.add(item13);
+		String[] item14 = {"Threadmill Master", "Distance","Lifetime", "lock"};
+		items.add(item14);
+		String[] item15 = {"Going the Distance", "Distance", "Lifetime","lock"};
+		items.add(item15);
+		String[] item16 = {"The Flash", "Distance","Lifetime", "lock"};
+		items.add(item16);
+		String[] item17 = {"Counting Calories", "Calories","Lifetime", "lock"};
+		items.add(item17);
+		
+		String[] item18 = {"Burn them All", "Calories","Lifetime","lock"};
+		items.add(item18);
+		
+		String[] item19 = {"Call a Doctor!", "Calories","Lifetime","lock"};
+		items.add(item19);
+		
+		String[] item20 = {"Elevated", "Floors","Lifetime", "lock"};
+		items.add(item20);
+		
+		String[] item21 = {"Floor-ishing", "Floors", "Lifetime","lock"};
+		items.add(item21);
+		String[] item22 = {"Rochy Balboa", "Floors","Lifetime", "lock"};
+		items.add(item22);
+		String[] item23 = {"Step up", "Steps", "Lifetime","lock"};
+		items.add(item23);
+		String[] item24 = {"Step on it", "Steps","Lifetime", "lock"};
+		items.add(item24);
+		String[] item25 = {"Terry Fox!", "Steps","Lifetime", "lock"};
+		items.add(item25);
+		String[] item26 = {"The Immorable Object", "","Lifetime", "lock"};
+		items.add(item26);
+		String[] item27 = {"Middle Man", "","Lifetime", "lock"};
+		items.add(item27);
+	
+		for (int i=0;i<items.size();i++) {
+			addItem(items.get(i)[0], items.get(i)[2]=="lock" ? "LOcked image": "unlocked image",i == items.size()-1 ? true: false);
+		}
+		
+		
+		
+		
+		
+		
+		/*addItem("DAILY ACCOLADES", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
 		
 		addItem("DISTANCE", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
 		addItem("baby-steps", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
@@ -158,7 +232,7 @@ public class Accolades_Panel extends JPanel {
 		addItem("DAY-OFF", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
 		
 		addItem("19", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("20", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("20", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);*/
 		
 		DefaultListModel listModel = new DefaultListModel();  
 		for(int i=0;i<titles.size();i++){  
@@ -176,6 +250,8 @@ public class Accolades_Panel extends JPanel {
 			SwingUtilities.updateComponentTreeUI(mainList);
 		}
 	}
+	
+	
 	
 	private void updatePriviewArea() {
 		imageLbl.setText("");
