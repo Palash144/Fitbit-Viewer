@@ -102,8 +102,6 @@ public class UserData {
      * @throws JSONException
      */
     public String isAtGoal(boolean canned) throws JSONException{
-        DailyGoals goals = new DailyGoals();
-
         String s = "";
 
         //Calories
