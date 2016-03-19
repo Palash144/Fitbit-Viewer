@@ -96,47 +96,49 @@ public class UserData {
     /** TODO: Complete
      * Checks if user is at daily goal
      * @param canned Whether canned data is used or not
-     * @return a string of True or Falses, in the order of
-     * Calories, Distance, Floors, and Steps
-     * B = Below goal, E = At goal, A = Above goal
+     * @return an array of strings detailing progress on daily goals. 
+     * [0] = Calories 
+     * [1] = Distance
+     * [2] = Floors
+     * [3] = Steps
      * @throws JSONException
      */
-    public String isAtGoal(String date, boolean canned) throws JSONException{
+    public String[] isAtGoal(String date, boolean canned) throws JSONException{
         DailyGoals goals = new DailyGoals(date, canned);
 
-        String s = "";
+        String[] s = new String [4];
 
         //Calories
         if (getCalories(canned) < goals.getCaloriesOutGoal())
-        	s = "B";
+        	s[0] = "Calories Burned Goal: Below goal";
         else if (getCalories(canned) == goals.getCaloriesOutGoal())
-        	s = "E";
+        	s[0] = "Calories Burned Goal: Reached goal";
         else
-        	s = "A";
+        	s[0] = "Calories Burned Goal: Surpassed goal";
 
         //Distance
         if (getDistance(canned) < goals.getDistanceGoal())
-        	s += "B";
+        	s[1] = "Distance Traveled Goal: Below goal";
         else if (getDistance(canned) == goals.getDistanceGoal())
-        	s += "E";
+        	s[1] = "Distance Traveled Goal: Reached goal";
         else
-        	s += "A";
+        	s[1] = "Distance Traveled Goal: Surpassed goal";
 
         //Floors
         if (getFloors(canned) < goals.getFloorsGoal())
-        	s += "B";
+        	s[2] = "Floors Climbed Goal: Below goal";
         else if (getFloors(canned) == goals.getFloorsGoal())
-        	s += "E";
+        	s[2] = "Floors Climbed Goal: Reached goal";
         else
-        	s += "A";
+        	s[2] = "Floors Climbed Goal: Surpassed goal";
 
         //Steps
         if (getSteps(canned) < goals.getStepsGoal())
-        	s += "B";
+        	s[3] = "Steps Taken Goal: Below goal";
         else if (getSteps(canned) == goals.getStepsGoal())
-        	s += "E";
+        	s[3] = "Steps Taken Goal: Reached goal";
         else
-        	s += "A";
+        	s[4] = "Steps Taken Goal: Surpassed goal";
 
         //Return statement
         return s;
