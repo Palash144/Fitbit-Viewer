@@ -41,12 +41,15 @@ public class MainView implements GeneralCallBack {
 
     UserData sessionData = new UserData();
 
-    private final static int DATA_DAILY_CALORIES = 0;
-    private final static int DATA_DAILY_DISTANCE = 1;
-    private final static int DATA_DAILY_FLOORS = 2;
-    private final static int DATA_DAILY_STEPS = 3;
-    private final static int DATA_DAILY_ACTIVE_MINUTES = 4;
-    private final static int DATA_DAILY_SEDENTARY_MINUTES = 5;
+    public final static int DATA_DAILY_CALORIES = 0;
+    public final static int DATA_DAILY_DISTANCE = 1;
+    public final static int DATA_DAILY_FLOORS = 2;
+    public final static int DATA_DAILY_STEPS = 3;
+    public final static int DATA_DAILY_ACTIVE_MINUTES = 4;
+    public final static int DATA_DAILY_SEDENTARY_MINUTES = 5;
+    public final static int DATA_DAILY_LIGHTLY_ACTIVE_MINUTES = 6;
+    public final static int DATA_DAILY_FAIRLY_ACTIVE_MINUTES = 7;
+    public final static int DATA_DAILY_VERY_ACTIVE_MINUTES = 8;
 
     public final static int DATA_BEST_DISTANCE_DATE = 0;
     public final static int DATA_BEST_DISTANCE = 1;
@@ -65,11 +68,12 @@ public class MainView implements GeneralCallBack {
     private final static int PAGE_HEART_ZONE = 3;
     private final static int PAGE_GOALS = 4;
     private final static int PAGE_ACCOLADES = 5;
+    
 
     public final static String TIME_SERIES_INTERVAL_1_MIN = "1min";
     public final static String TIME_SERIES_INTERVAL_15_MIN = "15min";
     
-    private double dailyData[] = {0, 0, 0, 0, 0, 0};
+    private double dailyData[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0", "0"};
     private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
     public boolean dailyDataCustomization[] = {true, true, true, true, true, true};
@@ -647,7 +651,7 @@ public class MainView implements GeneralCallBack {
             case PAGE_DAILY_DASHBOARD: {
                 ((Dashboard_Card) dashboardPanel.modifyAt(0)).setNewDate(currentDate, false);
                 int j = 0;
-                for (int i = 0; i < dailyData.length; i++) {
+                for (int i = 0; i < 6; i++) {
                     if (dailyDataCustomization[i]) {
                         j++;
                         Dashboard_Card panel = (Dashboard_Card) dashboardPanel.modifyAt(j);
@@ -720,7 +724,7 @@ public class MainView implements GeneralCallBack {
         if (dashboardPanel.subviewCount() == 0) {
             Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
             dashboardPanel.add(dateCard, false);
-            for (int i = 0; i < dailyData.length; i++) {
+            for (int i = 0; i < 6; i++) {
                 if (dailyDataCustomization[i]) {
                     Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i] + "", dashboardPanel);
                     dashboardPanel.add(t, false);
