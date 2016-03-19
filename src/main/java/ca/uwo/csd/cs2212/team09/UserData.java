@@ -331,4 +331,64 @@ public class UserData {
 		return rt;
 		
     }
+    public DailyGoals getDailyGoals( String date, boolean canned) throws JSONException{
+        DailyGoals goals = new DailyGoals(date, canned);
+        return goals;
+    }
+
+    /** TODO: Complete
+     * Checks if user is at daily goal
+     * @param canned Whether canned data is used or not
+     * @return an array of strings detailing progress on daily goals.
+     * [0] = Calories
+     * [1] = Distance
+     * [2] = Floors
+     * [3] = Steps
+     * @throws JSONException
+     */
+    public String[] isAtGoal(double[] data,String date,Boolean canned) throws JSONException{
+        DailyGoals goals = new DailyGoals(date, canned);
+
+        int dCalories = (int) data[0];
+        int dDistance = (int) data[1];
+        int dFloors = (int) data[2];
+        int dSteps = (int) data[3];
+
+        String[] s = new String [4];
+
+        //Calories
+        if (dCalories < goals.getCaloriesOutGoal())
+            s[0] = "Calories Burned Goal: Below goal";
+        else if (dCalories== goals.getCaloriesOutGoal())
+            s[0] = "Calories Burned Goal: Reached goal";
+        else
+            s[0] = "Calories Burned Goal: Surpassed goal";
+
+        //Distance
+        if (dDistance < goals.getDistanceGoal())
+            s[1] = "Distance Traveled Goal: Below goal";
+        else if (dDistance == goals.getDistanceGoal())
+            s[1] = "Distance Traveled Goal: Reached goal";
+        else
+            s[1] = "Distance Traveled Goal: Surpassed goal";
+
+        //Floors
+        if (dFloors < goals.getFloorsGoal())
+            s[2] = "Floors Climbed Goal: Below goal";
+        else if (dFloors == goals.getFloorsGoal())
+            s[2] = "Floors Climbed Goal: Reached goal";
+        else
+            s[2] = "Floors Climbed Goal: Surpassed goal";
+
+        //Steps
+        if (dSteps < goals.getStepsGoal())
+            s[3] = "Steps Taken Goal: Below goal";
+        else if (dSteps == goals.getStepsGoal())
+            s[3] = "Steps Taken Goal: Reached goal";
+        else
+            s[4] = "Steps Taken Goal: Surpassed goal";
+
+        //Return statement
+        return s;
+    }
 }
