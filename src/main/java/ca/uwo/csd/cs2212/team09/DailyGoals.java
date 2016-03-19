@@ -7,6 +7,10 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 
+/** Implements the Daily Goals of the FitBit Application
+ * @author Team 9
+ *
+ */
 public class DailyGoals implements Serializable {
 
     private int caloriesOutGoal;
@@ -15,6 +19,13 @@ public class DailyGoals implements Serializable {
     private int stepsGoal;
 
 
+    /** A constructor to set the four parameters of the Daily Goal 
+     * @param theCalories The amount of calories to be burned
+     * @param theDistance The distance to be traveled
+     * @param theFloors The number of floors to be climbed
+     * @param theSteps The number of steps to be taken
+     * @throws JSONException
+     */
     public DailyGoals(int theCalories, int theDistance, int theFloors, int theSteps) throws JSONException {
         caloriesOutGoal = theCalories;
         distanceGoal = theDistance;
@@ -22,6 +33,9 @@ public class DailyGoals implements Serializable {
         stepsGoal = theSteps;
     }
 
+    /**
+     * A constructor for the DailyGoals using default values (750 calories, 100 distance, 200 floors, and 2500 steps)
+     */
     public DailyGoals() {
         caloriesOutGoal = 750;
         distanceGoal = 100;
@@ -29,34 +43,58 @@ public class DailyGoals implements Serializable {
         stepsGoal = 2500;
     }
 
+    /** Retrieves the goal for calories burned
+     * @return the goal for calories burned
+     */
     public int getCaloriesOutGoal() {
         return caloriesOutGoal;
     }
 
+    /** Sets the goal for calories burned
+     * @param caloriesOutGoal New goal for calories to be burned
+     */
     public void setCaloriesOutGoal(int caloriesOutGoal) {
         this.caloriesOutGoal = caloriesOutGoal;
     }
 
+    /** Retrieves the goal for distance traveled
+     * @return the goal for distance traveled  
+     */
     public double getDistanceGoal() {
         return distanceGoal;
     }
 
+    /** Sets the goal for distance traveled
+     * @param distanceGoal New goal for distance traveled
+     */
     public void setDistanceGoal(double distanceGoal) {
         this.distanceGoal = distanceGoal;
     }
 
+    /** Retrieves the goal for floors climbed
+     * @return the goal for floors climbed
+     */
     public int getFloorsGoal() {
         return floorsGoal;
     }
 
+    /** Sets the goal for floors climbed
+     * @param floorsGoal New goal for floors climbed
+     */
     public void setFloorsGoal(int floorsGoal) {
         this.floorsGoal = floorsGoal;
     }
 
+    /** Retrieves the goal for steps taken
+     * @return the goal of the steps taken
+     */
     public int getStepsGoal() {
         return stepsGoal;
     }
 
+    /** Sets the goal for steps taken
+     * @param stepsGoal New goal for steps taken
+     */
     public void setStepsGoal(int stepsGoal) {
         this.stepsGoal = stepsGoal;
     }
