@@ -600,7 +600,7 @@ public class MainView implements GeneralCallBack {
     }
     
     public void getTSData() {
-    	getTSData(false, currentDate, TIME_SERIES_INTERVAL_1_MIN, "", "");
+    	getTSData(false, currentDate, TIME_SERIES_INTERVAL_15_MIN, "", "");
     }
     
     public void getTSData(boolean zoomed, String date, String detailLevel, String startTime, String endTime) {
