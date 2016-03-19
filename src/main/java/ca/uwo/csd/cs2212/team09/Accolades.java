@@ -21,22 +21,12 @@ public class Accolades implements Serializable {
     private AccAchievement MiddleMan;
     private AccAchievement ImmovableObject;
 
-    private boolean Canned;
-
-    private AccAchievement[][] dailyDates;
-
     private static final long serialVersionUID = 1L;
 
-    public Accolades(Boolean Canned, String date, double data[], String ltData[], MainView p) {
-        //TODO: this(); //Get all our shit from the main UI class here
-        //Do our calculations on our shit here
-        //Set relevant achievements
-        this.Canned = Canned;
-
-        //AccAchievement[][] dailyDates = new AccAchievement[1000][7];
+    public Accolades(double data[], String ltData[], MainView p) {
 
         double Ldistance = Double.parseDouble(ltData[6]);
-        double Lcalories = Double.parseDouble(ltData[]);
+        double Lcalories = Double.parseDouble(ltData[9]);
         double Lfloors = Double.parseDouble(ltData[7]);
         double Lsteps = Double.parseDouble(ltData[8]);
 
@@ -51,31 +41,6 @@ public class Accolades implements Serializable {
         double Lightly_ActiveM = data[6];
 
 
-
-        /*------------------------------------------------------------*/
-        if(Canned == true){
-
-            Ldistance = 550654;
-            Lcalories = 1200739;
-            Lfloors = 204582;
-            Lsteps = 3202458;
-
-                String[] tempSplit = date.split("-");
-                int genVal = Integer.parseInt(tempSplit[0]) + Integer.parseInt(tempSplit[1]) + Integer.parseInt(tempSplit[2]);
-                System.out.println("our hash is: " + genVal);
-
-                genVal = genVal % 31;
-
-                //Use mod 31 to create a database of 31 possible values
-                returnData[0] = 1000.0 + (genVal * 50);
-                returnData[1] = 12.0 + (genVal * 2);
-                returnData[2] = 3.0 + (genVal);
-                returnData[3] = 2378.0 + (480 * (genVal / 3)) + genVal;
-                System.out.println("The number of steps should be: " + returnData[3]);
-                returnData[4] = 54.0 + (genVal * 14);
-                returnData[5] = 1440.0 - returnData[4];
-                return returnData;
-        }
         /*------------------------------------------------------------*/
 
          DailyDistance.setDaily(true);
@@ -437,20 +402,23 @@ public class Accolades implements Serializable {
         ImmovableObject = immovableObject;
     }
 
-
-    public void getAccAchievements(String date) {
-
-    }
-
     public AccAchievement[] getAchievements(){
 
         AccAchievement[] Achievements = new AccAchievement[12];
+        Achievements[0] = DailyDistance;
+        Achievements[1] = DailyCalories;
+        Achievements[2] = DailyFloors;
+        Achievements[3] = DailySteps;
+        Achievements[4] = MotorVated;
+        Achievements[5] = DayOff;
+        Achievements[6] = LifeDistance;
+        Achievements[7] = LifeCalories;
+        Achievements[8] = LifeFloors;
+        Achievements[9] = LifeSteps;
+        Achievements[10] = ImmovableObject;
+        Achievements[11] = MiddleMan;
 
-
-    }
-
-    public void getLifetime(){
-
+        return Achievements;
     }
 
 }
