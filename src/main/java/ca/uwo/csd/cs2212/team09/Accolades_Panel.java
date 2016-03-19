@@ -132,24 +132,31 @@ public class Accolades_Panel extends JPanel {
 		
 		//Demo only
 		//TODO:dssdfsdfjioasdjfklajsdklfjalskdjfksajdfklasjdklfjasbkdvcliwl
-		addItem("01", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("02", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("03", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("04", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("05", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("06", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("07", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("08", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("09", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("10", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("11", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("12", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("13", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("14", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("15", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("16", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("17", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("18", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("DAILY ACCOLADES", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
+		
+		addItem("DISTANCE", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
+		addItem("baby-steps", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("trekker", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("fit-active", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		
+		addItem("CALORIES", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
+		addItem("awake", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("activie", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("fit-junkie", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		
+		addItem("FLOOR", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
+		addItem("climber", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("no elevators", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("floor-it!", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		
+		addItem("STEPS", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
+		addItem("toddler", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("all around", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("please to go!", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		
+		addItem("MOTOR-VATED!", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		addItem("DAY-OFF", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
+		
 		addItem("19", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
 		addItem("20", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
 		
