@@ -819,4 +819,8 @@ public class MainView implements GeneralCallBack {
     	dailyDataCustomization = inArr;
     	layoutPanels(getFitLayout(), false);
     }
+    
+    public void showErrorMsg(String msg) {
+    	System.out.println("Error "+msg);
+    }
 }
