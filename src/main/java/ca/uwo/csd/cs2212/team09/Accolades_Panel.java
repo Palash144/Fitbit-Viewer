@@ -198,41 +198,8 @@ public class Accolades_Panel extends JPanel {
 		items.add(item27);
 	
 		for (int i=0;i<items.size();i++) {
-			addItem(items.get(i)[0], items.get(i)[2]=="lock" ? "LOcked image": "unlocked image",i == items.size()-1 ? true: false);
+			addItem(items.get(i)[0], items.get(i)[2]=="lock" ? (new ImageIcon(getClass().getResource("/lock20.png"))) : (new ImageIcon(getClass().getResource("/gold_cup.png"))),i == items.size()-1 ? true: false);
 		}
-		
-		
-		
-		
-		
-		
-		/*addItem("DAILY ACCOLADES", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
-		
-		addItem("DISTANCE", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
-		addItem("baby-steps", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("trekker", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("fit-active", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		
-		addItem("CALORIES", (new ImageIcon(getClass().getResource("/calorie.png"))), true);
-		addItem("awake", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("activie", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("fit-junkie", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		
-		addItem("FLOOR", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
-		addItem("climber", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("no elevators", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("floor-it!", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		
-		addItem("STEPS", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
-		addItem("toddler", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("all around", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("please to go!", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		
-		addItem("MOTOR-VATED!", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("DAY-OFF", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		
-		addItem("19", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);
-		addItem("20", (new ImageIcon(getClass().getResource("/gold_cup.png"))), true);*/
 		
 		DefaultListModel listModel = new DefaultListModel();  
 		for(int i=0;i<titles.size();i++){  
