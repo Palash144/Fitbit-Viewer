@@ -27,26 +27,30 @@ public class Accolades implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Accolades(Boolean Canned, String date) {
+    public Accolades(Boolean Canned, String date, double data[], String ltData[], MainView p) {
         //TODO: this(); //Get all our shit from the main UI class here
         //Do our calculations on our shit here
         //Set relevant achievements
         this.Canned = Canned;
 
-        AccAchievement[][] dailyDates = new AccAchievement[1000][7];
+        //AccAchievement[][] dailyDates = new AccAchievement[1000][7];
 
-        double Ddistance = -1;
-        double Ldistance = -1;
-        double Dcalories = -1;
-        double Lcalories = -1;
-        double Dfloors = -1;
-        double Lfloors = -1;
-        double Dsteps = -1;
-        double Lsteps = -1;
-        double SedentaryM = -1;
-        double Very_ActiveM = -1;
-        double Fairly_ActiveM = -1;
-        double Lightly_ActiveM = -1;
+        double Ldistance = Double.parseDouble(ltData[6]);
+        double Lcalories = Double.parseDouble(ltData[]);
+        double Lfloors = Double.parseDouble(ltData[7]);
+        double Lsteps = Double.parseDouble(ltData[8]);
+
+
+        double Ddistance = data[1];
+        double Dcalories = data[0];
+        double Dfloors = data[2];
+        double Dsteps = data[3];
+        double SedentaryM = data[5];
+        double Very_ActiveM = data[8];
+        double Fairly_ActiveM = data[7];
+        double Lightly_ActiveM = data[6];
+
+
 
         /*------------------------------------------------------------*/
         if(Canned == true){
@@ -56,16 +60,21 @@ public class Accolades implements Serializable {
             Lfloors = 204582;
             Lsteps = 3202458;
 
+                String[] tempSplit = date.split("-");
+                int genVal = Integer.parseInt(tempSplit[0]) + Integer.parseInt(tempSplit[1]) + Integer.parseInt(tempSplit[2]);
+                System.out.println("our hash is: " + genVal);
 
-            //TODO: Method creating data based on string date;
-            Ddistance = 13;
-            Dcalories = 2608;
-            Dfloors = 4;
-            Dsteps = 5078;
-            SedentaryM = 181;
-            Very_ActiveM = 75;
-            Fairly_ActiveM = 65;
-            Lightly_ActiveM = 200;
+                genVal = genVal % 31;
+
+                //Use mod 31 to create a database of 31 possible values
+                returnData[0] = 1000.0 + (genVal * 50);
+                returnData[1] = 12.0 + (genVal * 2);
+                returnData[2] = 3.0 + (genVal);
+                returnData[3] = 2378.0 + (480 * (genVal / 3)) + genVal;
+                System.out.println("The number of steps should be: " + returnData[3]);
+                returnData[4] = 54.0 + (genVal * 14);
+                returnData[5] = 1440.0 - returnData[4];
+                return returnData;
         }
         /*------------------------------------------------------------*/
 
@@ -429,15 +438,14 @@ public class Accolades implements Serializable {
     }
 
 
-    public static void main(String[] args){
-
-     int D = 1500;
-     Accolades kay = new Accolades();
-
- }
-
-
     public void getAccAchievements(String date) {
+
+    }
+
+    public AccAchievement[] getAchievements(){
+
+        AccAchievement[] Achievements = new AccAchievement[12];
+
 
     }
 
