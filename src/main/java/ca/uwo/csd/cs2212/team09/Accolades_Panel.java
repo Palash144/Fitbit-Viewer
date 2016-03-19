@@ -130,30 +130,31 @@ public class Accolades_Panel extends JPanel {
 			    }
 			}
         });
-		
-		//Demo only
-		//TODO:dssdfsdfjioasdjfklajsdklfjalskdjfksajdfklasjdklfjasbkdvcliwl
-		
+			
 		
 		ArrayList<String[]> items = new ArrayList<String []>(30);
+		//Daily Accolades - Distance
 		String[] item0 = {"Baby-step", "Distance","daliy","lock"};
 		items.add(item0);
 		String[] item1 = {"Trekker", "Distance","daliy","lock"};
 		items.add(item1);
 		String[] item2 = {"Fit-active", "Distance","daliy", "lock"};
 		items.add(item2);
+		//Daily Accolades - Clories
 		String[] item3 = {"Awake", "Clories","daliy", "lock"};
 		items.add(item3);
 		String[] item4 = {"Active", "Clories","daliy", "lock"};
 		items.add(item4);
 		String[] item5 = {"Fit-Junkie", "Clories","daliy", "lock"};
 		items.add(item5);
+		//Daily Accolades - Floors
 		String[] item6 = {"Climber", "Floors","daliy", "lock"};
 		items.add(item6);
 		String[] item7 = {"No Elevators", "Floors","daliy", "lock"};
 		items.add(item7);
 		String[] item8 = {"Floor-It!", "Floors","daliy", "lock"};
 		items.add(item8);
+		//Daily Accolades - Steps
 		String[] item9 = {"Toddler", "Steps","daliy","lock"};
 		items.add(item9);
 		String[] item10 = {"All Around", "Steps","daliy","lock"};
@@ -164,28 +165,28 @@ public class Accolades_Panel extends JPanel {
 		items.add(item12);
 		String[] item13 = {"Day-off", "", "daliy","lock"};
 		items.add(item13);
+		//Lifetime Accolades - Distance
 		String[] item14 = {"Threadmill Master", "Distance","Lifetime", "lock"};
 		items.add(item14);
 		String[] item15 = {"Going the Distance", "Distance", "Lifetime","lock"};
 		items.add(item15);
 		String[] item16 = {"The Flash", "Distance","Lifetime", "lock"};
 		items.add(item16);
+		//Lifetime Accolades - Calories
 		String[] item17 = {"Counting Calories", "Calories","Lifetime", "lock"};
 		items.add(item17);
-		
 		String[] item18 = {"Burn them All", "Calories","Lifetime","lock"};
 		items.add(item18);
-		
 		String[] item19 = {"Call a Doctor!", "Calories","Lifetime","lock"};
 		items.add(item19);
-		
+		//Lifetime Accolades - Floors
 		String[] item20 = {"Elevated", "Floors","Lifetime", "lock"};
 		items.add(item20);
-		
 		String[] item21 = {"Floor-ishing", "Floors", "Lifetime","lock"};
 		items.add(item21);
 		String[] item22 = {"Rochy Balboa", "Floors","Lifetime", "lock"};
 		items.add(item22);
+		//Lifetime Accolades - Steps
 		String[] item23 = {"Step up", "Steps", "Lifetime","lock"};
 		items.add(item23);
 		String[] item24 = {"Step on it", "Steps","Lifetime", "lock"};
