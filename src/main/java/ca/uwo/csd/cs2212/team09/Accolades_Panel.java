@@ -199,7 +199,7 @@ public class Accolades_Panel extends JPanel {
 		items.add(item27);
 	
 		for (int i=0;i<items.size();i++) {
-			addItem(items.get(i)[0], items.get(i)[2]=="lock" ? (new ImageIcon(getClass().getResource("/lock20.png"))) : (new ImageIcon(getClass().getResource("/gold_cup.png"))),i == items.size()-1 ? true: false);
+			addItem(items.get(i)[0], items.get(i)[3]=="lock" ? (new ImageIcon(getClass().getResource("/lock20.png"))) : (new ImageIcon(getClass().getResource("/gold_cup.png"))),i == items.size()-1 ? true: false);
 		}
 		
 		DefaultListModel listModel = new DefaultListModel();  
