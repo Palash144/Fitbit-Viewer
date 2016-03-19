@@ -363,17 +363,17 @@ public class UserData {
     			//activities/steps
     			//activities/distance  
     			//activities/floors
-    			String baseReq = "/date/" + date + (zoomed ? "/1d.json":"/"+detailLevel+"/time/"+startTime+"/"+endTime);
-    			System.out.println(baseReq);
+    			String baseReq = "/date/" + date + (!zoomed ? "/1d.json":"/1d/"+detailLevel+"/time/"+startTime+((startTime == null || startTime.length()==0) ? "":"/")+endTime+".json");
+    			System.out.println("activities/steps" + baseReq);
     			final JSONObject stepObj     = new JSONObject(getData.requestFor("activities/steps" + baseReq));
-    			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/caloires" + baseReq));
+    			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/calories" + baseReq));
     			final JSONObject distanceObj = new JSONObject(getData.requestFor("activities/distance" + baseReq));
     			final JSONObject hrObj       = new JSONObject(getData.requestFor("activities/floors" + baseReq));
     			
-                final JSONArray stepData 	 = 	   stepObj.getJSONObject("activities-log-steps-intraday").getJSONArray("dataset");
-                final JSONArray caloriesData = caloriesObj.getJSONObject("activities-log-calories-intraday").getJSONArray("dataset");
-                final JSONArray distanceData = distanceObj.getJSONObject("activities-log-distance-intraday").getJSONArray("dataset");
-                final JSONArray hrData       = 	     hrObj.getJSONObject("activities-log-floors-intraday").getJSONArray("dataset");
+                final JSONArray stepData 	 = 	   stepObj.getJSONObject("activities-steps-intraday").getJSONArray("dataset");
+                final JSONArray caloriesData = caloriesObj.getJSONObject("activities-calories-intraday").getJSONArray("dataset");
+                final JSONArray distanceData = distanceObj.getJSONObject("activities-distance-intraday").getJSONArray("dataset");
+                final JSONArray hrData       = 	     hrObj.getJSONObject("activities-floors-intraday").getJSONArray("dataset");
                 
                 TimeSeries_Record[] rt = new TimeSeries_Record[stepData.length()];
                 for (int i=0;i<stepData.length();i++) {
