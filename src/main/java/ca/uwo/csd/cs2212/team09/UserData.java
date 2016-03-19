@@ -39,7 +39,6 @@ public class UserData {
             returnData[1] = 12.0 + (genVal * 2);
             returnData[2] = 3.0 + (genVal);
             returnData[3] = 2378.0 + (480 * (genVal / 3)) + genVal;
-            System.out.println("The number of steps should be: " + returnData[3]);
             returnData[4] = 54.0 + (genVal * 14);
             returnData[5] = 1440.0 - returnData[4];
             return returnData;
@@ -91,7 +90,7 @@ public class UserData {
      * @return the userdata
      */
     public String[] refreshMySummary(boolean canned) {
-        String[] returnData = new String[9];
+        String[] returnData = new String[10];
         if (canned == true) {
             returnData[0] = "02-25-2016"; //best distance (date)
             returnData[1] = "4";          //best distance
@@ -102,6 +101,7 @@ public class UserData {
             returnData[6] = "9";          //lifetime distance
             returnData[7] = "10";         //lifetime floors
             returnData[8] = "11";         //lifetime steps
+            returnData[9] = "11";         //lifetime calories
             return returnData;
         }
         Request getData = new Request();
@@ -146,6 +146,9 @@ public class UserData {
             System.out.println("total Steps taken: " + totalValue);
             returnData[8] = (totalValue);
 
+            totalValue = bestValue.getString("caloriesOut");
+            System.out.println("total calories: " + totalValue);
+            returnData[9] = (totalValue);
 
         } catch (Exception e) {
             //TODO: Throw an exception
