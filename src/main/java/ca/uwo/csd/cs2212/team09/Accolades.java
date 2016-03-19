@@ -5,7 +5,7 @@ import org.json.JSONArray;
 
 import java.io.*;
 
-public class Accolades implements Serializable {
+public class Accolades {
 
     private AccAchievement DailyDistance;
     private AccAchievement DailyCalories;
@@ -20,8 +20,6 @@ public class Accolades implements Serializable {
     private AccAchievement LifeSteps;
     private AccAchievement MiddleMan;
     private AccAchievement ImmovableObject;
-
-    private static final long serialVersionUID = 1L;
 
     public Accolades(double data[], String ltData[], MainView p) {
 
