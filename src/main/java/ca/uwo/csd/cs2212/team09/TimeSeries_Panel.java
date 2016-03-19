@@ -48,6 +48,7 @@ public class TimeSeries_Panel extends JPanel {
 	public TimeSeries_Panel(MainView p) {
 		parent = p;
 		Utils.stylePanel(this);
+		currDate = df.format(new Date());
 		String[] hL = getHourInterval();
 		for (int i=0; i<hL.length;i++) {
 			hourIntBox.addItem(hL[i]);
@@ -55,6 +56,8 @@ public class TimeSeries_Panel extends JPanel {
 		hourIntBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (hourIntBox.getSelectedIndex() != currComboBoxIndex) {
+					if (hourIntBox.getSelectedIndex()<0)
+						return;
 					currComboBoxIndex = hourIntBox.getSelectedIndex();
 					setNewDate((hourIntBox.getSelectedIndex() == 0?false:true),
 							currDate, 
@@ -121,6 +124,15 @@ public class TimeSeries_Panel extends JPanel {
 			Date d = df.parse(date);
 			currDate = df.format(d);
 			if (callback) {
+				hourIntBox.removeAllItems();
+				String[] hL = getHourInterval();
+				for (int i=0; i<hL.length;i++) {
+					hourIntBox.addItem(hL[i]);
+				}
+				hourIntBox.setSelectedIndex(0);
+			}
+			
+			if (callback) {
 				parent.getTSData(zoomed, currDate, detailLevel, startTime, endTime);
 				EventQueue.invokeLater(new Runnable() {
 		            public void run() {
@@ -137,8 +149,21 @@ public class TimeSeries_Panel extends JPanel {
 	}
 	
 	private String[] getHourInterval() {
-		String[] rt = {"Whole day", "12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", 
-									"12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"};
+		
+		Date date = new Date();
+		String currD = df.format(date);
+		if (!currDate.equals(currD)) {
+			String[] rt = {"Whole day", "0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", 
+					"12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"};
+					
+			return rt;
+		}
+		String[] rt = new String[date.getHours()+(date.getHours()==0?2:1)];
+		rt[0] = "Whole day";
+		for (int i=0;i<date.getHours();i++) {
+			rt[1+i] = i + ":00";
+		}
+		
 		return rt;
 	}
 	
