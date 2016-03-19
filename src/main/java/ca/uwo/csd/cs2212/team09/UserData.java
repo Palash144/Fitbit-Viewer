@@ -7,7 +7,6 @@ import org.json.JSONObject;
 public class UserData {
     private int Total;
     private int Best;
-    private DailyGoals goals = new DailyGoals();
 
     /**
      * @param canned true returns canned data
@@ -89,7 +88,8 @@ public class UserData {
      * creates the Daily Goals from the DailyGoals class constructor
      * @throws JSONException
      */
-    public DailyGoals getDailyGoals( boolean canned) throws JSONException{
+    public DailyGoals getDailyGoals( String date, boolean canned) throws JSONException{
+        DailyGoals goals = new DailyGoals(date, canned);
         return goals;
     }
 
@@ -98,10 +98,12 @@ public class UserData {
      * @param canned Whether canned data is used or not
      * @return a string of True or Falses, in the order of
      * Calories, Distance, Floors, and Steps
-     * B = Below goal, E = At goal, A = Above goal 
+     * B = Below goal, E = At goal, A = Above goal
      * @throws JSONException
      */
-    public String isAtGoal(boolean canned) throws JSONException{
+    public String isAtGoal(String date, boolean canned) throws JSONException{
+        DailyGoals goals = new DailyGoals(date, canned);
+
         String s = "";
 
         //Calories
