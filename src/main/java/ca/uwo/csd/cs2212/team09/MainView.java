@@ -89,7 +89,7 @@ public class MainView implements GeneralCallBack {
 
     private Boolean testMode = true;
     public String currentDate;
-    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    public SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     
     private TimeSeries_Record tsData[];
     private String tsDataDate;
@@ -141,7 +141,7 @@ public class MainView implements GeneralCallBack {
     private final Dashboard_Panel dashboardPanel = new Dashboard_Panel(this);
     private final TimeSeries_Panel timeseriesPanel = new TimeSeries_Panel(this);
     private final Dashboard_Panel heartzonePanel = new Dashboard_Panel(this);
-    private final Accolades_Panel accoladesPanel = new Accolades_Panel();
+    private final Accolades_Panel accoladesPanel = new Accolades_Panel(this);
     private final Goals_Panel goalsPanel = new Goals_Panel();
     private final JLabel mysummaryBtn = new JLabel("MySummary");
     private final SSheet_Panel mysummaryPanel = new SSheet_Panel();

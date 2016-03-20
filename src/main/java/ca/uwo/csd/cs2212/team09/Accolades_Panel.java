@@ -25,6 +25,11 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
 
+import java.util.Date; 
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 public class Accolades_Panel extends JPanel {
 	
 	
@@ -72,10 +77,14 @@ public class Accolades_Panel extends JPanel {
 	private final JLabel lblTitle = new JLabel("-");
 	private final JLabel lblDetail = new JLabel("-");
 	
+	private JDatePickerImpl datePicker;
+	private MainView parent;
+	
 	/**
 	 * Create the panel.
 	 */
-	public Accolades_Panel() {
+	public Accolades_Panel(MainView p) {
+		parent = p;
 		lblDetail.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -100,24 +109,25 @@ public class Accolades_Panel extends JPanel {
 		JPanel datePickerPanel = new JPanel();
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addComponent(imageLbl, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblDetail, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(datePickerPanel, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(datePickerPanel, GroupLayout.PREFERRED_SIZE, 201, Short.MAX_VALUE)
+					.addGap(7))
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblDetail, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
+						.addComponent(imageLbl, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+					.addGap(27))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 					.addComponent(imageLbl, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
 					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
@@ -128,6 +138,35 @@ public class Accolades_Panel extends JPanel {
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
+		
+		UtilDateModel model=new UtilDateModel();
+	    JDatePanelImpl datePanel = new JDatePanelImpl(model);
+	    datePicker = new JDatePickerImpl(datePanel);
+	    datePicker.setBounds(0, 0, 200, 100);
+	    try {
+	    	datePicker.getModel().setDate(parent.df.parse(parent.currentDate).getHours() ,
+		    		parent.df.parse(parent.currentDate).getMinutes(),
+		    		parent.df.parse(parent.currentDate).getSeconds() );
+	    }
+	    catch (Exception e) {
+	    	System.out.println("Error");
+	    }
+	    
+	    GroupLayout gl_datePickerPanel = new GroupLayout(datePickerPanel);
+	    gl_datePickerPanel.setHorizontalGroup(
+	    	gl_datePickerPanel.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(gl_datePickerPanel.createSequentialGroup()
+	    			.addComponent(datePicker, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+	    			.addGap(22))
+	    );
+	    gl_datePickerPanel.setVerticalGroup(
+	    	gl_datePickerPanel.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(gl_datePickerPanel.createSequentialGroup()
+	    			.addGap(5)
+	    			.addComponent(datePicker, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    			.addContainerGap(11, Short.MAX_VALUE))
+	    );
+	    datePickerPanel.setLayout(gl_datePickerPanel);
 		
 		scrollPane.setViewportView(mainList);
 		setLayout(groupLayout);
@@ -250,6 +289,27 @@ public class Accolades_Panel extends JPanel {
 		lblTitle.setText(titles.get(mainList.getSelectedIndex()));
 		lblDetail.setText( "Status: " + newItems.get(mainList.getSelectedIndex())[3] + "ed"   );
 		Utils.styleSquareImageButton(imageLbl, images.get(mainList.getSelectedIndex()).getImage(), 150);
+		resizeFont(lblTitle);
+	}
+	
+	private void resizeFont(JLabel label) {
+		Font labelFont = label.getFont();
+		String labelText = label.getText();
+
+		int stringWidth = label.getFontMetrics(labelFont).stringWidth(labelText);
+		int componentWidth = label.getWidth();
+
+		// Find out how much the font can grow in width.
+		double widthRatio = (double)componentWidth / (double)stringWidth;
+
+		int newFontSize = (int)(labelFont.getSize() * widthRatio);
+		int componentHeight = label.getHeight();
+
+		// Pick a new font size so it will not be larger than the height of label.
+		int fontSizeToUse = Math.min(newFontSize, componentHeight);
+
+		// Set the label's font size to the newly determined size.
+		label.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
 	}
 
 	public void drawData(AccAchievement[] acc){
