@@ -79,7 +79,9 @@ public class MainView implements GeneralCallBack {
     private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0", "0"};
     private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
     public boolean dailyDataCustomization[] = {true, true, true, true, true, true};
-
+    
+    private Accolades achievement;
+    
     private HeartRateZones ohno = new HeartRateZones(0, "0", true);
 
     private HeartRateZones hrzoneData[] = {ohno, ohno, ohno, ohno};
@@ -589,6 +591,8 @@ public class MainView implements GeneralCallBack {
                         getTSData();
                         
                         bestnltDate = sessionData.refreshMySummary(canVar);
+                        
+                        achievement = new Accolades(dailyData, bestnltDate);
 
                         hrzoneData = sessionData.getHeartRateZones(currentDate, canVar);
                         hrzoneData_Resting = sessionData.getRestingHeartRate(canVar, currentDate);
@@ -702,8 +706,10 @@ public class MainView implements GeneralCallBack {
 
                 break;
             }
-            case 5: {
-
+            case PAGE_ACCOLADES: {
+            	if (achievement != null) {
+            		accoladesPanel.drawData(achievement.getAchievements());
+            	}
                 break;
             }
             default: {
