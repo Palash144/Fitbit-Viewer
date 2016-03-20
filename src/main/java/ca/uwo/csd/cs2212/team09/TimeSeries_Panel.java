@@ -45,6 +45,8 @@ public class TimeSeries_Panel extends JPanel {
 									"14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00",
 									"21:00", "22:00", "23:00", "23:59"};
 	
+	private boolean isSelfUpdating = false;
+	
 	public TimeSeries_Panel(MainView p) {
 		parent = p;
 		Utils.stylePanel(this);
@@ -126,17 +128,26 @@ public class TimeSeries_Panel extends JPanel {
 			if (tmpDate.after(now))
 				return false;
 			Date d = df.parse(date);
+			String oldDate = currDate;
 			currDate = df.format(d);
 			
+			boolean willRefresh = false;
+			
+			if (!oldDate.equals(currDate)) {
 				hourIntBox.removeAllItems();
 				String[] hL = getHourInterval();
 				for (int i=0; i<hL.length;i++) {
 					hourIntBox.addItem(hL[i]);
 				}
 				hourIntBox.setSelectedIndex(0);
-			
+				willRefresh = true;
+			}
+				
 			if (callback) {
-				parent.getTSData(zoomed, currDate, detailLevel, startTime, endTime);
+				isSelfUpdating = true;
+				parent.getTSData(willRefresh ? false:zoomed, currDate, willRefresh ? parent.TIME_SERIES_INTERVAL_15_MIN:detailLevel, 
+								willRefresh ? "":startTime, 
+								willRefresh ? "":endTime);
 				EventQueue.invokeLater(new Runnable() {
 		            public void run() {
 		            	parent.updateDataOnPanels();
@@ -163,7 +174,7 @@ public class TimeSeries_Panel extends JPanel {
 		}
 		String[] rt = new String[date.getHours()+(date.getHours()==0?2:1)];
 		rt[0] = "Whole day";
-		for (int i=0;i<date.getHours();i++) {
+		for (int i=0;i<date.getHours()+(date.getHours()==0?1:0);i++) {
 			rt[1+i] = i + ":00";
 		}
 		
@@ -176,15 +187,16 @@ public class TimeSeries_Panel extends JPanel {
         TimeSeries seriesDistance = new TimeSeries("Distance", Minute.class);
         TimeSeries seriesHr = new TimeSeries("Heart Rate", Minute.class);
         
+        if (!isSelfUpdating) {
+        	hourIntBox.removeAllItems();
+    		String[] hL = getHourInterval();
+    		for (int i=0; i<hL.length;i++) {
+    			hourIntBox.addItem(hL[i]);
+    		}
+        }
+        
         currDate = date;
         textField.setText(currDate);
-        
-        hourIntBox.removeAllItems();
-		String[] hL = getHourInterval();
-		for (int i=0; i<hL.length;i++) {
-			hourIntBox.addItem(hL[i]);
-		}
-		hourIntBox.setSelectedIndex(0);
         
         final Day day = new Day();
         for (int i=0;i<data.length;i++) {
@@ -227,5 +239,6 @@ public class TimeSeries_Panel extends JPanel {
         		.addComponent(cPanel, GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
         );
         chartPanel.setLayout(gl_chartPanel);
+        isSelfUpdating = false;
 	}
 }

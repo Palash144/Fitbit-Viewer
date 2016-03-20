@@ -101,7 +101,7 @@ public class UserData {
             returnData[4] = "03-01-2016"; //best steps (date)
             returnData[5] = "8";          //best steps
             returnData[6] = "9";          //lifetime distance
-            returnData[7] = "10";         //lifetime floors
+            returnData[7] = "803000";         //lifetime floors
             returnData[8] = "11";         //lifetime steps
             returnData[9] = "11";         //lifetime calories
             return returnData;

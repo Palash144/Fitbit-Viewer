@@ -96,28 +96,36 @@ public class Accolades_Panel extends JPanel {
 		
 		
 		imageLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JPanel datePickerPanel = new JPanel();
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addComponent(imageLbl, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(6)
+					.addContainerGap()
 					.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
 					.addContainerGap())
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblDetail, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
 					.addContainerGap())
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(datePickerPanel, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addComponent(imageLbl, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
 					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblDetail, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-					.addGap(24))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(datePickerPanel, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
 		
@@ -337,5 +345,4 @@ public class Accolades_Panel extends JPanel {
 		mainList.setCellRenderer(new cellRenderer(images));  
 		mainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 	}
-	
 }
