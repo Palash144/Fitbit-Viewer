@@ -723,6 +723,7 @@ public class MainView implements GeneralCallBack {
         
         if (dashboardPanel.subviewCount() == 0) {
             Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
+            dateCard.setNewDate(currentDate, false);
             dashboardPanel.add(dateCard, false);
             for (int i = 0; i < 6; i++) {
                 if (dailyDataCustomization[i]) {

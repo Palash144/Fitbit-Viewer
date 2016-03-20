@@ -26,12 +26,12 @@ import java.awt.event.ActionEvent;
 import java.awt.EventQueue;
 
 
+
 public class TimeSeries_Panel extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	
 	private JPanel chartPanel = new JPanel();
 	private String currDate;
 	private ChartPanel cPanel;
