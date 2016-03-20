@@ -88,8 +88,8 @@ public class MainView implements GeneralCallBack {
     private int hrzoneData_Resting = 0;
 
     private Boolean testMode = true;
-    public String currentDate;
     public SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    public String currentDate = df.format(new Date());
     
     private TimeSeries_Record tsData[];
     private String tsDataDate;

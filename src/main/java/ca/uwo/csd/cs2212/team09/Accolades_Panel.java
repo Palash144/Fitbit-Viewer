@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -24,7 +25,10 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Date; 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -144,13 +148,48 @@ public class Accolades_Panel extends JPanel {
 	    datePicker = new JDatePickerImpl(datePanel);
 	    datePicker.setBounds(0, 0, 200, 100);
 	    try {
-	    	datePicker.getModel().setDate(parent.df.parse(parent.currentDate).getHours() ,
-		    		parent.df.parse(parent.currentDate).getMinutes(),
-		    		parent.df.parse(parent.currentDate).getSeconds() );
+	    	Date date; // your date
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(parent.df.parse(parent.currentDate));
+	        int year = cal.get(Calendar.YEAR);
+	        int month = cal.get(Calendar.MONTH);
+	        int day = cal.get(Calendar.DAY_OF_MONTH);
+	    	datePicker.getModel().setDate(year, month, day);
+	    	datePicker.getModel().setSelected(true);
 	    }
 	    catch (Exception e) {
 	    	System.out.println("Error");
 	    }
+	    
+	    datePicker.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+            	String currDate = datePicker.getModel().getYear() + "-" +
+            					  (datePicker.getModel().getMonth()+1<10 ? "0"+(datePicker.getModel().getMonth()+1):(datePicker.getModel().getMonth()+1)) + "-" +
+            					  (datePicker.getModel().getDay()<10 ? "0"+datePicker.getModel().getDay():datePicker.getModel().getDay());
+                if (!parent.currentDate.equals(currDate)) {
+                	Date now = new Date();
+                	try {
+                		if (!parent.df.parse(currDate).after(now)) {
+                    		parent.updateTime(currDate);
+                    	}
+                		else {
+                			Date date; // your date
+                	        Calendar cal = Calendar.getInstance();
+                	        cal.setTime(parent.df.parse(parent.currentDate));
+                	        int year = cal.get(Calendar.YEAR);
+                	        int month = cal.get(Calendar.MONTH);
+                	        int day = cal.get(Calendar.DAY_OF_MONTH);
+                	    	datePicker.getModel().setDate(year, month, day);
+                	    	datePicker.getModel().setSelected(true);
+                		}
+                	}
+                	catch (Exception err) {
+                		
+                	}
+                }
+            	//System.out.println(currDate);
+            }
+        });
 	    
 	    GroupLayout gl_datePickerPanel = new GroupLayout(datePickerPanel);
 	    gl_datePickerPanel.setHorizontalGroup(
