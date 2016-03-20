@@ -133,6 +133,8 @@ public class Accolades_Panel extends JPanel {
 			
 		
 		ArrayList<String[]> items = new ArrayList<String []>(30);
+		//drawData( acc);
+		
 		//Daily Accolades - Distance
 		String[] item0 = {"Baby-step", "Distance","daliy","lock"};
 		items.add(item0);
@@ -140,6 +142,7 @@ public class Accolades_Panel extends JPanel {
 		items.add(item1);
 		String[] item2 = {"Fit-active", "Distance","daliy", "lock"};
 		items.add(item2);
+		
 		//Daily Accolades - Clories
 		String[] item3 = {"Awake", "Clories","daliy", "lock"};
 		items.add(item3);
@@ -147,6 +150,7 @@ public class Accolades_Panel extends JPanel {
 		items.add(item4);
 		String[] item5 = {"Fit-Junkie", "Clories","daliy", "lock"};
 		items.add(item5);
+		
 		//Daily Accolades - Floors
 		String[] item6 = {"Climber", "Floors","daliy", "lock"};
 		items.add(item6);
@@ -154,6 +158,7 @@ public class Accolades_Panel extends JPanel {
 		items.add(item7);
 		String[] item8 = {"Floor-It!", "Floors","daliy", "lock"};
 		items.add(item8);
+		
 		//Daily Accolades - Steps
 		String[] item9 = {"Toddler", "Steps","daliy","lock"};
 		items.add(item9);
@@ -161,10 +166,12 @@ public class Accolades_Panel extends JPanel {
 		items.add(item10);
 		String[] item11 = {"Place to Go!", "Steps","daliy", "lock"};
 		items.add(item11);
+		
 		String[] item12 = {"Motor-Vated!", "","daliy", "lock"};
 		items.add(item12);
 		String[] item13 = {"Day-off", "", "daliy","lock"};
 		items.add(item13);
+		
 		//Lifetime Accolades - Distance
 		String[] item14 = {"Threadmill Master", "Distance","Lifetime", "lock"};
 		items.add(item14);
@@ -172,6 +179,7 @@ public class Accolades_Panel extends JPanel {
 		items.add(item15);
 		String[] item16 = {"The Flash", "Distance","Lifetime", "lock"};
 		items.add(item16);
+		
 		//Lifetime Accolades - Calories
 		String[] item17 = {"Counting Calories", "Calories","Lifetime", "lock"};
 		items.add(item17);
@@ -179,6 +187,7 @@ public class Accolades_Panel extends JPanel {
 		items.add(item18);
 		String[] item19 = {"Call a Doctor!", "Calories","Lifetime","lock"};
 		items.add(item19);
+		
 		//Lifetime Accolades - Floors
 		String[] item20 = {"Elevated", "Floors","Lifetime", "lock"};
 		items.add(item20);
@@ -186,6 +195,7 @@ public class Accolades_Panel extends JPanel {
 		items.add(item21);
 		String[] item22 = {"Rochy Balboa", "Floors","Lifetime", "lock"};
 		items.add(item22);
+		
 		//Lifetime Accolades - Steps
 		String[] item23 = {"Step up", "Steps", "Lifetime","lock"};
 		items.add(item23);
@@ -193,13 +203,17 @@ public class Accolades_Panel extends JPanel {
 		items.add(item24);
 		String[] item25 = {"Terry Fox!", "Steps","Lifetime", "lock"};
 		items.add(item25);
+		
 		String[] item26 = {"The Immorable Object", "","Lifetime", "lock"};
 		items.add(item26);
 		String[] item27 = {"Middle Man", "","Lifetime", "lock"};
 		items.add(item27);
 	
+		ArrayList<String[]> newItems = new ArrayList<String []>(30);
+
+		
 		for (int i=0;i<items.size();i++) {
-			addItem(items.get(i)[0], items.get(i)[3]=="lock" ? (new ImageIcon(getClass().getResource("/lock20.png"))) : (new ImageIcon(getClass().getResource("/gold_cup.png"))),i == items.size()-1 ? true: false);
+			addItem(newItems.get(i)[0], newItems.get(i)[3]=="lock" ? (new ImageIcon(getClass().getResource("/lock20.png"))) : (new ImageIcon(getClass().getResource("/gold_cup.png"))),i == items.size()-1 ? true: false);
 		}
 		
 		DefaultListModel listModel = new DefaultListModel();  
@@ -227,4 +241,85 @@ public class Accolades_Panel extends JPanel {
 		lblDetail.setText("100/1000 finished");
 		Utils.styleSquareImageButton(imageLbl, images.get(mainList.getSelectedIndex()).getImage(), 150);
 	}
+	
+	ArrayList<String[]> newItems = new ArrayList<String []>(30);
+
+	public void drawData(AccAchievement[] acc){
+		
+		
+		String[] item0 = {"Baby-step", "Distance","daliy",acc[0].isTier1() ? "unlock" : "lock"};
+		newItems.add(item0);
+		String[] item1 = {"Trekker", "Distance","daliy",acc[0].isTier1() ? "unlock" : "lock"};
+		newItems.add(item1);
+		String[] item2 = {"Fit-active", "Distance","daliy", acc[0].isTier1() ? "unlock" : "lock"};
+		newItems.add(item2);
+		
+		//Daily Accolades - Clories
+		String[] item3 = {"Awake", "Clories","daliy", acc[1].isTier1() ? "unlock" : "lock"};
+		newItems.add(item3);
+		String[] item4 = {"Active", "Clories","daliy", acc[1].isTier1() ? "unlock" : "lock"};
+		newItems.add(item4);
+		String[] item5 = {"Fit-Junkie", "Clories","daliy", acc[1].isTier1() ? "unlock" : "lock"};
+		newItems.add(item5);
+		
+		//Daily Accolades - Floors
+		String[] item6 = {"Climber", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock"};
+		newItems.add(item6);
+		String[] item7 = {"No Elevators", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock"};
+		newItems.add(item7);
+		String[] item8 = {"Floor-It!", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock"};
+		newItems.add(item8);
+		
+		//Daily Accolades - Steps
+		String[] item9 = {"Toddler", "Steps","daliy",acc[3].isTier1() ? "unlock" : "lock"};
+		newItems.add(item9);
+		String[] item10 = {"All Around", "Steps","daliy",acc[3].isTier1() ? "unlock" : "lock"};
+		newItems.add(item10);
+		String[] item11 = {"Place to Go!", "Steps","daliy", acc[3].isTier1() ? "unlock" : "lock"};
+		newItems.add(item11);
+		
+		String[] item12 = {"Motor-Vated!", "","daliy", acc[4].isTier1() ? "unlock" : "lock"};
+		newItems.add(item12);
+		String[] item13 = {"Day-off", "", "daliy",acc[5].isTier1() ? "unlock" : "lock"};
+		newItems.add(item13);
+		
+		//Lifetime Accolades - Distance
+		String[] item14 = {"Threadmill Master", "Distance","Lifetime", acc[6].isTier1() ? "unlock" : "lock"};
+		newItems.add(item14);
+		String[] item15 = {"Going the Distance", "Distance", "Lifetime",acc[6].isTier1() ? "unlock" : "lock"};
+		newItems.add(item15);
+		String[] item16 = {"The Flash", "Distance","Lifetime", acc[6].isTier1() ? "unlock" : "lock"};
+		newItems.add(item16);
+		
+		//Lifetime Accolades - Calories
+		String[] item17 = {"Counting Calories", "Calories","Lifetime", acc[7].isTier1() ? "unlock" : "lock"};
+		newItems.add(item17);
+		String[] item18 = {"Burn them All", "Calories","Lifetime",acc[7].isTier1() ? "unlock" : "lock"};
+		newItems.add(item18);
+		String[] item19 = {"Call a Doctor!", "Calories","Lifetime",acc[7].isTier1() ? "unlock" : "lock"};
+		newItems.add(item19);
+		
+		//Lifetime Accolades - Floors
+		String[] item20 = {"Elevated", "Floors","Lifetime", acc[8].isTier1() ? "unlock" : "lock"};
+		newItems.add(item20);
+		String[] item21 = {"Floor-ishing", "Floors", "Lifetime",acc[8].isTier1() ? "unlock" : "lock"};
+		newItems.add(item21);
+		String[] item22 = {"Rochy Balboa", "Floors","Lifetime", acc[8].isTier1() ? "unlock" : "lock"};
+		newItems.add(item22);
+		
+		//Lifetime Accolades - Steps
+		String[] item23 = {"Step up", "Steps", "Lifetime",acc[9].isTier1() ? "unlock" : "lock"};
+		newItems.add(item23);
+		String[] item24 = {"Step on it", "Steps","Lifetime", acc[9].isTier1() ? "unlock" : "lock"};
+		newItems.add(item24);
+		String[] item25 = {"Terry Fox!", "Steps","Lifetime", acc[9].isTier1() ? "unlock" : "lock"};
+		newItems.add(item25);
+		
+		String[] item26 = {"The Immorable Object", "","Lifetime", acc[10].isTier1() ? "unlock" : "lock"};
+		newItems.add(item26);
+		String[] item27 = {"Middle Man", "","Lifetime", acc[11].isTier1() ? "unlock" : "lock"};
+		newItems.add(item27);
+		
+	}
+	
 }
