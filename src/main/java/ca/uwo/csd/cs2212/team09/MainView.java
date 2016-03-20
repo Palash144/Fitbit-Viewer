@@ -11,6 +11,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 
 import javax.swing.SwingConstants;
@@ -481,7 +483,15 @@ public class MainView implements GeneralCallBack {
         btnQuit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.exit(0);
+                    int flag = JOptionPane.showConfirmDialog(null, "Do you want to quit?",  
+                            "I will miss u~", JOptionPane.YES_NO_OPTION,  
+                            JOptionPane.QUESTION_MESSAGE);  
+                    if (JOptionPane.YES_OPTION == flag) {  
+                        System.exit(0);  
+                    } else {  
+                        return;  
+                    }  
+                  
             }
         });
 

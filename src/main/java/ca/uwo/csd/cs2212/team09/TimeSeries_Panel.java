@@ -121,16 +121,19 @@ public class TimeSeries_Panel extends JPanel {
 	
 	public boolean setNewDate(boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean callback) {
 		try {
+			Date tmpDate = df.parse(date);
+			Date now = new Date();
+			if (tmpDate.after(now))
+				return false;
 			Date d = df.parse(date);
 			currDate = df.format(d);
-			if (callback) {
+			
 				hourIntBox.removeAllItems();
 				String[] hL = getHourInterval();
 				for (int i=0; i<hL.length;i++) {
 					hourIntBox.addItem(hL[i]);
 				}
 				hourIntBox.setSelectedIndex(0);
-			}
 			
 			if (callback) {
 				parent.getTSData(zoomed, currDate, detailLevel, startTime, endTime);
@@ -175,6 +178,13 @@ public class TimeSeries_Panel extends JPanel {
         
         currDate = date;
         textField.setText(currDate);
+        
+        hourIntBox.removeAllItems();
+		String[] hL = getHourInterval();
+		for (int i=0; i<hL.length;i++) {
+			hourIntBox.addItem(hL[i]);
+		}
+		hourIntBox.setSelectedIndex(0);
         
         final Day day = new Day();
         for (int i=0;i<data.length;i++) {
