@@ -334,4 +334,16 @@ public class UserData {
 		return rt;
 		
     }
+    
+    
+    /**
+    *
+    * creates the Daily Goals from the DailyGoals class constructor
+    * @throws JSONException
+    */
+   public DailyGoals getDailyGoals( String date, boolean canned) throws JSONException{
+       DailyGoals goals = new DailyGoals(date, canned);
+       return goals;
+   }
+
 }

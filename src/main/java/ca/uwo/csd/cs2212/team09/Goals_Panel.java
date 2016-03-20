@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -24,6 +25,15 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import java.util.Date; 
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 
 public class Goals_Panel extends JPanel {
 	
@@ -68,11 +78,17 @@ public class Goals_Panel extends JPanel {
 	private JLabel imageLbl = new JLabel("Click a goal to see detail!");
 	private final JLabel lblTitle = new JLabel("-");
 	private final JLabel lblDetail = new JLabel("-");
+	private final JPanel datePickerPanel = new JPanel();
+	private JDatePickerImpl datePicker;
+	
+	private MainView parent;
+	private String[] data;
 	
 	/**
 	 * Create the panel.
 	 */
-	public Goals_Panel() {
+	public Goals_Panel(MainView p) {
+		parent = p;
 		lblDetail.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -96,28 +112,97 @@ public class Goals_Panel extends JPanel {
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addComponent(imageLbl, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(6)
-					.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-					.addContainerGap())
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblDetail, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(imageLbl, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(6)
+							.addComponent(datePickerPanel, GroupLayout.PREFERRED_SIZE, 181, Short.MAX_VALUE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblDetail, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addComponent(imageLbl, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-					.addGap(18, 18, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
 					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblDetail, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-					.addGap(24))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(datePickerPanel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addGap(11))
 		);
 		panel.setLayout(gl_panel);
 		
+		UtilDateModel model=new UtilDateModel();
+	    JDatePanelImpl datePanel = new JDatePanelImpl(model);
+	    datePicker = new JDatePickerImpl(datePanel);
+	    datePicker.setBounds(0, 0, 200, 100);
+	    try {
+	    	Date date; // your date
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(parent.df.parse(parent.currentDate));
+	        int year = cal.get(Calendar.YEAR);
+	        int month = cal.get(Calendar.MONTH);
+	        int day = cal.get(Calendar.DAY_OF_MONTH);
+	    	datePicker.getModel().setDate(year, month, day);
+	    	datePicker.getModel().setSelected(true);
+	    }
+	    catch (Exception e) {
+	    	System.out.println("Error");
+	    }
+	    
+	    datePicker.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+            	String currDate = datePicker.getModel().getYear() + "-" +
+            					  (datePicker.getModel().getMonth()+1<10 ? "0"+(datePicker.getModel().getMonth()+1):(datePicker.getModel().getMonth()+1)) + "-" +
+            					  (datePicker.getModel().getDay()<10 ? "0"+datePicker.getModel().getDay():datePicker.getModel().getDay());
+                if (!parent.currentDate.equals(currDate)) {
+                	Date now = new Date();
+                	try {
+                		if (!parent.df.parse(currDate).after(now)) {
+                    		parent.updateTime(currDate);
+                    	}
+                		else {
+                			Date date; // your date
+                	        Calendar cal = Calendar.getInstance();
+                	        cal.setTime(parent.df.parse(parent.currentDate));
+                	        int year = cal.get(Calendar.YEAR);
+                	        int month = cal.get(Calendar.MONTH);
+                	        int day = cal.get(Calendar.DAY_OF_MONTH);
+                	    	datePicker.getModel().setDate(year, month, day);
+                	    	datePicker.getModel().setSelected(true);
+                		}
+                	}
+                	catch (Exception err) {
+                		
+                	}
+                }
+            	//System.out.println(currDate);
+            }
+        });
+	    GroupLayout gl_datePickerPanel = new GroupLayout(datePickerPanel);
+	    gl_datePickerPanel.setHorizontalGroup(
+	    	gl_datePickerPanel.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(gl_datePickerPanel.createSequentialGroup()
+	    			.addComponent(datePicker, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
+	    			.addContainerGap(25, Short.MAX_VALUE))
+	    );
+	    gl_datePickerPanel.setVerticalGroup(
+	    	gl_datePickerPanel.createParallelGroup(Alignment.LEADING)
+	    		.addGroup(gl_datePickerPanel.createSequentialGroup()
+	    			.addGap(5)
+	    			.addComponent(datePicker, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+	    );
+	    datePickerPanel.setLayout(gl_datePickerPanel);
+	    
 		scrollPane.setViewportView(mainList);
 		setLayout(groupLayout);
 		
@@ -131,22 +216,10 @@ public class Goals_Panel extends JPanel {
 		
 		//Demo only
 		//TODO:dssdfsdfjioasdjfklajsdklfjalskdjfksajdfklasjdklfjasbkdvcliwl
-		addItem("Steps Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
-		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
-		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
-		addItem("Calories", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
-		addItem("Steps Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
-		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
-		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
-		addItem("Calories", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
-		addItem("Steps Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
-		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
-		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
-		addItem("Calories", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
-		addItem("Steps Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
-		addItem("Floors Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), true);
-		addItem("Distance", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), true);
-		addItem("Calories", (new ImageIcon(getClass().getResource("/User_Default.png"))), true);
+		addItem("Calories Burned Goal", (new ImageIcon(getClass().getResource("/SS_Calories.png"))), false);
+		addItem("Distance Traveled Goal", (new ImageIcon(getClass().getResource("/SS_Distance.png"))), false);
+		addItem("Floors Climbed Goal", (new ImageIcon(getClass().getResource("/SS_Floors.png"))), false);
+		addItem("Steps Taken Goal", (new ImageIcon(getClass().getResource("/SS_Steps.png"))), true);
 		
 		DefaultListModel listModel = new DefaultListModel();  
 		for(int i=0;i<titles.size();i++){  
@@ -166,9 +239,89 @@ public class Goals_Panel extends JPanel {
 	}
 	
 	private void updatePriviewArea() {
+		if (mainList.getSelectedIndex() < 0) {
+			imageLbl.setIcon(null);
+			imageLbl.setText("Click a goal to see detail!");
+			lblTitle.setText("-");
+			lblDetail.setText("-");
+			return;
+		}
 		imageLbl.setText("");
 		lblTitle.setText(titles.get(mainList.getSelectedIndex()));
-		lblDetail.setText("100/1000 finished");
+		lblDetail.setText("<html><p align=center style=\"width:100px\">"+data[mainList.getSelectedIndex()*2+1]+"</p></html>");
 		Utils.styleSquareImageButton(imageLbl, images.get(mainList.getSelectedIndex()).getImage(), 150);
+		resizeFont(lblTitle);
+	}
+	
+	public void drawData(String[] d) {
+		if (d.length == 0)
+			return;
+		mainList.removeAll();
+		titles.clear();
+		images.clear();
+		
+		data = d;
+		
+		for (int i=0;i<=data.length-2;i+=2) {
+			String picName;
+			if (i==0) {
+				picName = "/SS_Calories.png";
+			}
+			else if (i==2) {
+				picName = "/SS_Distance.png";
+			}
+			else if (i==4) {
+				picName = "/SS_Floors.png";
+			}
+			else {
+				picName = "/SS_Steps.png";
+			}
+			addItem(d[i], (new ImageIcon(getClass().getResource(picName))), 
+					i==data.length-2 ? true: false);
+		}
+		
+		DefaultListModel listModel = new DefaultListModel();  
+		for(int i=0;i<titles.size();i++){  
+			listModel.add(i, titles.get(i));  
+		}  
+		mainList.setModel(listModel);
+		mainList.setCellRenderer(new cellRenderer(images));  
+		mainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
+	}
+	
+	private void resizeFont(JLabel label) {
+		Font labelFont = label.getFont();
+		String labelText = label.getText();
+
+		int stringWidth = label.getFontMetrics(labelFont).stringWidth(labelText);
+		int componentWidth = label.getWidth();
+
+		// Find out how much the font can grow in width.
+		double widthRatio = (double)componentWidth / (double)stringWidth;
+
+		int newFontSize = (int)(labelFont.getSize() * widthRatio);
+		int componentHeight = label.getHeight();
+
+		// Pick a new font size so it will not be larger than the height of label.
+		int fontSizeToUse = Math.min(newFontSize, componentHeight);
+
+		// Set the label's font size to the newly determined size.
+		label.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
+	}
+	
+	public void updateTime() {
+		try {
+	    	Date date; // your date
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(parent.df.parse(parent.currentDate));
+	        int year = cal.get(Calendar.YEAR);
+	        int month = cal.get(Calendar.MONTH);
+	        int day = cal.get(Calendar.DAY_OF_MONTH);
+	    	datePicker.getModel().setDate(year, month, day);
+	    	datePicker.getModel().setSelected(true);
+	    }
+	    catch (Exception e) {
+	    	System.out.println("Error");
+	    }
 	}
 }

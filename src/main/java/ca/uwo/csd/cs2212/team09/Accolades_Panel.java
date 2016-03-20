@@ -27,8 +27,7 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
 import java.util.Date; 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -349,6 +348,22 @@ public class Accolades_Panel extends JPanel {
 
 		// Set the label's font size to the newly determined size.
 		label.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
+	}
+	
+	public void updateTime() {
+		try {
+	    	Date date; // your date
+	        Calendar cal = Calendar.getInstance();
+	        cal.setTime(parent.df.parse(parent.currentDate));
+	        int year = cal.get(Calendar.YEAR);
+	        int month = cal.get(Calendar.MONTH);
+	        int day = cal.get(Calendar.DAY_OF_MONTH);
+	    	datePicker.getModel().setDate(year, month, day);
+	    	datePicker.getModel().setSelected(true);
+	    }
+	    catch (Exception e) {
+	    	System.out.println("Error");
+	    }
 	}
 
 	public void drawData(AccAchievement[] acc){

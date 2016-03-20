@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import org.json.JSONException;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -81,6 +84,7 @@ public class MainView implements GeneralCallBack {
     public boolean dailyDataCustomization[] = {true, true, true, true, true, true};
     
     private Accolades achievement;
+    private String[] goals;
     
     private HeartRateZones ohno = new HeartRateZones(0, "0", true);
 
@@ -142,7 +146,7 @@ public class MainView implements GeneralCallBack {
     private final TimeSeries_Panel timeseriesPanel = new TimeSeries_Panel(this);
     private final Dashboard_Panel heartzonePanel = new Dashboard_Panel(this);
     private final Accolades_Panel accoladesPanel = new Accolades_Panel(this);
-    private final Goals_Panel goalsPanel = new Goals_Panel();
+    private final Goals_Panel goalsPanel = new Goals_Panel(this);
     private final JLabel mysummaryBtn = new JLabel("MySummary");
     private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
     private final JLabel btnQuit = new JLabel("");
@@ -589,11 +593,13 @@ public class MainView implements GeneralCallBack {
                         dailyData = sessionData.refreshAll(canVar, currentDate);
                         
                         getTSData();
-                        
+                 
                         bestnltDate = sessionData.refreshMySummary(canVar);
                         
                         achievement = new Accolades(dailyData, bestnltDate);
 
+                        goals = isAtGoal(currentDate, canVar);
+                        
                         hrzoneData = sessionData.getHeartRateZones(currentDate, canVar);
                         hrzoneData_Resting = sessionData.getRestingHeartRate(canVar, currentDate);
                         
@@ -652,6 +658,8 @@ public class MainView implements GeneralCallBack {
                     e.printStackTrace();
                 } finally {
                     updateDataOnPanels();
+                    goalsPanel.updateTime();
+                    accoladesPanel.updateTime();
                 }
             }
         });
@@ -703,7 +711,9 @@ public class MainView implements GeneralCallBack {
                 break;
             }
             case PAGE_GOALS: {
-
+            	if (goals != null) {
+            		goalsPanel.drawData(goals);
+            	}
                 break;
             }
             case PAGE_ACCOLADES: {
@@ -835,6 +845,61 @@ public class MainView implements GeneralCallBack {
     public void customizeDashboard(boolean[] inArr) {
     	dailyDataCustomization = inArr;
     	layoutPanels(getFitLayout(), false);
+    }
+    
+    /** TODO: Complete
+     * Checks if user is at daily goal
+     * @param canned Whether canned data is used or not
+     * @return an array of strings detailing progress on daily goals. 
+     * [0] = Calories 
+     * [1] = Distance
+     * [2] = Floors
+     * [3] = Steps
+     * @throws JSONException
+     */
+    public String[] isAtGoal(String date, boolean canned) throws JSONException{
+        DailyGoals goals = new DailyGoals(date, canned);
+
+        String[] s = new String [8];
+
+        //Calories
+        s[0] = "Calories Burned Goal";
+        if (dailyData[DATA_DAILY_CALORIES] < goals.getCaloriesOutGoal())
+        	s[1] = "Below goal";
+        else if (dailyData[DATA_DAILY_CALORIES] == goals.getCaloriesOutGoal())
+        	s[1] = "Reached goal";
+        else
+        	s[1] = "Surpassed goal";
+
+        //Distance
+        s[2] = "Distance Traveled Goal";
+        if (dailyData[DATA_DAILY_DISTANCE] < goals.getDistanceGoal())
+        	s[3] = "Below goal";
+        else if (dailyData[DATA_DAILY_DISTANCE] == goals.getDistanceGoal())
+        	s[3] = "Reached goal";
+        else
+        	s[3] = "Surpassed goal";
+
+        //Floors
+        s[4] = "Floors Climbed Goal";
+        if (dailyData[DATA_DAILY_FLOORS] < goals.getFloorsGoal())
+        	s[5] = "Below goal";
+        else if (dailyData[DATA_DAILY_FLOORS] == goals.getFloorsGoal())
+        	s[5] = "Reached goal";
+        else
+        	s[5] = "Surpassed goal";
+
+        //Steps
+        s[6] = "Steps Taken Goal";
+        if (dailyData[DATA_DAILY_STEPS] < goals.getStepsGoal())
+        	s[7] = "Below goal";
+        else if (dailyData[DATA_DAILY_STEPS] == goals.getStepsGoal())
+        	s[7] = "Reached goal";
+        else
+        	s[7] = "Surpassed goal";
+
+        //Return statement
+        return s;
     }
     
     public void showErrorMsg(String msg) {
