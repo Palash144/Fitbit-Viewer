@@ -148,7 +148,7 @@ public class Accolades_Panel extends JPanel {
 		String[] item5 = {"Fit-Junkie", "Clories","daliy", "lock"};
 		items.add(item5);
 		//Daily Accolades - Floors
-		String[] item6 = {"Climber", "Floors","daliy", "lock"};
+		String[] item6 = {"Climber","Floors","daliy", "lock"};
 		items.add(item6);
 		String[] item7 = {"No Elevators", "Floors","daliy", "lock"};
 		items.add(item7);
@@ -218,8 +218,6 @@ public class Accolades_Panel extends JPanel {
 			SwingUtilities.updateComponentTreeUI(mainList);
 		}
 	}
-	
-	
 	
 	private void updatePriviewArea() {
 		imageLbl.setText("");
