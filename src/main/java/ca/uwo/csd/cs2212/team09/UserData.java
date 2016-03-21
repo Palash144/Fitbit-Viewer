@@ -1,5 +1,7 @@
 package ca.uwo.csd.cs2212.team09;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import org.json.JSONArray;
@@ -232,7 +234,10 @@ public class UserData {
             genVal = genVal % 31;
             return 50 + genVal;
         }
-
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        if (df.format(new Date()).equals(date)) {
+        	return 0;
+        }
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/"+ date +"/1d.json"));
         final JSONArray fitData = obj.getJSONArray(("activities-heart"));

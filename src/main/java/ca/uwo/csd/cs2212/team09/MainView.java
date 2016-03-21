@@ -87,11 +87,11 @@ public class MainView implements GeneralCallBack {
     public final static String TIME_SERIES_INTERVAL_1_MIN = "1min";
     public final static String TIME_SERIES_INTERVAL_15_MIN = "15min";
     
-    private final static int MAX_REFRESH_INTERVAL = 10; //second
+    private final static int MAX_REFRESH_INTERVAL = 5; //second
     
     private double dailyData[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0", "0"};
-    private String dailyDataMsg[] = {"Calories burned (J)", "Total distance(km)", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
+    private String dailyDataMsg[] = {"Calories burned (J)", "Total distance (KM)", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
     public boolean dailyDataCustomization[] = {true, true, true, true, true, true};
     
     private Accolades achievement;
@@ -681,12 +681,13 @@ public class MainView implements GeneralCallBack {
                     	//tsData = sessionData.getTimeSeriesData(false, currentDate, TIME_SERIES_INTERVAL_1_MIN, "", "", testMode);
                     	
                     } catch (Exception e) {
+                    	System.out.println( e.getMessage()  );
                     	mainTitleLabel.setText("Home [Offline]");
                     	 ImageIcon icon = new ImageIcon(MainView.class.getResource("/minion.png"));
                          JOptionPane.showMessageDialog(
                                  null,
-                                 "Seems some error happened, because Michael wants you to tell him that there was a problem while creating a connection to the remote service.\nServer sucks..\nNot me.\nFrankly not me.\nI'm pretty good since you can see this.\nWOW\nWhat a flexible code."
-                                 ,"Message", JOptionPane.INFORMATION_MESSAGE,
+                                 "There was a problem while creating a connection to the remote service."
+                                 ,"Oops", JOptionPane.INFORMATION_MESSAGE,
                                  icon);
                     }
                 } catch (Exception e) {
@@ -1030,7 +1031,7 @@ public class MainView implements GeneralCallBack {
         	s[1] = "Reached the goal";
         else
         	s[1] = "Surpassed goal";
-        s[8] = dailyData[DATA_DAILY_CALORIES] + "/" + goals.getCaloriesOutGoal();
+        s[8] = String.format("%.0f", dailyData[DATA_DAILY_CALORIES]) + "/" + goals.getCaloriesOutGoal() + " (J)";
 
         //Distance
         s[2] = "Distance Traveled Goal";
@@ -1040,7 +1041,7 @@ public class MainView implements GeneralCallBack {
         	s[3] = "Reached the goal";
         else
         	s[3] = "Surpassed goal";
-        s[9] = dailyData[DATA_DAILY_DISTANCE] + "/" + goals.getDistanceGoal();
+        s[9] = String.format("%.2f", dailyData[DATA_DAILY_DISTANCE]) + "/" + goals.getDistanceGoal() + " (KM)";
         //Floors
         s[4] = "Floors Climbed Goal";
         if (dailyData[DATA_DAILY_FLOORS] < goals.getFloorsGoal())
@@ -1049,7 +1050,7 @@ public class MainView implements GeneralCallBack {
         	s[5] = "Reached the goal";
         else
         	s[5] = "Surpassed goal";
-        s[10] = dailyData[DATA_DAILY_FLOORS] + "/" + goals.getFloorsGoal();
+        s[10] = String.format("%.0f", dailyData[DATA_DAILY_FLOORS]) + "/" + goals.getFloorsGoal();
          //Steps
         s[6] = "Steps Taken Goal";
         if (dailyData[DATA_DAILY_STEPS] < goals.getStepsGoal())
@@ -1058,7 +1059,7 @@ public class MainView implements GeneralCallBack {
         	s[7] = "Reached the goal";
         else
         	s[7] = "Surpassed goal";
-        s[11] = dailyData[DATA_DAILY_STEPS] + "/" + goals.getStepsGoal();
+        s[11] = String.format("%.0f", dailyData[DATA_DAILY_STEPS]) + "/" + goals.getStepsGoal();
         //Return statement
         return s;
     }

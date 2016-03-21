@@ -44,6 +44,7 @@ public class TimeSeries_Panel extends JPanel {
 									"07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", 
 									"14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00",
 									"21:00", "22:00", "23:00", "23:59"};
+	private JFreeChart chart;
 	
 	private boolean isSelfUpdating = false;
 	
@@ -97,6 +98,14 @@ public class TimeSeries_Panel extends JPanel {
 			}
 		});
 		
+		JButton btnReset = new JButton("Reset");
+		btnReset.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				parent.updateTime(parent.currentDate);
+			}
+		});
+		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -105,7 +114,9 @@ public class TimeSeries_Panel extends JPanel {
 					.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnOk)
-					.addPreferredGap(ComponentPlacement.RELATED, 328, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnReset)
+					.addPreferredGap(ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
 					.addComponent(hourIntBox, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
 				.addComponent(chartPanel, GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
 		);
@@ -117,7 +128,8 @@ public class TimeSeries_Panel extends JPanel {
 							.addContainerGap()
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(btnOk)
-								.addComponent(hourIntBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(hourIntBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnReset)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(7)
 							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
@@ -219,7 +231,7 @@ public class TimeSeries_Panel extends JPanel {
         dataset.addSeries(seriesDistance);
         dataset.addSeries(seriesHr);
         
-        final JFreeChart chart = ChartFactory.createTimeSeriesChart(
+        chart = ChartFactory.createTimeSeriesChart(
             "Time Series on " + currDate,
             "Time", 
             "Value",
