@@ -223,7 +223,14 @@ public class UserData {
      */
     public int getRestingHeartRate(boolean canned, String date) throws JSONException {
 
-        if(canned) return -1;
+        if (canned == true) {
+            String[] tempSplit = date.split("-");
+            int genVal = Integer.parseInt(tempSplit[0]) + Integer.parseInt(tempSplit[1]) + Integer.parseInt(tempSplit[2]);
+            System.out.println("our hash is: " + genVal);
+
+            genVal = genVal % 31;
+            return 50 + genVal;
+        }
 
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/"+ date +"/1d.json"));
