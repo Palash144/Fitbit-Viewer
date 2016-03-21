@@ -262,12 +262,23 @@ public class Goals_Panel extends JPanel {
 			imageLbl.setText("Click a goal to see detail!");
 			lblTitle.setText("-");
 			lblDetail.setText("-");
+			lblDetail.setForeground(Color.black);
 			return;
 		}
 		try {
 			imageLbl.setText("");
 			lblTitle.setText(titles.get(mainList.getSelectedIndex()));
 			lblDetail.setText("<html><p align=center style=\"width:100px\">"+data[mainList.getSelectedIndex()*2+1]+"<br><br>"+data[8+mainList.getSelectedIndex()]+"</p></html>");
+			if (data[mainList.getSelectedIndex()*2+1].equals("Below the goal") ) {
+				lblDetail.setForeground(Color.red);
+			}
+			else if (data[mainList.getSelectedIndex()*2+1].equals("Reached the goal") ) {
+				lblDetail.setForeground(Color.green);
+			}
+			else if (data[mainList.getSelectedIndex()*2+1].equals("Surpassed goal") ) {
+				lblDetail.setForeground(Color.blue);
+			}
+			
 		}
 		catch (Exception e) {
 			lblDetail.setText("Unknown status.");

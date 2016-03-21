@@ -112,30 +112,31 @@ public class Accolades_Panel extends JPanel {
 		JPanel datePickerPanel = new JPanel();
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(datePickerPanel, GroupLayout.PREFERRED_SIZE, 201, Short.MAX_VALUE)
 					.addGap(7))
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+					.addGap(20))
+				.addGroup(gl_panel.createSequentialGroup()
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-							.addContainerGap()
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(6)
 							.addComponent(lblDetail, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
-						.addComponent(imageLbl, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblTitle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+						.addComponent(imageLbl, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
 					.addGap(27))
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addComponent(imageLbl, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+					.addGap(18, 18, Short.MAX_VALUE)
 					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblDetail, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblDetail, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(datePickerPanel, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
@@ -344,7 +345,8 @@ public class Accolades_Panel extends JPanel {
 		}
 		imageLbl.setText("");
 		lblTitle.setText(titles.get(mainList.getSelectedIndex()));
-		lblDetail.setText( "Status: " + newItems.get(mainList.getSelectedIndex())[3] + "ed"   );
+		lblDetail.setText("<html><p align=center style=\"width:100px\">"+"Status: " + newItems.get(mainList.getSelectedIndex())[3] + "ed<br><br>"+newItems.get(mainList.getSelectedIndex())[4]+"</p></html>");
+		
 		Utils.styleSquareImageButton(imageLbl, images.get(mainList.getSelectedIndex()).getImage(), 150);
 		resizeFont(lblTitle);
 	}

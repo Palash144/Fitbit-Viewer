@@ -167,13 +167,13 @@ public class Dashboard_Card extends JPanel {
 	 * @param mode - boolean, true for load, false for hide
 	 */
 	private void setDatePickMode(boolean mode) {
+		if (parentView.parentView.antiBanTimer != null) {
+    		if (parentView.parentView.antiBanTimer.isRunning()) {
+    			return;
+    		}	
+    	}
 		dateCardDisplayMode = mode;
 		if (mode) {
-			if (parentView.parentView.antiBanTimer != null) {
-        		if (parentView.parentView.antiBanTimer.isRunning()) {
-        			return;
-        		}	
-        	}
 			loadDatePickUI();
 		}
 		else {
@@ -200,8 +200,8 @@ public class Dashboard_Card extends JPanel {
 		dateInputLayer.add(dateInputText);
 		dateInputLayer.add(dateInputInfoLabel);
 		dateInputLayer.add(dateConfirmBtn);
-		jCal.setSize(getSize().width*2, getSize().height-10);
-		jCal.setLocation(0, 5);
+		//jCal.setSize(getSize().width*2, getSize().height-10);
+		//jCal.setLocation(0, 5);
 		
 		dateInputTitleLabel.setLocation(0, 0);
 		dateInputTitleLabel.setSize(getSize().width, 50);

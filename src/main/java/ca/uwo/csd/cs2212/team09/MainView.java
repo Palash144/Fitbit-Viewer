@@ -197,8 +197,8 @@ public class MainView implements GeneralCallBack {
     private configClass config = new configClass();
 
     private JLabel dashboardBtn = new JLabel("Dashboard");
-    private JLabel timeseriesBtn = new JLabel("TimeSeries");
-    private JLabel heartzoneBtn = new JLabel("HeartZone");
+    private JLabel timeseriesBtn = new JLabel("Time Series");
+    private JLabel heartzoneBtn = new JLabel("Heart Zone");
     private JLabel userLbl = new JLabel("Beth Locke");
     private JLabel lastupdatedLbl = new JLabel("Data outdated. Please refresh.");
     private JLabel goalsBtn = new JLabel("Goals");
@@ -216,7 +216,7 @@ public class MainView implements GeneralCallBack {
     private final Dashboard_Panel heartzonePanel = new Dashboard_Panel(this);
     private final Accolades_Panel accoladesPanel = new Accolades_Panel(this);
     private final Goals_Panel goalsPanel = new Goals_Panel(this);
-    private final JLabel mysummaryBtn = new JLabel("MySummary");
+    private final JLabel mysummaryBtn = new JLabel("My Summary");
     private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
     private final JLabel btnQuit = new JLabel("");
 
