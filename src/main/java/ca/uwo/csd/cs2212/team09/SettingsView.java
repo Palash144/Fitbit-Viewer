@@ -16,6 +16,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
 
 /**
  * //TODO: This is for stage 3
@@ -40,7 +41,6 @@ public class SettingsView extends JDialog {
 	JLabel lblWhat = new JLabel("Elements shown on your daily dashboard:");
 	
 	boolean[] selectionArray = new boolean[6];
-	private final JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
 
 
 
@@ -57,10 +57,8 @@ public class SettingsView extends JDialog {
 		parent = p;
 		setBounds(100, 100, 560, 350);
 		setResizable(false);
-		getContentPane().setLayout(new BorderLayout());
 		{
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				okButton.addMouseListener(new MouseAdapter() {
 					@Override
@@ -129,7 +127,6 @@ public class SettingsView extends JDialog {
 			}
 		}
 		{
-			getContentPane().add(tabbedPane, BorderLayout.NORTH);
 			{
 				tabbedPane.addTab("Daily Dashboard", null, panel, null);
 				
@@ -196,8 +193,72 @@ public class SettingsView extends JDialog {
 		chckbxNewCheckBox_4.setSelected(selectionArray[4]);
 		
 		chckbxSedentaryMinutes.setSelected(selectionArray[5]);
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
+				.addComponent(buttonPane, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(buttonPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		);
 		
-		tabbedPane.addTab("About", null, tabbedPane_1, null);
+		JPanel panel_1 = new JPanel();
+		tabbedPane.addTab("About", null, panel_1, null);
+		
+		JLabel lblFitviewwe = new JLabel("FitViewer");
+		lblFitviewwe.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+		
+		JLabel lblVersiona = new JLabel("Version: 1.00");
+		
+		JLabel lblBroughtToYou = new JLabel("Brought to you by UWO->2016->CS2212B->Team09");
+		
+		JLabel lblCopyrightcTeam = new JLabel("Copyright (c)2016 team09 ");
+		
+		JLabel lblAllRightsNot = new JLabel("All rights not reserved.");
+		
+		JLabel lblNewLabel = new JLabel("Paul Henderson, Winston Leung, Michael Song, Hashim Salem, Yuchen Wang, ");
+		
+		JLabel lblYitingWangHaoyu = new JLabel("Yiting Wang, Haoyu Gu, Taylor LeBlanc");
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(32)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblYitingWangHaoyu)
+						.addComponent(lblNewLabel)
+						.addComponent(lblBroughtToYou)
+						.addComponent(lblCopyrightcTeam)
+						.addComponent(lblAllRightsNot)
+						.addComponent(lblVersiona)
+						.addComponent(lblFitviewwe, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(20, Short.MAX_VALUE))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(26)
+					.addComponent(lblFitviewwe, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblVersiona)
+					.addGap(18)
+					.addComponent(lblBroughtToYou)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+					.addGap(1)
+					.addComponent(lblYitingWangHaoyu)
+					.addGap(18)
+					.addComponent(lblCopyrightcTeam)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblAllRightsNot)
+					.addGap(19))
+		);
+		panel_1.setLayout(gl_panel_1);
+		getContentPane().setLayout(groupLayout);
 		
 	}
 }

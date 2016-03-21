@@ -227,7 +227,7 @@ public class MainView implements GeneralCallBack {
      */
     private void initialize() {
         mainView = new JFrame();
-        mainView.setTitle("Team09_Fitbit_Project_GUI");
+        mainView.setTitle("FitViewer");
         mainView.setBounds(100, 100, 1025, 540);
         mainView.setBackground(new Color(38, 50, 56));
         mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
