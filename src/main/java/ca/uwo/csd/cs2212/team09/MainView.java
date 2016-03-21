@@ -682,7 +682,6 @@ public class MainView implements GeneralCallBack {
                     	
                     } catch (Exception e) {
                     	mainTitleLabel.setText("Home [Offline]");
-                      //showErrorMsg("Michael wants you to tell him that there was a problem while creating a connection to the remote service.\nServer sucks..\nNot me.\nFrankly not me.\nI'm pretty good since you can see this.\nWOW\nWhat a flexible code.");
                     	 ImageIcon icon = new ImageIcon(MainView.class.getResource("/minion.png"));
                          JOptionPane.showMessageDialog(
                                  null,
