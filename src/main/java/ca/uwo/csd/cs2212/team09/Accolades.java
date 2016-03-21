@@ -7,21 +7,21 @@ import java.io.*;
 
 public class Accolades {
 
-    private AccAchievement DailyDistance;
-    private AccAchievement DailyCalories;
-    private AccAchievement DailyFloors;
-    private AccAchievement DailySteps;
-    private AccAchievement MotorVated;
-    private AccAchievement DayOff;
+    private AccAchievement DailyDistance = new AccAchievement();
+    private AccAchievement DailyCalories = new AccAchievement();
+    private AccAchievement DailyFloors = new AccAchievement();
+    private AccAchievement DailySteps = new AccAchievement();
+    private AccAchievement MotorVated = new AccAchievement();
+    private AccAchievement DayOff = new AccAchievement();
 
-    private AccAchievement LifeDistance;
-    private AccAchievement LifeCalories;
-    private AccAchievement LifeFloors;
-    private AccAchievement LifeSteps;
-    private AccAchievement MiddleMan;
-    private AccAchievement ImmovableObject;
+    private AccAchievement LifeDistance = new AccAchievement();
+    private AccAchievement LifeCalories = new AccAchievement();
+    private AccAchievement LifeFloors = new AccAchievement();
+    private AccAchievement LifeSteps = new AccAchievement();
+    private AccAchievement MiddleMan = new AccAchievement();
+    private AccAchievement ImmovableObject = new AccAchievement();
 
-    public Accolades(double data[], String ltData[], MainView p) {
+    public Accolades(double data[], String ltData[]) {
 
         double Ldistance = Double.parseDouble(ltData[6]);
         double Lcalories = Double.parseDouble(ltData[9]);

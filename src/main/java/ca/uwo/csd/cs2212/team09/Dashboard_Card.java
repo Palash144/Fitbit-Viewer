@@ -14,7 +14,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -22,6 +24,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import com.toedter.calendar.*;
 
 /**
  * Implements cards to be displayed on the dashboard
@@ -50,6 +56,8 @@ public class Dashboard_Card extends JPanel {
 	private final JTextField dateInputText = new JTextField();
 	private final JButton dateConfirmBtn = new JButton("OK");
 	private Timer uiTimer;
+	
+	private JCalendar jCal = new JCalendar();
 
 	private Date currentDate = new Date();
 	
@@ -73,6 +81,8 @@ public class Dashboard_Card extends JPanel {
 		content = lContent;
 		currType = type;
 		parentView = p;
+		
+		currentDate = new Date();
 		
 		if (title != null)
 			titleLabel.setText(title);
@@ -135,7 +145,7 @@ public class Dashboard_Card extends JPanel {
 			break;
 		}
 		case CARD_TYPE_TIME:{
-			content = df.format(new Date());
+			content = df.format(currentDate);
 			contentLabel.setText(content);
 			break;
 		}
@@ -176,49 +186,33 @@ public class Dashboard_Card extends JPanel {
 		dateInputLayer.setVisible(true);
 		dateInputLayer.removeAll();
 		
-		dateInputLayer.add(dateInputTitleLabel);
-		dateInputLayer.add(dateInputText);
-		dateInputLayer.add(dateInputInfoLabel);
-		dateInputLayer.add(dateConfirmBtn);
+		jCal.setSize(getSize().width*2, getSize().height-10);
+		jCal.setLocation(0, 5);
 		
-		dateInputTitleLabel.setLocation(0, 0);
-		dateInputTitleLabel.setSize(getSize().width, 50);
-		dateInputTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		dateInputTitleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
-		dateInputTitleLabel.setVisible(true);
+		if (jCal.getPropertyChangeListeners().length == 0) {
+			jCal.addPropertyChangeListener("calendar", new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent e) {  
+			    	Calendar cal = (Calendar) e.getNewValue();
+			    	if (setNewDate(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1<10 ? "0"+(cal.get(Calendar.MONTH)+1):(cal.get(Calendar.MONTH)+1)) + "-" + (cal.get(Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(Calendar.DAY_OF_MONTH):cal.get(Calendar.DAY_OF_MONTH)), true)) {
+			    		hideDatePickUI();
+			    	}
+			    }
+			    
+			});
+		}
 		
-		dateInputInfoLabel.setLocation(0, dateInputTitleLabel.getSize().height);
-		dateInputInfoLabel.setSize(getSize().width, 50);
-		dateInputInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		dateInputInfoLabel.setText("<html><div style='text-align: center;'>" + dateInputInfoLabel.getText() + "<br>  (e.g. " + df.format(currentDate) + ")</HTML>");
-		dateInputInfoLabel.setVisible(true);
-		
-		dateInputText.setLocation(0, dateInputInfoLabel.getLocation().y + dateInputInfoLabel.getSize().height);
-		dateInputText.setSize(getSize().width, 35);
-		dateInputText.setText(df.format(currentDate));
-		dateInputText.setVisible(true);
-		
-		dateConfirmBtn.setLocation(getSize().width / 4, dateInputText.getLocation().y + dateInputText.getHeight() + 15);
-		dateConfirmBtn.setSize(getSize().width / 2, 35);
-		dateConfirmBtn.removeMouseListener(dateConfirmBtn.getMouseListeners()[0]);
-		dateConfirmBtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (setNewDate(dateInputText.getText(), true)) {
-					hideDatePickUI();
-				}
-				else {
-					dateInputText.setText("Invalid date!");
-				}
-			}
-		});
-		dateConfirmBtn.setVisible(true);
-		
+		dateInputLayer.add(jCal);
+
 		add(dateInputLayer, 0);
+		updateUI();
 		
 		ActionListener aniTimer = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				dateInputLayer.setLocation(0, dateInputLayer.getLocation().y - 2);
+				
+				setSize(getSize().width+2, getSize().height);
+				dateInputLayer.setSize(getSize());
+				
 				if (dateInputLayer.getLocation().y <= 0) {
 					uiTimer.stop();
 					dateCardDisplayMode = true;
@@ -227,8 +221,8 @@ public class Dashboard_Card extends JPanel {
 		};
 		uiTimer = new Timer(1, aniTimer);
 		uiTimer.start();
+		
 	}
-	
 	
 	/**
 	 * Getter method to get date
@@ -251,8 +245,15 @@ public class Dashboard_Card extends JPanel {
 	 */
 	public boolean setNewDate(String date, boolean callback) {
 		try {
-			currentDate = df.parse(date);
+			Date tmpDate = df.parse(date);
+			Date now = new Date();
+			if (tmpDate.after(now))
+				return false;
+			currentDate = tmpDate;
+			content = date;
 			contentLabel.setText(df.format(currentDate));
+			jCal.setDate(currentDate);
+			contentLabel.updateUI(); 
 			if (callback) {
 				parentView.changeDate(date);
 			}
@@ -273,12 +274,16 @@ public class Dashboard_Card extends JPanel {
 			ActionListener aniTimer = new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					dateInputLayer.setLocation(0, dateInputLayer.getLocation().y + 2);
+					setSize(getSize().width-2, getSize().height);
+					dateInputLayer.setSize(getSize());
+					
 					if (dateInputLayer.getLocation().y >= getSize().height) {
 						uiTimer.stop();
 						dateInputLayer.setVisible(false);
 						remove(dateInputLayer);
 						dateCardDisplayMode = false;
 						contentLabel.setText(df.format(currentDate));
+						content = contentLabel.getText();
 						updateUI();
 						setBackground(new Color(166, 171, 173));
 					}
