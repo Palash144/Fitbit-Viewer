@@ -560,9 +560,10 @@ public class MainView implements GeneralCallBack {
         btnQuit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                    int flag = JOptionPane.showConfirmDialog(null, "Do you want to quit?",  
+                   ImageIcon icon = new ImageIcon(MainView.class.getResource("/icon.png"));
+                    int flag = JOptionPane.showConfirmDialog(null, "Do you want to quit?", 
                             "I will miss u~", JOptionPane.YES_NO_OPTION,  
-                            JOptionPane.QUESTION_MESSAGE);  
+                            JOptionPane.QUESTION_MESSAGE, icon);  
                     if (JOptionPane.YES_OPTION == flag) {  
                         System.exit(0);  
                     } else {  
