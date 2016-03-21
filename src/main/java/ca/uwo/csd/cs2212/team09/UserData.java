@@ -149,12 +149,14 @@ public class UserData {
             returnData[8] = (totalValue);
 
             totalValue = bestValue.getString("caloriesOut");
-            System.out.println("total calories: " + totalValue);
+            //System.out.println("total calories: " + totalValue);
             returnData[9] = (totalValue);
 
         } catch (Exception e) {
             //TODO: Throw an exception
+        	String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0", "0"};
             System.out.println("Failed to refresh all data: " + e.getMessage());
+            return bestnltDate;
         }
         return returnData;
     }
@@ -231,7 +233,7 @@ public class UserData {
 
         final JSONObject fitAttribute = fitData.getJSONObject(0);
         final JSONObject values = fitAttribute.getJSONObject("value");
-        System.out.println(values.toString());
+        //System.out.println(values.toString());
         return values.getInt("restingHeartRate");
 
     }
@@ -271,6 +273,7 @@ public class UserData {
     }
     
     public TimeSeries_Record[] getTimeSeriesData (boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean canned) {
+    	boolean returnNAData = false;
     	if (!canned) {
     		Request getData = new Request();
     		try {
@@ -281,7 +284,7 @@ public class UserData {
     			//activities/distance  
     			//activities/floors
     			String baseReq = "/date/" + date + (!zoomed ? "/1d.json":"/1d/"+detailLevel+"/time/"+startTime+((startTime == null || startTime.length()==0) ? "":"/")+endTime+".json");
-    			System.out.println("activities/steps" + baseReq);
+    			//System.out.println("activities/steps" + baseReq);
     			final JSONObject stepObj     = new JSONObject(getData.requestFor("activities/steps" + baseReq));
     			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/calories" + baseReq));
     			final JSONObject distanceObj = new JSONObject(getData.requestFor("activities/distance" + baseReq));
@@ -304,6 +307,7 @@ public class UserData {
                 return rt;
     		}
     		catch (Exception e) {
+    			returnNAData = true;
     			System.out.println("An error happened while fetching timeseries data from fitbit.");
     		}
     		finally {
@@ -315,19 +319,19 @@ public class UserData {
     	if (zoomed) {
     		//hh:mm:ss
     		for (int i=0;i<60;i++) {
-    			rt[i] = new TimeSeries_Record(800+ran.nextInt(2000),
-    										  200+ran.nextInt(200),
-    										  500+ran.nextInt(2000),
-    										  50+ran.nextInt(60),
+    			rt[i] = new TimeSeries_Record(returnNAData ? 1: 800+ran.nextInt(2000),
+    											returnNAData ? 2: 200+ran.nextInt(200),
+    											returnNAData ? 3: 500+ran.nextInt(2000),
+    											returnNAData ? 4: 50+ran.nextInt(60),
     										  startTime.substring(0, 2)+":"+(i<10?"0"+i:i)+":00");
     		}
     	}
     	else {
     		for (int i=0;i<24*4;i++) {
-    			rt[i] = new TimeSeries_Record(800+ran.nextInt(2000),
-						  					   200+ran.nextInt(200),
-						  					  500+ran.nextInt(2000),
-						  					   	 50+ran.nextInt(60),
+    			rt[i] = new TimeSeries_Record(returnNAData ? 1: 800+ran.nextInt(2000),
+    											returnNAData ? 2: 200+ran.nextInt(200),
+    											returnNAData ? 3: 500+ran.nextInt(2000),
+    											returnNAData ? 4: 50+ran.nextInt(60),
     										  ((i/4)<10?("0"+(i/4)):(i/4))+":"+(i%4==0?"00":(i%4)*15)+":00");
     		}
     	}
