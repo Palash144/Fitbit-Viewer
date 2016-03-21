@@ -663,11 +663,12 @@ public class MainView implements GeneralCallBack {
                         hrzoneData = sessionData.getHeartRateZones(currentDate, canVar);
                         hrzoneData_Resting = sessionData.getRestingHeartRate(canVar, currentDate);
                         
-                        
+                        mainTitleLabel.setText("Home");
                         //tsDataDate = currentDate;
                     	//tsData = sessionData.getTimeSeriesData(false, currentDate, TIME_SERIES_INTERVAL_1_MIN, "", "", testMode);
                     	
                     } catch (Exception e) {
+                    	mainTitleLabel.setText("Home [Offline]");
                         showErrorMsg("Micheal wants you to tell him that there was a problem while creating a connection to the remote service.\nServer sucks..\nNot me.\nFrankly not me.\nI'm pretty good since you can see this.\nWOW\nWhat a flexible code.");
                     }
                 } catch (Exception e) {
@@ -676,7 +677,6 @@ public class MainView implements GeneralCallBack {
 
                 SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
                 lastupdatedLbl.setText("Last updated: " + df.format(new Date()));
-
                 System.out.println("Data updated.");
 
                 callback(CALLBACK_ID_LAYOUT_PANEL_AFTER_DATA_REFRESH);
