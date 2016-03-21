@@ -78,6 +78,12 @@ public class TimeSeries_Panel extends JPanel {
 		btnOk.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if (parent.antiBanTimer != null) {
+            		if (parent.antiBanTimer.isRunning()) {
+            			textField.setText(parent.currentDate);
+            			return;
+            		}	
+            	}
 				if (setNewDate((hourIntBox.getSelectedIndex() == 0?false:true),
 															textField.getText(), 
 		(hourIntBox.getSelectedIndex() == 0?parent.TIME_SERIES_INTERVAL_15_MIN:parent.TIME_SERIES_INTERVAL_1_MIN),

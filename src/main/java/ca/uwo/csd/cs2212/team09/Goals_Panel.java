@@ -28,7 +28,7 @@ import java.awt.Font;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.text.ParseException;
 import java.util.Date; 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -160,6 +160,24 @@ public class Goals_Panel extends JPanel {
 	    
 	    datePicker.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
+            	if (parent.antiBanTimer != null) {
+            		if (parent.antiBanTimer.isRunning()){
+            			try {
+            	        	Date date; // your date
+                	        Calendar cal = Calendar.getInstance();
+							cal.setTime(parent.df.parse(parent.currentDate));
+							int year = cal.get(Calendar.YEAR);
+	            	        int month = cal.get(Calendar.MONTH);
+	            	        int day = cal.get(Calendar.DAY_OF_MONTH);
+	            	    	datePicker.getModel().setDate(year, month, day);
+	            	    	datePicker.getModel().setSelected(true);
+						} catch (ParseException e1) {
+							// TODO Auto-generated catch block
+						}
+            	        
+            	    	return;
+            		}
+            	}
             	String currDate = datePicker.getModel().getYear() + "-" +
             					  (datePicker.getModel().getMonth()+1<10 ? "0"+(datePicker.getModel().getMonth()+1):(datePicker.getModel().getMonth()+1)) + "-" +
             					  (datePicker.getModel().getDay()<10 ? "0"+datePicker.getModel().getDay():datePicker.getModel().getDay());

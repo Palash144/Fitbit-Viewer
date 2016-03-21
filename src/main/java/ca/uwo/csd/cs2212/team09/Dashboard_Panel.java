@@ -17,7 +17,7 @@ public class Dashboard_Panel extends JPanel {
 	private List<JPanel>panels = new ArrayList<JPanel>();
 	private Dimension currLayout;
 
-	private MainView parentView;
+	public MainView parentView;
 	
 	/** Constructs a panel for the dashboard
 	 * @param p the main dashboard for which the panel is on
