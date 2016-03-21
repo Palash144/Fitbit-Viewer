@@ -7,6 +7,7 @@ import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -73,5 +74,9 @@ public class Utils {
     
     public static ImageIcon getImageIconForList(Image orig) {
        	return new ImageIcon(orig.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH));
+    }
+    
+    public static void showErrorMsg(String msg) {
+    	JOptionPane.showMessageDialog(null, "Seems some error happened, beacuse " + msg);
     }
 }

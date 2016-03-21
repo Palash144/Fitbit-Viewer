@@ -668,10 +668,10 @@ public class MainView implements GeneralCallBack {
                     	//tsData = sessionData.getTimeSeriesData(false, currentDate, TIME_SERIES_INTERVAL_1_MIN, "", "", testMode);
                     	
                     } catch (Exception e) {
-                        System.out.println("Something went horribly wrong, tell Michael about this: " + e);
+                        showErrorMsg("Micheal wants you to tell him that there was a problem while creating a connection to the remote service.\nServer sucks..\nNot me.\nFrankly not me.\nI'm pretty good since you can see this.\nWOW\nWhat a flexible code.");
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    
                 }
 
                 SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
@@ -965,6 +965,6 @@ public class MainView implements GeneralCallBack {
     }
     
     public void showErrorMsg(String msg) {
-    	System.out.println("Error "+msg);
+    	Utils.showErrorMsg(msg);
     }
 }

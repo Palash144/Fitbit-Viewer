@@ -246,9 +246,14 @@ public class Goals_Panel extends JPanel {
 			lblDetail.setText("-");
 			return;
 		}
-		imageLbl.setText("");
-		lblTitle.setText(titles.get(mainList.getSelectedIndex()));
-		lblDetail.setText("<html><p align=center style=\"width:100px\">"+data[mainList.getSelectedIndex()*2+1]+"</p></html>");
+		try {
+			imageLbl.setText("");
+			lblTitle.setText(titles.get(mainList.getSelectedIndex()));
+			lblDetail.setText("<html><p align=center style=\"width:100px\">"+data[mainList.getSelectedIndex()*2+1]+"</p></html>");
+		}
+		catch (Exception e) {
+			lblDetail.setText("Unknown status.");
+		}
 		Utils.styleSquareImageButton(imageLbl, images.get(mainList.getSelectedIndex()).getImage(), 150);
 		resizeFont(lblTitle);
 	}
