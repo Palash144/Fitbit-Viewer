@@ -19,8 +19,11 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.ImageIcon;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -84,6 +87,8 @@ public class MainView implements GeneralCallBack {
     public final static String TIME_SERIES_INTERVAL_1_MIN = "1min";
     public final static String TIME_SERIES_INTERVAL_15_MIN = "15min";
     
+    private final static int MAX_REFRESH_INTERVAL = 10; //second
+    
     private double dailyData[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0", "0"};
     private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
@@ -91,6 +96,9 @@ public class MainView implements GeneralCallBack {
     
     private Accolades achievement;
     private String[] goals;
+    
+    public Timer antiBanTimer;
+    private int locker = MAX_REFRESH_INTERVAL;
     
     private HeartRateZones ohno = new HeartRateZones(0, "0", true);
 
@@ -103,6 +111,9 @@ public class MainView implements GeneralCallBack {
     
     private TimeSeries_Record tsData[];
     private String tsDataDate;
+    
+    private boolean loaded = false;
+    private String lastUpdatedMsg = "";
 
     /**
      * Adapter to capture the window resize event
@@ -566,6 +577,7 @@ public class MainView implements GeneralCallBack {
         Utils.styleImage(fitbitLogo, new ImageIcon(getClass().getResource("/FitbitLogo.png")).getImage(), 60, 15);
 
         mainView.getContentPane().setLayout(groupLayout);
+        loaded = true;
     }
 
     /**
@@ -676,7 +688,8 @@ public class MainView implements GeneralCallBack {
                 }
 
                 SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
-                lastupdatedLbl.setText("Last updated: " + df.format(new Date()));
+                lastUpdatedMsg = "Last updated: " + df.format(new Date());
+                lastupdatedLbl.setText(lastUpdatedMsg);
                 System.out.println("Data updated.");
 
                 callback(CALLBACK_ID_LAYOUT_PANEL_AFTER_DATA_REFRESH);
@@ -708,6 +721,33 @@ public class MainView implements GeneralCallBack {
      * @param time the time to use for retrieving data
      */
     public void updateTime(String time) {
+
+        if (antiBanTimer == null) {
+        	if (loaded) {
+        		ActionListener aniTimer = new ActionListener() {
+    				public void actionPerformed(ActionEvent evt) {
+    					locker--;
+    					lastupdatedLbl.setText("Please wait "+locker+" secs");
+    					if (locker <= 0) {
+    						locker = MAX_REFRESH_INTERVAL;
+    						lastupdatedLbl.setText(lastUpdatedMsg);
+    						antiBanTimer.stop();
+    					}
+    				}
+    			};
+    			antiBanTimer = new Timer(1000, aniTimer);
+    			antiBanTimer.start();
+        	}
+    	}
+    	else {
+    		if (antiBanTimer.isRunning()) {
+    			//System.out.println("Please wait "+locker+"secs.");
+    			return;
+    		}
+    		else {
+    			antiBanTimer.start();
+    		}
+    	}
         System.out.println("Now will refresh data.");
         currentDate = time;
         EventQueue.invokeLater(new Runnable() {
@@ -796,9 +836,61 @@ public class MainView implements GeneralCallBack {
     void layoutPanels(Dimension layoutMode, boolean updateData) {
         if (updateData) {
             try {
+            	if (antiBanTimer == null) {
+            		if (loaded) {
+                		ActionListener aniTimer = new ActionListener() {
+            				public void actionPerformed(ActionEvent evt) {
+            					locker--;
+            					lastupdatedLbl.setText("Please wait "+locker+" secs");
+            					if (locker <= 0) {
+            						locker = MAX_REFRESH_INTERVAL;
+            						lastupdatedLbl.setText(lastUpdatedMsg);
+            						antiBanTimer.stop();
+            					}
+            				}
+            			};
+            			antiBanTimer = new Timer(1000, aniTimer);
+            			antiBanTimer.start();
+                	}
+            	}
+            	else {
+            		if (antiBanTimer.isRunning()) {
+            			//System.out.println("Please wait "+locker+"secs.");
+            			return;
+            		}
+            		else {
+            			antiBanTimer.start();
+            		}
+            	}
                 refreshAllDataWithDate(((Dashboard_Card) dashboardPanel.modifyAt(0)).getDate(), testMode);
             } catch (Exception e) {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                if (antiBanTimer == null) {
+                	if (loaded) {
+                		ActionListener aniTimer = new ActionListener() {
+            				public void actionPerformed(ActionEvent evt) {
+            					locker--;
+            					lastupdatedLbl.setText("Please wait "+locker+" secs");
+            					if (locker <= 0) {
+            						locker = MAX_REFRESH_INTERVAL;
+            						lastupdatedLbl.setText(lastUpdatedMsg);
+            						antiBanTimer.stop();
+            					}
+            				}
+            			};
+            			antiBanTimer = new Timer(1000, aniTimer);
+            			antiBanTimer.start();
+                	}
+            	}
+            	else {
+            		if (antiBanTimer.isRunning()) {
+            			//System.out.println("Please wait "+locker+"secs.");
+            			return;
+            		}
+            		else {
+            			antiBanTimer.start();
+            		}
+            	}
                 refreshAllDataWithDate(df.format(new Date()), testMode);
             } finally {
 

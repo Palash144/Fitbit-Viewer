@@ -196,6 +196,9 @@ public class Dashboard_Card extends JPanel {
 			    	if (setNewDate(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1<10 ? "0"+(cal.get(Calendar.MONTH)+1):(cal.get(Calendar.MONTH)+1)) + "-" + (cal.get(Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(Calendar.DAY_OF_MONTH):cal.get(Calendar.DAY_OF_MONTH)), true)) {
 			    		hideDatePickUI();
 			    	}
+			    	else {
+			    		hideDatePickUI();
+			    	}
 			    }
 			    
 			});
@@ -245,6 +248,11 @@ public class Dashboard_Card extends JPanel {
 	 */
 	public boolean setNewDate(String date, boolean callback) {
 		try {
+			if (parentView.parentView.antiBanTimer != null && callback) {
+        		if (parentView.parentView.antiBanTimer.isRunning()) {
+        			return false;
+        		}	
+        	}
 			Date tmpDate = df.parse(date);
 			Date now = new Date();
 			if (tmpDate.after(now))
