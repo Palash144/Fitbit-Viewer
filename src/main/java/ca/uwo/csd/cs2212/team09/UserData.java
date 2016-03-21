@@ -226,7 +226,6 @@ public class UserData {
         if (canned == true) {
             String[] tempSplit = date.split("-");
             int genVal = Integer.parseInt(tempSplit[0]) + Integer.parseInt(tempSplit[1]) + Integer.parseInt(tempSplit[2]);
-            System.out.println("our hash is: " + genVal);
 
             genVal = genVal % 31;
             return 50 + genVal;
