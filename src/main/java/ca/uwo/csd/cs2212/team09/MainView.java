@@ -682,12 +682,18 @@ public class MainView implements GeneralCallBack {
                     	
                     } catch (Exception e) {
                     	mainTitleLabel.setText("Home [Offline]");
-                        showErrorMsg("Micheal wants you to tell him that there was a problem while creating a connection to the remote service.\nServer sucks..\nNot me.\nFrankly not me.\nI'm pretty good since you can see this.\nWOW\nWhat a flexible code.");
+                      //showErrorMsg("Michael wants you to tell him that there was a problem while creating a connection to the remote service.\nServer sucks..\nNot me.\nFrankly not me.\nI'm pretty good since you can see this.\nWOW\nWhat a flexible code.");
+                    	 ImageIcon icon = new ImageIcon(MainView.class.getResource("/minion.png"));
+                         JOptionPane.showMessageDialog(
+                                 null,
+                                 "Seems some error happened, because Michael wants you to tell him that there was a problem while creating a connection to the remote service.\nServer sucks..\nNot me.\nFrankly not me.\nI'm pretty good since you can see this.\nWOW\nWhat a flexible code."
+                                 ,"Message", JOptionPane.INFORMATION_MESSAGE,
+                                 icon);
                     }
                 } catch (Exception e) {
                     
                 }
-
+                
                 SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
                 lastUpdatedMsg = "Last updated: " + df.format(new Date());
                 lastupdatedLbl.setText(lastUpdatedMsg);
