@@ -230,7 +230,7 @@ public class Dashboard_Card extends JPanel {
 					hideDatePickUI();
 				}
 				else {
-					dateInputText.setText("Invalid date!");
+					dateInputText.setText("Invalid/future date!");
 				}
 			}
 		});

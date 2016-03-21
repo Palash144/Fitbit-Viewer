@@ -709,6 +709,33 @@ public class MainView implements GeneralCallBack {
     }
     
     public void getTSData(boolean zoomed, String date, String detailLevel, String startTime, String endTime) {
+    	
+    	if (antiBanTimer == null) {
+        	if (loaded) {
+        		ActionListener aniTimer = new ActionListener() {
+    				public void actionPerformed(ActionEvent evt) {
+    					locker--;
+    					lastupdatedLbl.setText("Please wait "+locker+" secs");
+    					if (locker <= 0) {
+    						locker = MAX_REFRESH_INTERVAL;
+    						lastupdatedLbl.setText(lastUpdatedMsg);
+    						antiBanTimer.stop();
+    					}
+    				}
+    			};
+    			antiBanTimer = new Timer(1000, aniTimer);
+    			antiBanTimer.start();
+        	}
+    	}
+    	else {
+    		if (antiBanTimer.isRunning()) {
+    			//System.out.println("Please wait "+locker+"secs.");
+    			return;
+    		}
+    		else {
+    			antiBanTimer.start();
+    		}
+    	}
     	tsDataDate = date;
     	tsData = sessionData.getTimeSeriesData(zoomed, date, detailLevel, startTime, endTime, testMode);
     }
@@ -810,6 +837,7 @@ public class MainView implements GeneralCallBack {
                 for (int i = 0; i < 4; i++) {
                     Dashboard_HRCard panel = (Dashboard_HRCard) heartzonePanel.modifyAt(i + 1);
                     panel.setTitle(hrzoneData[i].getName());
+                    //System.out.println(i + "<------");
                     panel.setCalories(hrzoneData[i].getCaloriesOut() + "");
                     panel.setTime(hrzoneData[i].getMinutes() + " Mins");
                 }

@@ -245,8 +245,12 @@ public class UserData {
         final JSONObject fitAttribute = fitData.getJSONObject(0);
         final JSONObject values = fitAttribute.getJSONObject("value");
         //System.out.println(values.toString());
-        return values.getInt("restingHeartRate");
-
+        try {
+        	return values.getInt("restingHeartRate");
+        }
+        catch (Exception e) {
+        	return 0;
+        }
     }
 
     /**

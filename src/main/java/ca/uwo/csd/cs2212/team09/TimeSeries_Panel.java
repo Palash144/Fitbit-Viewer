@@ -58,6 +58,12 @@ public class TimeSeries_Panel extends JPanel {
 		}
 		hourIntBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (parent.antiBanTimer != null) {
+            		if (parent.antiBanTimer.isRunning()) {
+            			textField.setText(currDate);
+            			return;
+            		}	
+            	}
 				if (hourIntBox.getSelectedIndex() != currComboBoxIndex) {
 					if (hourIntBox.getSelectedIndex()<0)
 						return;
@@ -81,7 +87,7 @@ public class TimeSeries_Panel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				if (parent.antiBanTimer != null) {
             		if (parent.antiBanTimer.isRunning()) {
-            			textField.setText(parent.currentDate);
+            			textField.setText(currDate);
             			return;
             		}	
             	}
