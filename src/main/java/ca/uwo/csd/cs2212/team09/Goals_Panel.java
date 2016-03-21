@@ -267,7 +267,7 @@ public class Goals_Panel extends JPanel {
 		try {
 			imageLbl.setText("");
 			lblTitle.setText(titles.get(mainList.getSelectedIndex()));
-			lblDetail.setText("<html><p align=center style=\"width:100px\">"+data[mainList.getSelectedIndex()*2+1]+"</p></html>");
+			lblDetail.setText("<html><p align=center style=\"width:100px\">"+data[mainList.getSelectedIndex()*2+1]+"<br><br>"+data[8+mainList.getSelectedIndex()]+"</p></html>");
 		}
 		catch (Exception e) {
 			lblDetail.setText("Unknown status.");
@@ -285,7 +285,7 @@ public class Goals_Panel extends JPanel {
 		
 		data = d;
 		
-		for (int i=0;i<=data.length-2;i+=2) {
+		for (int i=0;i<=6;i+=2) {
 			String picName;
 			if (i==0) {
 				picName = "/SS_Calories.png";

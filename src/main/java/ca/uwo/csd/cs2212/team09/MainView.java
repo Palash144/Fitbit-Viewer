@@ -91,7 +91,7 @@ public class MainView implements GeneralCallBack {
     
     private double dailyData[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0", "0"};
-    private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
+    private String dailyDataMsg[] = {"Calories burned (J)", "Total distance(km)", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
     public boolean dailyDataCustomization[] = {true, true, true, true, true, true};
     
     private Accolades achievement;
@@ -1020,44 +1020,45 @@ public class MainView implements GeneralCallBack {
     public String[] isAtGoal(String date, boolean canned) throws JSONException{
         DailyGoals goals = new DailyGoals(date, canned);
 
-        String[] s = new String [8];
+        String[] s = new String [12];
 
         //Calories
         s[0] = "Calories Burned Goal";
         if (dailyData[DATA_DAILY_CALORIES] < goals.getCaloriesOutGoal())
-        	s[1] = "Below goal";
+        	s[1] = "Below the goal";
         else if (dailyData[DATA_DAILY_CALORIES] == goals.getCaloriesOutGoal())
-        	s[1] = "Reached goal";
+        	s[1] = "Reached the goal";
         else
         	s[1] = "Surpassed goal";
+        s[8] = dailyData[DATA_DAILY_CALORIES] + "/" + goals.getCaloriesOutGoal();
 
         //Distance
         s[2] = "Distance Traveled Goal";
         if (dailyData[DATA_DAILY_DISTANCE] < goals.getDistanceGoal())
-        	s[3] = "Below goal";
+        	s[3] = "Below the goal";
         else if (dailyData[DATA_DAILY_DISTANCE] == goals.getDistanceGoal())
-        	s[3] = "Reached goal";
+        	s[3] = "Reached the goal";
         else
         	s[3] = "Surpassed goal";
-
+        s[9] = dailyData[DATA_DAILY_DISTANCE] + "/" + goals.getDistanceGoal();
         //Floors
         s[4] = "Floors Climbed Goal";
         if (dailyData[DATA_DAILY_FLOORS] < goals.getFloorsGoal())
-        	s[5] = "Below goal";
+        	s[5] = "Below the goal";
         else if (dailyData[DATA_DAILY_FLOORS] == goals.getFloorsGoal())
-        	s[5] = "Reached goal";
+        	s[5] = "Reached the goal";
         else
         	s[5] = "Surpassed goal";
-
-        //Steps
+        s[10] = dailyData[DATA_DAILY_FLOORS] + "/" + goals.getFloorsGoal();
+         //Steps
         s[6] = "Steps Taken Goal";
         if (dailyData[DATA_DAILY_STEPS] < goals.getStepsGoal())
-        	s[7] = "Below goal";
+        	s[7] = "Below the goal";
         else if (dailyData[DATA_DAILY_STEPS] == goals.getStepsGoal())
-        	s[7] = "Reached goal";
+        	s[7] = "Reached the goal";
         else
         	s[7] = "Surpassed goal";
-
+        s[11] = dailyData[DATA_DAILY_STEPS] + "/" + goals.getStepsGoal();
         //Return statement
         return s;
     }

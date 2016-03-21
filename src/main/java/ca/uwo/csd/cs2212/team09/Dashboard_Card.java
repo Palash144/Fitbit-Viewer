@@ -101,6 +101,11 @@ public class Dashboard_Card extends JPanel {
 				}
 				@Override
 				public void mouseEntered(MouseEvent e) {
+					if (parentView.parentView.antiBanTimer != null) {
+		        		if (parentView.parentView.antiBanTimer.isRunning()) {
+		        			return;
+		        		}	
+		        	}
 					titleLabel.setText(contentLabel.getText());
 					contentLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 					contentLabel.setText("Click to change date!");
@@ -164,6 +169,11 @@ public class Dashboard_Card extends JPanel {
 	private void setDatePickMode(boolean mode) {
 		dateCardDisplayMode = mode;
 		if (mode) {
+			if (parentView.parentView.antiBanTimer != null) {
+        		if (parentView.parentView.antiBanTimer.isRunning()) {
+        			return;
+        		}	
+        	}
 			loadDatePickUI();
 		}
 		else {
@@ -186,6 +196,46 @@ public class Dashboard_Card extends JPanel {
 		dateInputLayer.setVisible(true);
 		dateInputLayer.removeAll();
 		
+		dateInputLayer.add(dateInputTitleLabel);
+		dateInputLayer.add(dateInputText);
+		dateInputLayer.add(dateInputInfoLabel);
+		dateInputLayer.add(dateConfirmBtn);
+		jCal.setSize(getSize().width*2, getSize().height-10);
+		jCal.setLocation(0, 5);
+		
+		dateInputTitleLabel.setLocation(0, 0);
+		dateInputTitleLabel.setSize(getSize().width, 50);
+		dateInputTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		dateInputTitleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
+		dateInputTitleLabel.setVisible(true);
+		
+		dateInputInfoLabel.setLocation(0, dateInputTitleLabel.getSize().height);
+		dateInputInfoLabel.setSize(getSize().width, 50);
+		dateInputInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		dateInputInfoLabel.setText("<html><div style='text-align: center;'>" + dateInputInfoLabel.getText() + "<br>  (e.g. " + df.format(currentDate) + ")</HTML>");
+		dateInputInfoLabel.setVisible(true);
+		
+		dateInputText.setLocation(0, dateInputInfoLabel.getLocation().y + dateInputInfoLabel.getSize().height);
+		dateInputText.setSize(getSize().width, 35);
+		dateInputText.setText(df.format(currentDate));
+		dateInputText.setVisible(true);
+		
+		dateConfirmBtn.setLocation(getSize().width / 4, dateInputText.getLocation().y + dateInputText.getHeight() + 15);
+		dateConfirmBtn.setSize(getSize().width / 2, 35);
+		dateConfirmBtn.removeMouseListener(dateConfirmBtn.getMouseListeners()[0]);
+		dateConfirmBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (setNewDate(dateInputText.getText(), true)) {
+					hideDatePickUI();
+				}
+				else {
+					dateInputText.setText("Invalid date!");
+				}
+			}
+		});
+		dateConfirmBtn.setVisible(true);
+		/*
 		jCal.setSize(getSize().width*2, getSize().height-10);
 		jCal.setLocation(0, 5);
 		
@@ -203,8 +253,8 @@ public class Dashboard_Card extends JPanel {
 			    
 			});
 		}
-		
-		dateInputLayer.add(jCal);
+		*/
+		//dateInputLayer.add(jCal);
 
 		add(dateInputLayer, 0);
 		updateUI();
@@ -213,8 +263,8 @@ public class Dashboard_Card extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				dateInputLayer.setLocation(0, dateInputLayer.getLocation().y - 2);
 				
-				setSize(getSize().width+2, getSize().height);
-				dateInputLayer.setSize(getSize());
+				//setSize(getSize().width+2, getSize().height);
+				//dateInputLayer.setSize(getSize());
 				
 				if (dateInputLayer.getLocation().y <= 0) {
 					uiTimer.stop();
@@ -260,7 +310,7 @@ public class Dashboard_Card extends JPanel {
 			currentDate = tmpDate;
 			content = date;
 			contentLabel.setText(df.format(currentDate));
-			jCal.setDate(currentDate);
+			//jCal.setDate(currentDate);
 			contentLabel.updateUI(); 
 			if (callback) {
 				parentView.changeDate(date);
@@ -282,8 +332,8 @@ public class Dashboard_Card extends JPanel {
 			ActionListener aniTimer = new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					dateInputLayer.setLocation(0, dateInputLayer.getLocation().y + 2);
-					setSize(getSize().width-2, getSize().height);
-					dateInputLayer.setSize(getSize());
+					//setSize(getSize().width-2, getSize().height);
+					//dateInputLayer.setSize(getSize());
 					
 					if (dateInputLayer.getLocation().y >= getSize().height) {
 						uiTimer.stop();
