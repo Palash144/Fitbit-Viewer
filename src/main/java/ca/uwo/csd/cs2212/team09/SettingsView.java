@@ -109,7 +109,6 @@ public class SettingsView extends JDialog {
 							selectionArray[5] = false;
 						}
 						parent.customizeDashboard(selectionArray);
-						
 						dispose();
 					}
 				});

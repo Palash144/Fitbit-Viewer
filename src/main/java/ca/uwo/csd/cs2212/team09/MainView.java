@@ -24,6 +24,12 @@ import javax.swing.ImageIcon;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.CardLayout;
@@ -112,6 +118,56 @@ public class MainView implements GeneralCallBack {
             adaptee.frameResized(e);
         }
     }
+    
+    
+    class configClass{
+    	boolean config[];
+    	
+        public configClass(){
+        	load();
+        }
+        
+        public boolean[] getConfig() {
+        	return config;
+        }
+        
+        public void update(boolean in[]){
+        	config = in;
+        }
+        
+        public void save() {
+            try {
+            	ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("config.bin"));
+				out.writeObject(config);
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Error: cannot save config file.");
+			}
+        }
+        
+        public void load() {
+        	 ObjectInputStream in;
+			try {
+				in = new ObjectInputStream(new FileInputStream("config.bin"));
+				boolean[] conf = (boolean[])in.readObject();
+	       	  	in.close();
+	       	  	update(conf);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				boolean t[] = {true, true, true, true, true, true};
+				update(t);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				boolean t[] = {true, true, true, true, true, true};
+				update(t);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				boolean t[] = {true, true, true, true, true, true};
+				update(t);
+			}
+        }
+    }
 
     private JFrame mainView;
 
@@ -126,6 +182,8 @@ public class MainView implements GeneralCallBack {
     private int currentPage;
     private static String pageNames[] = {"name_1456030182851147000", "name_1456033158027647000", "name_1456030885832917000", "name_1456030906465778000", "name_1456030920510772000", "name_1456030940510773000"};
     private Dimension currLayout;
+    
+    private configClass config = new configClass();
 
     private JLabel dashboardBtn = new JLabel("Dashboard");
     private JLabel timeseriesBtn = new JLabel("TimeSeries");
@@ -175,6 +233,8 @@ public class MainView implements GeneralCallBack {
         mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainView.getContentPane().setBackground(new Color(38, 50, 56));
         mainView.setMinimumSize(new Dimension(1025, 540));
+        
+        dailyDataCustomization = config.getConfig();
 
         JPanel rightSidePanel = new JPanel();
         rightSidePanel.setBackground(new Color(0, 150, 136));
@@ -845,6 +905,8 @@ public class MainView implements GeneralCallBack {
     public void customizeDashboard(boolean[] inArr) {
     	dailyDataCustomization = inArr;
     	layoutPanels(getFitLayout(), false);
+    	config.update(dailyDataCustomization);
+    	config.save();
     }
     
     /** TODO: Complete
