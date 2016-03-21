@@ -149,7 +149,7 @@ public class UserData {
             returnData[8] = (totalValue);
 
             totalValue = bestValue.getString("caloriesOut");
-            System.out.println("total calories: " + totalValue);
+            //System.out.println("total calories: " + totalValue);
             returnData[9] = (totalValue);
 
         } catch (Exception e) {
@@ -233,7 +233,7 @@ public class UserData {
 
         final JSONObject fitAttribute = fitData.getJSONObject(0);
         final JSONObject values = fitAttribute.getJSONObject("value");
-        System.out.println(values.toString());
+        //System.out.println(values.toString());
         return values.getInt("restingHeartRate");
 
     }
@@ -284,7 +284,7 @@ public class UserData {
     			//activities/distance  
     			//activities/floors
     			String baseReq = "/date/" + date + (!zoomed ? "/1d.json":"/1d/"+detailLevel+"/time/"+startTime+((startTime == null || startTime.length()==0) ? "":"/")+endTime+".json");
-    			System.out.println("activities/steps" + baseReq);
+    			//System.out.println("activities/steps" + baseReq);
     			final JSONObject stepObj     = new JSONObject(getData.requestFor("activities/steps" + baseReq));
     			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/calories" + baseReq));
     			final JSONObject distanceObj = new JSONObject(getData.requestFor("activities/distance" + baseReq));

@@ -78,12 +78,10 @@ public class Request {
             rawResponse = bufferedReader.readLine();
 
         } catch (FileNotFoundException ex) {
-            System.out.println(
-                    "Unable to open file\n" + ex.getMessage());
+        	Utils.showErrorMsg("Unable to open file\n" + ex.getMessage());
             System.exit(1);
         } catch (IOException ex) {
-            System.out.println(
-                    "Error reading/write file\n" + ex.getMessage());
+        	Utils.showErrorMsg("Error reading/write file\n" + ex.getMessage());
             System.exit(1);
         } finally {
             try {
@@ -116,8 +114,8 @@ public class Request {
                 expiresIn,
                 rawResponse);
         // Now let's go and ask for a protected resource!
-        System.out.println("Now we're going to access a protected resource...");
-        System.out.println();
+        //System.out.println("Now we're going to access a protected resource...");
+        //System.out.println();
         //Example request:
         //    This is always the prefix (for my account)
         String requestUrlPrefix = "https://api.fitbit.com/1/user/3WGW2P/";
@@ -134,9 +132,9 @@ public class Request {
         // See: https://dev.fitbit.com/docs/oauth2/#making-requests
         service.signRequest(accessToken, request);
         //  If you are curious
-        System.out.println(request.toString());
-        System.out.println(request.getHeaders());
-        System.out.println(request.getBodyContents());
+        //System.out.println(request.toString());
+        //System.out.println(request.getHeaders());
+        //System.out.println(request.getBodyContents());
 
 
         //  This actually sends the request:
@@ -144,25 +142,25 @@ public class Request {
 
         //  The HTTP response from fitbit will be in HTTP format, meaning that it has a numeric code indicating
         //     whether is was successful (200) or not (400's or 500's), each code has a different meaning
-        System.out.println();
-        System.out.println("HTTP response code: " + response.getCode());
+        //System.out.println();
+        //System.out.println("HTTP response code: " + response.getCode());
         int statusCode = response.getCode();
 
         switch (statusCode) {
             case 200:
-                System.out.println("Success!");
-                System.out.println("HTTP response body:\n" + response.getBody());
+                //System.out.println("Success!");
+                //System.out.println("HTTP response body:\n" + response.getBody());
                 HTTPResponse = response.getBody();
                 break;
             case 400:
-                System.out.println("Bad Request - may have to talk to Beth");
-                System.out.println("HTTP response body:\n" + response.getBody());
+                //System.out.println("Bad Request - may have to talk to Beth");
+                //System.out.println("HTTP response body:\n" + response.getBody());
                 HTTPResponse = response.getBody();
                 break;
             case 401:
-                System.out.println("Likely Expired Token");
-                System.out.println("HTTP response body:\n" + response.getBody());
-                System.out.println("Try to refresh");
+                //System.out.println("Likely Expired Token");
+                //System.out.println("HTTP response body:\n" + response.getBody());
+                //System.out.println("Try to refresh");
                 HTTPResponse = response.getBody();
 
                 // This uses the refresh token to get a completely new accessToken object
@@ -178,18 +176,18 @@ public class Request {
                 response = request.send();
 
                 // Hopefully got a response this time:
-                System.out.println("HTTP response code: " + response.getCode());
-                System.out.println("HTTP response body:\n" + response.getBody());
+                //System.out.println("HTTP response code: " + response.getCode());
+                //System.out.println("HTTP response body:\n" + response.getBody());
                 HTTPResponse = response.getBody();
                 break;
             case 429:
-                System.out.println("Rate limit exceeded");
-                System.out.println("HTTP response body:\n" + response.getBody());
+                //System.out.println("Rate limit exceeded");
+                //System.out.println("HTTP response body:\n" + response.getBody());
                 HTTPResponse = response.getBody();
                 break;
             default:
-                System.out.println("HTTP response code: " + response.getCode());
-                System.out.println("HTTP response body:\n" + response.getBody());
+                //System.out.println("HTTP response code: " + response.getCode());
+                //System.out.println("HTTP response body:\n" + response.getBody());
                 HTTPResponse = response.getBody();
         }
 
