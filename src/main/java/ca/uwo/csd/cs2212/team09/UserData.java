@@ -268,9 +268,47 @@ public class UserData {
         if(canned){
             HeartRateZones[] foo = new HeartRateZones[4];
             for(int i = 0;i<4;i++ )
-                foo[i] = new HeartRateZones(0,"1",true);
+                foo[i] = new HeartRateZones(0.0, "1", 0, true);
             return foo;
         }
+        HeartRateZones ohno = new HeartRateZones(0.0, "Zone", 0 ,canned);
+        HeartRateZones[] heartZones = {ohno, ohno, ohno, ohno};
+        try {
+            Request getData = new Request();
+            final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/" + date + "/1d.json"));
+            final JSONArray fitData = obj.getJSONArray(("activities-heart"));
+
+            final JSONObject fitAttribute = fitData.getJSONObject(0);
+            final JSONObject values = fitAttribute.getJSONObject("value");
+            final JSONArray zones = values.getJSONArray("heartRateZones");
+            // gets the obj element from the array specified by the index number (zoneNum)
+            //System.out.println(zones.toString());
+            for (int i=0;i<4;i++) {
+            	final JSONObject theZone = zones.getJSONObject(i);
+            	//System.out.println(theZone.toString());
+            	double caloriesOut = 0.0;
+            	int minutes = 0;
+            	try {
+            		caloriesOut = theZone.getDouble("caloriesOut");
+            	}
+            	catch (Exception e) {
+            		
+            	}
+            	try {
+            		minutes = theZone.getInt("minutes");
+            	}
+            	catch (Exception e) {
+            		
+            	}
+                
+                String name = theZone.getString("name");
+            	heartZones[i] = new HeartRateZones(caloriesOut, name, minutes,canned);
+            }           
+        } catch (JSONException e) {
+        	//System.out.println(e.getMessage());
+            //TODO: Handle this exception
+        }
+        /*
         Request getData = new Request();
         final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/" + date + "/1d.json"));
         final JSONArray fitData = obj.getJSONArray(("activities-heart"));
@@ -284,6 +322,7 @@ public class UserData {
         for (int i = 0; i < zones.length(); i++){
             heartZones[i] = new HeartRateZones (i,date,canned);
         }
+        */
         return heartZones;
     }
     

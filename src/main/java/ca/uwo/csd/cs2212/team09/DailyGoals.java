@@ -12,11 +12,8 @@ import java.io.Serializable;
  *
  * @author Team 9
  */
-<<<<<<< HEAD
-public class DailyGoals implements Serializable {
-=======
+
 public class DailyGoals{
->>>>>>> origin/feature/W162212T09-106-setup-backend-for-heart-rate
 
     private int caloriesOutGoal;
     private double distanceGoal;

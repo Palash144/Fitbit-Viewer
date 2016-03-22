@@ -345,7 +345,8 @@ public class Accolades_Panel extends JPanel {
 		}
 		imageLbl.setText("");
 		lblTitle.setText(titles.get(mainList.getSelectedIndex()));
-		lblDetail.setText("<html><p align=center style=\"width:100px\">"+"Status: " + newItems.get(mainList.getSelectedIndex())[3] + "ed<br><br>"+newItems.get(mainList.getSelectedIndex())[4]+"</p></html>");
+		lblDetail.setText("<html><p align=center style=\"width:100px\">"+"Status: " + newItems.get(mainList.getSelectedIndex())[3] + "ed<br><br>"+
+		(newItems.get(mainList.getSelectedIndex())[3].equals("unlock") ? newItems.get(mainList.getSelectedIndex())[4] : "Secret")+"</p></html>");
 		
 		Utils.styleSquareImageButton(imageLbl, images.get(mainList.getSelectedIndex()).getImage(), 150);
 		resizeFont(lblTitle);

@@ -17,6 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
@@ -27,6 +30,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -100,9 +105,9 @@ public class MainView implements GeneralCallBack {
     public Timer antiBanTimer;
     private int locker = MAX_REFRESH_INTERVAL;
     
-    private HeartRateZones ohno = new HeartRateZones(0, "0", true);
+    private HeartRateZones ohno;
 
-    private HeartRateZones hrzoneData[] = {ohno, ohno, ohno, ohno};
+    private HeartRateZones[] hrzoneData = new HeartRateZones[4];
     private int hrzoneData_Resting = 0;
 
     private Boolean testMode = true;
@@ -237,6 +242,11 @@ public class MainView implements GeneralCallBack {
      * Initialize the contents of the frame.
      */
     private void initialize() {
+    	ohno = new HeartRateZones(0.0, "0", 0, testMode);
+    	hrzoneData[0] = ohno;
+    	hrzoneData[1] = ohno;
+    	hrzoneData[2] = ohno;
+    	hrzoneData[3] = ohno;
         mainView = new JFrame();
         mainView.setTitle("FitViewer");
         mainView.setBounds(100, 100, 1025, 540);
@@ -497,7 +507,10 @@ public class MainView implements GeneralCallBack {
             }
         });
         int userBtnSide = 60;
-        Utils.styleSquareImageButton(userBtn, new ImageIcon(getClass().getResource("/User_Default.png")).getImage(), userBtnSide);
+        
+        ImageIcon ico = new ImageIcon(getClass().getResource("/User_Default.png"));
+        Utils.styleSquareImageButton(userBtn, ico.getImage(), userBtnSide);
+        
 
         int sideBtnSize_Small = 40;
 
@@ -686,7 +699,7 @@ public class MainView implements GeneralCallBack {
                     	 ImageIcon icon = new ImageIcon(MainView.class.getResource("/minion.png"));
                          JOptionPane.showMessageDialog(
                                  null,
-                                 "There was a problem while creating a connection to the remote service."
+                                 "There was a problem while creating a connection to the remote service.\nPlease check your token file first,then make sure you have a stable internet connection.\nTry to refresh me by clicking refresh button on right side bar."
                                  ,"Oops", JOptionPane.INFORMATION_MESSAGE,
                                  icon);
                     }
@@ -948,7 +961,7 @@ public class MainView implements GeneralCallBack {
 
         dashboardPanel.layoutPanel(layoutMode);
 
-
+        heartzonePanel.removeAllCards();
         if (heartzonePanel.subviewCount() == 0) {
             Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
             dateCard.setNewDate(((Dashboard_Card) dashboardPanel.modifyAt(0)).getDate(), false);
