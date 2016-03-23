@@ -411,7 +411,7 @@ public class Accolades_Panel extends JPanel {
 		//Daily Accolades - Floors
 		String[] item6 = {"Climber", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock","climbed 5 floors."};
 		newItems.add(item6);
-		String[] item7 = {"No Elevators", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock", "climbed 15 floors."};
+		String[] item7 = {"No Elevators  ", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock", "climbed 15 floors."};
 		newItems.add(item7);
 		String[] item8 = {"Floor-It!", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock","climbed 25 floors."};
 		newItems.add(item8);
@@ -421,36 +421,36 @@ public class Accolades_Panel extends JPanel {
 		newItems.add(item9);
 		String[] item10 = {"All Around", "Steps","daliy",acc[3].isTier1() ? "unlock" : "lock", "Took 2500 steps."};
 		newItems.add(item10);
-		String[] item11 = {"Place to Go!", "Steps","daliy", acc[3].isTier1() ? "unlock" : "lock", "Took 3500 steps."};
+		String[] item11 = {"Place to Go!  ", "Steps","daliy", acc[3].isTier1() ? "unlock" : "lock", "Took 3500 steps."};
 		newItems.add(item11);
 		
-		String[] item12 = {"Motor-Vated!", "","daliy", acc[4].isTier1() ? "unlock" : "lock","At the point today you were very active longer than lightly active."};
+		String[] item12 = {"Motor-Vated!  ", "","daliy", acc[4].isTier1() ? "unlock" : "lock","At the point today you were very active longer than lightly active."};
 		newItems.add(item12);
 		String[] item13 = {"Day-off", "", "daliy",acc[5].isTier1() ? "unlock" : "lock", "Your sedentary minutes are more than 250 min."};
 		newItems.add(item13);
 		
 		//Lifetime Accolades - Distance
-		String[] item14 = {"Threadmill Master", "Distance","Lifetime", acc[6].isTier1() ? "unlock" : "lock", "Ran over 500,000km."};
+		String[] item14 = {"Threadmill Master  ", "Distance","Lifetime", acc[6].isTier1() ? "unlock" : "lock", "Ran over 500,000km."};
 		newItems.add(item14);
-		String[] item15 = {"Going the Distance", "Distance", "Lifetime",acc[6].isTier1() ? "unlock" : "lock", "Ran over 750,000km."};
+		String[] item15 = {"Going the Distance  ", "Distance", "Lifetime",acc[6].isTier1() ? "unlock" : "lock", "Ran over 750,000km."};
 		newItems.add(item15);
 		String[] item16 = {"The Flash", "Distance","Lifetime", acc[6].isTier1() ? "unlock" : "lock", "Ran over 1,000,000km."};
 		newItems.add(item16);
 		
 		//Lifetime Accolades - Calories
-		String[] item17 = {"Counting Calories", "Calories","Lifetime", acc[7].isTier1() ? "unlock" : "lock", "Burned over 750,000 Calories."};
+		String[] item17 = {"Counting Calories  ", "Calories","Lifetime", acc[7].isTier1() ? "unlock" : "lock", "Burned over 750,000 Calories."};
 		newItems.add(item17);
-		String[] item18 = {"Burn them All", "Calories","Lifetime",acc[7].isTier1() ? "unlock" : "lock", "Burned over 1,000,000 Calories."};
+		String[] item18 = {"Burn them All  ", "Calories","Lifetime",acc[7].isTier1() ? "unlock" : "lock", "Burned over 1,000,000 Calories."};
 		newItems.add(item18);
-		String[] item19 = {"Call a Doctor!", "Calories","Lifetime",acc[7].isTier1() ? "unlock" : "lock", "Burned over 1,500,000 Calories."};
+		String[] item19 = {"Call a Doctor!  ", "Calories","Lifetime",acc[7].isTier1() ? "unlock" : "lock", "Burned over 1,500,000 Calories."};
 		newItems.add(item19);
 		
 		//Lifetime Accolades - Floors
 		String[] item20 = {"Elevated", "Floors","Lifetime", acc[8].isTier1() ? "unlock" : "lock","Climbed 100,000 floors."};
 		newItems.add(item20);
-		String[] item21 = {"Floor-ishing", "Floors", "Lifetime",acc[8].isTier1() ? "unlock" : "lock","Climbed 300,000 floors."};
+		String[] item21 = {"Floor-ishing  ", "Floors", "Lifetime",acc[8].isTier1() ? "unlock" : "lock","Climbed 300,000 floors."};
 		newItems.add(item21);
-		String[] item22 = {"Rochy Balboa", "Floors","Lifetime", acc[8].isTier1() ? "unlock" : "lock","Climbed 600,000 floors."};
+		String[] item22 = {"Rochy Balboa  ", "Floors","Lifetime", acc[8].isTier1() ? "unlock" : "lock","Climbed 600,000 floors."};
 		newItems.add(item22);
 		
 		//Lifetime Accolades - Steps
@@ -461,7 +461,7 @@ public class Accolades_Panel extends JPanel {
 		String[] item25 = {"Terry Fox!", "Steps","Lifetime", acc[9].isTier1() ? "unlock" : "lock", "Took 10,000,000 steps."};
 		newItems.add(item25);
 		
-		String[] item26 = {"The Immorable Object", "","Lifetime", acc[10].isTier1() ? "unlock" : "lock", "Sedentary minutes are greater than 2,500,000."};
+		String[] item26 = {"The Immorable Object  ", "","Lifetime", acc[10].isTier1() ? "unlock" : "lock", "Sedentary minutes are greater than 2,500,000."};
 		newItems.add(item26);
 		String[] item27 = {"Middle Man", "","Lifetime", acc[11].isTier1() ? "unlock" : "lock","Fairly active minutes 1,800,000."};
 		newItems.add(item27);
