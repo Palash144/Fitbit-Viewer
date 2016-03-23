@@ -79,4 +79,8 @@ public class Utils {
     public static void showErrorMsg(String msg) {
     	JOptionPane.showMessageDialog(null, "Seems some error happened, beacuse " + msg);
     }
+    
+    public static void showTipsMsg(String msg) {
+    	JOptionPane.showMessageDialog(null, msg);
+    }
 }

@@ -211,6 +211,7 @@ public class MainView implements GeneralCallBack {
     private JLabel userBtn = new JLabel();
     private JLabel refreshBtn = new JLabel();
     private JLabel settingsBtn = new JLabel();
+    private JLabel infoBtn = new JLabel();
     private final JLabel fitbitLogo = new JLabel("");
     private JLabel accoladeBtn = new JLabel("Accolades");
 
@@ -518,6 +519,8 @@ public class MainView implements GeneralCallBack {
         Utils.styleSquareImageButton(refreshBtn, new ImageIcon(getClass().getResource("/Tools_Refresh.png")).getImage(), sideBtnSize_Small);
 
         Utils.styleSquareImageButton(settingsBtn, new ImageIcon(getClass().getResource("/Tools_Setting.png")).getImage(), sideBtnSize_Small);
+        
+        Utils.styleSquareImageButton(infoBtn, new ImageIcon(getClass().getResource("/Tools_Info.png")).getImage(), sideBtnSize_Small);
 
         Utils.styleImage(btnQuit, new ImageIcon(getClass().getResource("/App_Close.png")).getImage(), 40, 40);
 
@@ -534,6 +537,7 @@ public class MainView implements GeneralCallBack {
                                                 .addGroup(gl_rightSidePanel.createParallelGroup(Alignment.LEADING)
                                                         .addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(infoBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
                                                 .addGap(14))))
                         .addGroup(gl_rightSidePanel.createSequentialGroup()
@@ -550,7 +554,9 @@ public class MainView implements GeneralCallBack {
                                 .addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
+                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                .addComponent(infoBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
                                 .addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18)
                                 .addComponent(fitbitLogo, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
@@ -567,6 +573,15 @@ public class MainView implements GeneralCallBack {
             @Override
             public void mouseClicked(MouseEvent e) {
                 loadSettingView();
+            }
+        });
+        
+        infoBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Utils.showTipsMsg("changing the date in any tab will affect the data in all others accordingly.\n"
+                		+ "'Time series data' is the only tab that will not be affected by these changes. \n"
+                		+ "In this tab, user will choose the date they want in that space and not the other tabs.");
             }
         });
 
