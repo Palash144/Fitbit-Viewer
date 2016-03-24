@@ -31,11 +31,7 @@ public class HeartRateZones {
         	Random ran = new Random();
             caloriesOut = Double.parseDouble(ran.nextInt(2000)+"");
             minutes = 5 + ran.nextInt(60);
-            name = ran.nextInt(100) > 10 ? "Zone":"HeartBreakZone";
-            if (name == "HeartBreakZone") {
-            	minutes = 0;
-                caloriesOut = 0.0;
-            }
+            
             return;
         } 
     }
