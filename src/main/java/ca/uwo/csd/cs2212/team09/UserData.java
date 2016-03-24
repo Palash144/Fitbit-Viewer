@@ -342,12 +342,12 @@ public class UserData {
     			final JSONObject stepObj     = new JSONObject(getData.requestFor("activities/steps" + baseReq));
     			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/calories" + baseReq));
     			final JSONObject distanceObj = new JSONObject(getData.requestFor("activities/distance" + baseReq));
-    			final JSONObject hrObj       = new JSONObject(getData.requestFor("activities/floors" + baseReq));
+    			final JSONObject hrObj       = new JSONObject(getData.requestFor("activities/heart" + baseReq));
     			
                 final JSONArray stepData 	 = 	   stepObj.getJSONObject("activities-steps-intraday").getJSONArray("dataset");
                 final JSONArray caloriesData = caloriesObj.getJSONObject("activities-calories-intraday").getJSONArray("dataset");
                 final JSONArray distanceData = distanceObj.getJSONObject("activities-distance-intraday").getJSONArray("dataset");
-                final JSONArray hrData       = 	     hrObj.getJSONObject("activities-floors-intraday").getJSONArray("dataset");
+                final JSONArray hrData       = 	     hrObj.getJSONObject("activities-heart-intraday").getJSONArray("dataset");
                 
                 TimeSeries_Record[] rt = new TimeSeries_Record[stepData.length()];
                 for (int i=0;i<stepData.length();i++) {

@@ -216,24 +216,25 @@ public class SettingsView extends JDialog {
 		
 		JLabel lblBroughtToYou = new JLabel("Brought to you by UWO->2016->CS2212B->Team09");
 		
-		JLabel lblCopyrightcTeam = new JLabel("Copyright (c)2016 team09 ");
-		
-		JLabel lblAllRightsNot = new JLabel("All rights not reserved.");
+		JLabel lblCopyrightcTeam = new JLabel(" © 2016 team09. All rights not reserved.");
 		
 		JLabel lblNewLabel = new JLabel("Paul Henderson, Winston Leung, Michael Song, Hashim Salem, Yuchen Wang, ");
 		
 		JLabel lblYitingWangHaoyu = new JLabel("Yiting Wang, Haoyu Gu, Taylor LeBlanc");
+		
+		JLabel lblUniversal = new JLabel("Minion images: © 2016 Universal Studios. All Rights Reserved.");
+		lblUniversal.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(32)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblUniversal)
+						.addComponent(lblCopyrightcTeam)
 						.addComponent(lblYitingWangHaoyu)
 						.addComponent(lblNewLabel)
 						.addComponent(lblBroughtToYou)
-						.addComponent(lblCopyrightcTeam)
-						.addComponent(lblAllRightsNot)
 						.addComponent(lblVersiona)
 						.addComponent(lblFitviewwe, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(20, Short.MAX_VALUE))
@@ -251,11 +252,11 @@ public class SettingsView extends JDialog {
 					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
 					.addGap(1)
 					.addComponent(lblYitingWangHaoyu)
-					.addGap(18)
+					.addGap(28)
 					.addComponent(lblCopyrightcTeam)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblAllRightsNot)
-					.addGap(19))
+					.addComponent(lblUniversal)
+					.addGap(9))
 		);
 		panel_1.setLayout(gl_panel_1);
 		getContentPane().setLayout(groupLayout);
