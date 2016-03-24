@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -212,8 +213,11 @@ public class MainView implements GeneralCallBack {
     private JLabel refreshBtn = new JLabel();
     private JLabel settingsBtn = new JLabel();
     private JLabel infoBtn = new JLabel();
+    private JLabel indicator = new JLabel("^");
     private final JLabel fitbitLogo = new JLabel("");
     private JLabel accoladeBtn = new JLabel("Accolades");
+    
+    private Timer indiTimer;
 
     private final JPanel mainPanel = new JPanel();
     private CardLayout cardLayout = new CardLayout();
@@ -226,6 +230,10 @@ public class MainView implements GeneralCallBack {
     private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
     private final JLabel btnQuit = new JLabel("");
 
+    
+    private final JPanel indicatorPanel = new JPanel();
+    boolean indiGoUp = false;
+    int offset = 0;
 
     /**
      * Creates the application (dashboard)
@@ -538,6 +546,7 @@ public class MainView implements GeneralCallBack {
                                                         .addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(infoBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(indicatorPanel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
                                                 .addGap(14))))
                         .addGroup(gl_rightSidePanel.createSequentialGroup()
@@ -556,6 +565,8 @@ public class MainView implements GeneralCallBack {
                                 .addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addComponent(infoBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                .addComponent(indicatorPanel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
                                 .addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18)
@@ -579,9 +590,11 @@ public class MainView implements GeneralCallBack {
         infoBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Utils.showTipsMsg("changing the date in any tab will affect the data in all others accordingly.\n"
+            	indiTimer.stop();
+            	indicator.setVisible(false);
+                Utils.showTipsMsg("Changing the date in any tab will affect the data in all others accordingly.\n"
                 		+ "'Time series data' is the only tab that will not be affected by these changes. \n"
-                		+ "In this tab, user will choose the date they want in that space and not the other tabs.");
+                		+ "In Time series tab, user will choose the date they want in that space and not the other tabs.");
             }
         });
 
@@ -607,6 +620,31 @@ public class MainView implements GeneralCallBack {
 
         mainView.getContentPane().setLayout(groupLayout);
         loaded = true;
+        
+        indicator.setForeground(Color.white);
+        indicator.setFont(new Font("Lucida Grande", Font.BOLD, 20));
+        indicator.setHorizontalAlignment(SwingConstants.CENTER);
+     
+        indicatorPanel.setLayout(new FlowLayout());
+        indicatorPanel.add(indicator);
+
+        indicator.setVisible(true);
+        indicator.updateUI();
+        indicatorPanel.setBackground(new Color(0, 150, 136));
+        indicatorPanel.updateUI();
+        //indiGoUp = false;
+        ActionListener indiListener = new ActionListener() {	
+			public void actionPerformed(ActionEvent evt) {
+				indicator.setLocation(indicator.getLocation().x, indicator.getLocation().y + (indiGoUp ? 1:-1));
+				offset++;
+				if (offset >= 10) {
+					offset = 0;
+					indiGoUp = !indiGoUp;
+				}
+			}
+		};
+        indiTimer = new Timer(50, indiListener);
+        indiTimer.start();
     }
 
     /**

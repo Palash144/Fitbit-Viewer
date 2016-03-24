@@ -338,24 +338,37 @@ public class UserData {
     			//activities/distance  
     			//activities/floors
     			String baseReq = "/date/" + date + (!zoomed ? "/1d.json":"/1d/"+detailLevel+"/time/"+startTime+((startTime == null || startTime.length()==0) ? "":"/")+endTime+".json");
+    			String baseReqForHR = "/date/" + date + (!zoomed ? "/1d/1min.json":"/1d/1min/time/"+startTime+((startTime == null || startTime.length()==0) ? "":"/")+endTime+".json");
     			//System.out.println("activities/steps" + baseReq);
     			final JSONObject stepObj     = new JSONObject(getData.requestFor("activities/steps" + baseReq));
     			final JSONObject caloriesObj = new JSONObject(getData.requestFor("activities/calories" + baseReq));
     			final JSONObject distanceObj = new JSONObject(getData.requestFor("activities/distance" + baseReq));
-    			final JSONObject hrObj       = new JSONObject(getData.requestFor("activities/heart" + baseReq));
+    			final JSONObject hrObj       = new JSONObject(getData.requestFor("activities/heart" + baseReqForHR));
     			
                 final JSONArray stepData 	 = 	   stepObj.getJSONObject("activities-steps-intraday").getJSONArray("dataset");
                 final JSONArray caloriesData = caloriesObj.getJSONObject("activities-calories-intraday").getJSONArray("dataset");
                 final JSONArray distanceData = distanceObj.getJSONObject("activities-distance-intraday").getJSONArray("dataset");
                 final JSONArray hrData       = 	     hrObj.getJSONObject("activities-heart-intraday").getJSONArray("dataset");
                 
+                int hrc = 0;
+                boolean isHr = hrData.length()==0 ? false:true;
                 TimeSeries_Record[] rt = new TimeSeries_Record[stepData.length()];
                 for (int i=0;i<stepData.length();i++) {
-                	rt[i] = new TimeSeries_Record(stepData.getJSONObject(i).getInt("value"),
-                							  caloriesData.getJSONObject(i).getInt("value"),
-                							  distanceData.getJSONObject(i).getInt("value"),
-                								 	hrData.getJSONObject(i).getInt("value"),
-                								  stepData.getJSONObject(i).getString("time"));
+                	int step = stepData.getJSONObject(i).getInt("value");
+                	int calories = caloriesData.getJSONObject(i).getInt("value");
+                	double distance = distanceData.getJSONObject(i).getDouble("value");
+                	String time = stepData.getJSONObject(i).getString("time");
+                	int hr = 0;
+                	if (isHr) {
+                		if (hrc < hrData.length()) {
+                			if (hrData.getJSONObject(hrc).getString("time").equals(time)) {
+                				hr = hrData.getJSONObject(hrc).getInt("value");
+                				hrc++;
+                			}
+                		}
+                	}
+                	
+                	rt[i] = new TimeSeries_Record(step, calories, distance, hr, time);
                 }
     			
                 return rt;
