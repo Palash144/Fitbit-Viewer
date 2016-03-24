@@ -97,15 +97,15 @@ public class UserData {
         String[] returnData = new String[10];
         if (canned == true) {
             returnData[0] = "02-25-2016"; //best distance (date)
-            returnData[1] = "4";          //best distance
-            returnData[2] = "03-01-2016"; //best floors (date)
-            returnData[3] = "6";          //best floors
+            returnData[1] = "72";          //best distance
+            returnData[2] = "03-20-2016"; //best floors (date)
+            returnData[3] = "64";          //best floors
             returnData[4] = "03-01-2016"; //best steps (date)
-            returnData[5] = "8";          //best steps
-            returnData[6] = "9";          //lifetime distance
-            returnData[7] = "803000";         //lifetime floors
-            returnData[8] = "11";         //lifetime steps
-            returnData[9] = "11";         //lifetime calories
+            returnData[5] = "11304";          //best steps
+            returnData[6] = "2073";          //lifetime distance
+            returnData[7] = "1803";         //lifetime floors
+            returnData[8] = "204372";         //lifetime steps
+            returnData[9] = "184574";         //lifetime calories
             return returnData;
         }
         Request getData = new Request();
