@@ -207,8 +207,8 @@ public class TimeSeries_Panel extends JPanel {
 	
 	public void drawData(TimeSeries_Record[] data, String date) {
 		TimeSeries seriesSteps = new TimeSeries("Steps", Minute.class);
-        TimeSeries seriesCalories = new TimeSeries("Calories", Minute.class);
-        TimeSeries seriesDistance = new TimeSeries("Distance", Minute.class);
+        TimeSeries seriesCalories = new TimeSeries("Calories (J)", Minute.class);
+        TimeSeries seriesDistance = new TimeSeries("Distance (M)", Minute.class);
         TimeSeries seriesHr = new TimeSeries("Heart Rate", Minute.class);
         
         if (!isSelfUpdating) {
@@ -228,7 +228,7 @@ public class TimeSeries_Panel extends JPanel {
         	Minute minute = new Minute(Integer.parseInt(data[i].getTime().substring(3, 5)), hour);
         	seriesSteps.add(minute, data[i].getSteps());
         	seriesCalories.add(minute, data[i].getCalories());
-        	seriesDistance.add(minute, data[i].getDistance());
+        	seriesDistance.add(minute, data[i].getDistance()*1000);
         	seriesHr.add(minute, data[i].getHr());
         }
         
@@ -236,7 +236,6 @@ public class TimeSeries_Panel extends JPanel {
         dataset.addSeries(seriesCalories);
         dataset.addSeries(seriesDistance);
         dataset.addSeries(seriesHr);
-        
         chart = ChartFactory.createTimeSeriesChart(
             "Time Series on " + currDate,
             "Time", 
