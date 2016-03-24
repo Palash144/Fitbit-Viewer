@@ -267,8 +267,10 @@ public class UserData {
         //creates 4 heartrate zones for canned data
         if(canned){
             HeartRateZones[] foo = new HeartRateZones[4];
-            for(int i = 0;i<4;i++ )
-                foo[i] = new HeartRateZones(0.0, "1", 0, true);
+            foo[0] = new HeartRateZones(0.0, "Fat Burn", 0, true);
+            foo[1] = new HeartRateZones(0.0, "Peak", 0, true);
+            foo[2] = new HeartRateZones(0.0, "Out of Range", 0, true);
+            foo[3] = new HeartRateZones(0.0, "Cardio", 0, true);
             return foo;
         }
         HeartRateZones ohno = new HeartRateZones(0.0, "Zone", 0 ,canned);
