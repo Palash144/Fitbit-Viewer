@@ -137,21 +137,37 @@ public class MainView implements GeneralCallBack {
     }
     
     
+    /**
+     * Implements configurations for the dashboard
+     *
+     */
     class configClass{
     	boolean config[];
     	
+        /**
+         * Constructor to save configurations
+         */
         public configClass(){
         	load();
         }
         
+        /** Getter method for configurations
+         * @return the configuration of the dashboard
+         */
         public boolean[] getConfig() {
         	return config;
         }
         
+        /** Updates the configuration
+         * @param in an array of settings for the configuration
+         */
         public void update(boolean in[]){
         	config = in;
         }
         
+        /**
+         * Saves the configuration
+         */
         public void save() {
             try {
             	ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("config.bin"));
@@ -163,6 +179,9 @@ public class MainView implements GeneralCallBack {
 			}
         }
         
+        /**
+         * Loads the configuration 
+         */
         public void load() {
         	 ObjectInputStream in;
 			try {
@@ -648,7 +667,7 @@ public class MainView implements GeneralCallBack {
     }
 
     /**
-     * //TODO: Finish settings view
+     * Loads the settings view
      */
     private void loadSettingView() {
         SettingsView sv = new SettingsView(this, true, dailyDataCustomization);
@@ -770,10 +789,21 @@ public class MainView implements GeneralCallBack {
         });
     }
     
+    /**
+     * Updates TSData with default settings
+     */
     public void getTSData() {
     	getTSData(false, currentDate, TIME_SERIES_INTERVAL_15_MIN, "", "");
     }
     
+    /** Updates TSData with custom settings
+     * 
+     * @param zoomed true if zoomed, false otherwise
+     * @param date date of the data to be updated
+     * @param detailLevel the detailLevel of TSData
+     * @param startTime when the time series begins
+     * @param endTime when the time series ends
+     */
     public void getTSData(boolean zoomed, String date, String detailLevel, String startTime, String endTime) {
     	
     	if (antiBanTimer == null) {
@@ -1095,6 +1125,9 @@ public class MainView implements GeneralCallBack {
         }
     }
     
+    /** Customizes the dashboard with selected panels
+     * @param inArr an array of panels that are either to be shown or hidden
+     */
     public void customizeDashboard(boolean[] inArr) {
     	dailyDataCustomization = inArr;
     	layoutPanels(getFitLayout(), false);
@@ -1102,7 +1135,7 @@ public class MainView implements GeneralCallBack {
     	config.save();
     }
     
-    /** TODO: Complete
+    /** 
      * Checks if user is at daily goal
      * @param canned Whether canned data is used or not
      * @return an array of strings detailing progress on daily goals. 
@@ -1158,6 +1191,9 @@ public class MainView implements GeneralCallBack {
         return s;
     }
     
+    /** Shows error messages
+     * @param msg The error message to be displayed
+     */
     public void showErrorMsg(String msg) {
     	Utils.showErrorMsg(msg);
     }

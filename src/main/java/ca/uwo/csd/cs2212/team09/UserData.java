@@ -332,6 +332,15 @@ public class UserData {
         return heartZones;
     }
     
+    /** Retrieves the TimeSeriesData
+     * @param zoomed True if zoomed, false otherwise
+     * @param date Date of data to be pulled
+     * @param detailLevel Level of detail for the time series data
+     * @param startTime Starting time of the time series
+     * @param endTime Ending time of the time series
+     * @param canned True if using canned data
+     * @return
+     */
     public TimeSeries_Record[] getTimeSeriesData (boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean canned) {
     	boolean returnNAData = false;
     	if (!canned) {
@@ -414,7 +423,10 @@ public class UserData {
     
     /**
     *
-    * creates the Daily Goals from the DailyGoals class constructor
+    * Creates the Daily Goals from the DailyGoals class constructor
+    * @param date date of the daily goals data to be pulled
+    * @param canned true if using canned data
+    * @return the created Daily Goals
     * @throws JSONException
     */
    public DailyGoals getDailyGoals( String date, boolean canned) throws JSONException{
@@ -424,8 +436,10 @@ public class UserData {
 
 
 
-    /** TODO: Complete
+    /** 
      * Checks if user is at daily goal
+     * @param data array of data user currently has accrued (steps, etc.)
+     * @param date date of the data to be pulled
      * @param canned Whether canned data is used or not
      * @return an array of strings detailing progress on daily goals.
      * [0] = Calories

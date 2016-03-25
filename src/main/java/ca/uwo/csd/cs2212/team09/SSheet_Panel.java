@@ -8,6 +8,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+/**Implements the panel to show daily and lifetime bests
+ * 
+ * @author Team 09
+ *
+ */
 public class SSheet_Panel extends JPanel {
 	
 	JLabel lblBest = new JLabel("Best");

@@ -72,14 +72,24 @@ public class Utils {
     }
 
     
+    /** Stores the image of the button
+     * @param orig image of the button
+     * @return a class storing the button and image
+     */
     public static ImageIcon getImageIconForList(Image orig) {
        	return new ImageIcon(orig.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH));
     }
     
+    /** Shows error messages
+     * @param msg the message to be displayed
+     */
     public static void showErrorMsg(String msg) {
     	JOptionPane.showMessageDialog(null, "Seems some error happened, beacuse " + msg);
     }
     
+    /** Shows tips
+     * @param msg the message to be displayed
+     */
     public static void showTipsMsg(String msg) {
     	JOptionPane.showMessageDialog(null, msg);
     }

@@ -35,6 +35,10 @@ import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 
+/** Implements the panel to display goals
+ * @author Team 09
+ *
+ */
 public class Goals_Panel extends JPanel {
 	
 	private class cellRenderer extends JLabel implements ListCellRenderer<Object> {  
@@ -85,7 +89,8 @@ public class Goals_Panel extends JPanel {
 	private String[] data;
 	
 	/**
-	 * Create the panel.
+	 * Creates the panel.
+	 * @param p the parent panel of the dashboard
 	 */
 	public Goals_Panel(MainView p) {
 		parent = p;
@@ -248,6 +253,11 @@ public class Goals_Panel extends JPanel {
 		mainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 	}
 	
+	/** Method to add items to the panel
+	 * @param title title of the item to be added
+	 * @param image image of the item to be added
+	 * @param refreshNow true if refreshing
+	 */
 	private void addItem(String title, ImageIcon image, boolean refreshNow) {
 		titles.add(title);
 		images.add(image);
@@ -256,6 +266,9 @@ public class Goals_Panel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Method to update the display
+	 */
 	private void updatePriviewArea() {
 		if (mainList.getSelectedIndex() < 0) {
 			imageLbl.setIcon(null);
@@ -287,6 +300,9 @@ public class Goals_Panel extends JPanel {
 		resizeFont(lblTitle);
 	}
 	
+	/** Method to draw the data on the panel
+	 * @param d string of data to be displayed
+	 */
 	public void drawData(String[] d) {
 		if (d.length == 0)
 			return;
@@ -323,6 +339,9 @@ public class Goals_Panel extends JPanel {
 		mainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 	}
 	
+	/** Method used to resize the font
+	 * @param label accompanying JLabel
+	 */
 	private void resizeFont(JLabel label) {
 		Font labelFont = label.getFont();
 		String labelText = label.getText();
@@ -343,6 +362,9 @@ public class Goals_Panel extends JPanel {
 		label.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
 	}
 	
+	/**
+	 * Method used to update the time of the display
+	 */
 	public void updateTime() {
 		try {
 	    	Date date; // your date

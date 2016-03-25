@@ -27,6 +27,10 @@ import java.awt.EventQueue;
 
 
 
+/** Implements the panel to display TimeSeries
+ * @author Team 09
+ *
+ */
 public class TimeSeries_Panel extends JPanel {
 
 	/**
@@ -48,6 +52,9 @@ public class TimeSeries_Panel extends JPanel {
 	
 	private boolean isSelfUpdating = false;
 	
+	/** Default constructor for the TimeSeries panel
+	 * @param p parent panel of the dashboard
+	 */
 	public TimeSeries_Panel(MainView p) {
 		parent = p;
 		Utils.stylePanel(this);
@@ -145,6 +152,15 @@ public class TimeSeries_Panel extends JPanel {
 		setLayout(groupLayout);
 	}
 	
+	/** Sets new date to be pull data
+	 * @param zoomed true if zoomed, false otherwise
+	 * @param date date of the data to be pulled
+	 * @param detailLevel level of detail
+	 * @param startTime starting time of the data
+	 * @param endTime ending time of the data
+	 * @param callback true if calling back
+	 * @return
+	 */
 	public boolean setNewDate(boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean callback) {
 		try {
 			Date tmpDate = df.parse(date);
@@ -186,6 +202,9 @@ public class TimeSeries_Panel extends JPanel {
 		return true;
 	}
 	
+	/** Method to retrieve hour intervals
+	 * @return array of strings of hour intervals
+	 */
 	private String[] getHourInterval() {
 		
 		Date date = new Date();
@@ -205,6 +224,10 @@ public class TimeSeries_Panel extends JPanel {
 		return rt;
 	}
 	
+	/** Draws the data to be displayed
+	 * @param data array of TimeSeries
+	 * @param date date of the data pulled
+	 */
 	public void drawData(TimeSeries_Record[] data, String date) {
 		TimeSeries seriesSteps = new TimeSeries("Steps", Minute.class);
         TimeSeries seriesCalories = new TimeSeries("Calories (J)", Minute.class);

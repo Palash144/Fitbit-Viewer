@@ -5,6 +5,10 @@ import org.json.JSONArray;
 
 import java.io.*;
 
+/** Implements the details of the accolades
+ * @author team 09
+ *
+ */
 public class Accolades {
 
     private AccAchievement DailyDistance = new AccAchievement();
@@ -21,6 +25,10 @@ public class Accolades {
     private AccAchievement MiddleMan = new AccAchievement();
     private AccAchievement ImmovableObject = new AccAchievement();
 
+    /** Constructor for the accolades to be displayed
+     * @param data array of user data
+     * @param ltData array of lifetime data
+     */
     public Accolades(double data[], String ltData[]) {
 
         double Ldistance = Double.parseDouble(ltData[6]);
@@ -303,102 +311,177 @@ public class Accolades {
 
     }
 
+    /** Getter method for the daily distance
+     * @return the daily distance
+     */
     public AccAchievement getDailyDistance() {
         return DailyDistance;
     }
 
+    /** Setter method for the daily distance
+     * @param dailyDistance the daily distance to set
+     */
     public void setDailyDistance(AccAchievement dailyDistance) {
         DailyDistance = dailyDistance;
     }
 
+    /** Getter method for daily calories
+     * @return the daily calories
+     */
     public AccAchievement getDailyCalories() {
         return DailyCalories;
     }
 
+    /** Setter method for the daily calories
+     * @param dailyCalories the daily calories to set
+     */
     public void setDailyCalories(AccAchievement dailyCalories) {
         DailyCalories = dailyCalories;
     }
 
+    /** Getter method for daily floors
+     * @return the daily floors
+     */
     public AccAchievement getDailyFloors() {
         return DailyFloors;
     }
 
+    /** Setter method for the daily floors
+     * @param dailyFloors the daily floors to set
+     */
     public void setDailyFloors(AccAchievement dailyFloors) {
         DailyFloors = dailyFloors;
     }
 
+    /** Getter method for the daily steps
+     * @return the daily steps
+     */
     public AccAchievement getDailySteps() {
         return DailySteps;
     }
 
+    /** Setter method for the daily steps
+     * @param dailySteps the daily steps to be set
+     */
     public void setDailySteps(AccAchievement dailySteps) {
         DailySteps = dailySteps;
     }
 
+    /** Returns the accolade achievement
+     * @return accolade achievement
+     */
     public AccAchievement getMotorVated() {
         return MotorVated;
     }
 
+    /** Sets the accolade achievement
+     * @param motorVated the accolade achievement to be set
+     */
     public void setMotorVated(AccAchievement motorVated) {
         MotorVated = motorVated;
     }
 
+    /** Getter method for DayOff
+     * @return the Dayoff
+     */
     public AccAchievement getDayOff() {
         return DayOff;
     }
 
+    /** Setter method for DayOff
+     * @param dayOff the DayOff to be set
+     */
     public void setDayOff(AccAchievement dayOff) {
         DayOff = dayOff;
     }
 
+    /** Getter method for lifetime distance
+     * @return the lifetime distance
+     */
     public AccAchievement getLifeDistance() {
         return LifeDistance;
     }
 
+    /** Setter method for lifetime distance
+     * @param lifeDistance lifetime distance to set
+     */
     public void setLifeDistance(AccAchievement lifeDistance) {
         LifeDistance = lifeDistance;
     }
 
+    /** Getter method for lifetime calories
+     * @return the lifetime calories
+     */
     public AccAchievement getLifeCalories() {
         return LifeCalories;
     }
-
+    
+    /** Setter method for lifetime calories
+     * @param lifeDistance lifetime calories to set
+     */
     public void setLifeCalories(AccAchievement lifeCalories) {
         LifeCalories = lifeCalories;
     }
 
+    /** Getter method for lifetime floors
+     * @return lifetime floors
+     */
     public AccAchievement getLifeFloors() {
         return LifeFloors;
     }
 
+    /** Setter method for lifetime floors
+     * @return lifetime floors to be set
+     */
     public void setLifeFloors(AccAchievement lifeFloors) {
         LifeFloors = lifeFloors;
     }
 
+    /** Getter method for lifetime steps
+     * @return lifetime steps
+     */
     public AccAchievement getLifeSteps() {
         return LifeSteps;
     }
 
+    /** Setter method for lifetime steps
+     * @param lifeSteps lifetime steps to be set
+     */
     public void setLifeSteps(AccAchievement lifeSteps) {
         LifeSteps = lifeSteps;
     }
 
+    /** Getter method for the MiddleMan
+     * @return the MiddleMan
+     */
     public AccAchievement getMiddleMan() {
         return MiddleMan;
     }
 
+    /** Setter method for the MiddleMan
+     * @param middleMan the MiddleMan to be set
+     */
     public void setMiddleMan(AccAchievement middleMan) {
         MiddleMan = middleMan;
     }
 
+    /** Getter method for the ImmovableObject
+     * @return the ImmovableObject
+     */
     public AccAchievement getImmovableObject() {
         return ImmovableObject;
     }
 
+    /** Setter method for the ImmovableObject
+     * @param immovableObject the ImmovableObject to be set
+     */
     public void setImmovableObject(AccAchievement immovableObject) {
         ImmovableObject = immovableObject;
     }
 
+    /** Getter method for the achievements
+     * @return an array of achievements
+     */
     public AccAchievement[] getAchievements(){
 
         AccAchievement[] Achievements = new AccAchievement[12];
