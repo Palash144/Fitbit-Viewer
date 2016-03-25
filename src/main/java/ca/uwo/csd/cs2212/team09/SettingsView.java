@@ -19,7 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.Font;
 
 /**
- * //TODO: This is for stage 3
+ * Implements the settings dialog box
  * @author Team 9
  */
 public class SettingsView extends JDialog {
@@ -46,8 +46,9 @@ public class SettingsView extends JDialog {
 
 	/**
 	 * Create the dialog.
-	 * @param p
-	 * @param modal
+	 * @param p the parent dashboard
+	 * @param modal whether the dashboard is modal or not
+	 * @param checkMark the settings of the dashboard (Shown/Hidden)
      */
 	public SettingsView(MainView p, boolean modal, boolean[] checkMark) {
 		selectionArray = checkMark;

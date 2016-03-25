@@ -33,6 +33,10 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
+/** Implements the panel to view accolades
+ * @author Team 09
+ *
+ */
 public class Accolades_Panel extends JPanel {
 	
 	
@@ -84,7 +88,8 @@ public class Accolades_Panel extends JPanel {
 	private MainView parent;
 	
 	/**
-	 * Create the panel.
+	 * Creates the panel.
+	 * @param p	the parent panel of the dashboard
 	 */
 	public Accolades_Panel(MainView p) {
 		parent = p;
@@ -327,6 +332,11 @@ public class Accolades_Panel extends JPanel {
 		mainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
 	}
 	
+	/** Method to add items/accolades to the panel
+	 * @param title title of the item/accolade
+	 * @param image accompanying image of the item
+	 * @param refreshNow true if item is to be refreshed
+	 */
 	private void addItem(String title, ImageIcon image, boolean refreshNow) {
 		titles.add(title);
 		images.add(image);
@@ -335,6 +345,9 @@ public class Accolades_Panel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Updates the panel
+	 */
 	private void updatePriviewArea() {
 		if (mainList.getSelectedIndex() < 0) {
 			imageLbl.setIcon(null);
@@ -352,6 +365,9 @@ public class Accolades_Panel extends JPanel {
 		resizeFont(lblTitle);
 	}
 	
+	/** Method used to resize the font
+	 * @param label the label of the font
+	 */
 	private void resizeFont(JLabel label) {
 		Font labelFont = label.getFont();
 		String labelText = label.getText();
@@ -372,6 +388,9 @@ public class Accolades_Panel extends JPanel {
 		label.setFont(new Font(labelFont.getName(), Font.PLAIN, fontSizeToUse));
 	}
 	
+	/**
+	 * Method used to update the time
+	 */
 	public void updateTime() {
 		try {
 	    	Date date; // your date
@@ -388,6 +407,9 @@ public class Accolades_Panel extends JPanel {
 	    }
 	}
 
+	/** Draws the accolades panel
+	 * @param acc an array of accolades to be displayed
+	 */
 	public void drawData(AccAchievement[] acc){
 		newItems.clear();
 		titles.clear();

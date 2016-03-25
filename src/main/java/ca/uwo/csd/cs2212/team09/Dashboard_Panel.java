@@ -56,6 +56,9 @@ public class Dashboard_Panel extends JPanel {
 		layoutPanel(currLayout);
 	}
 	
+	/**
+	 * Removes all cards from the dashboard
+	 */
 	public void removeAllCards() {
 		removeAll();
 		panels.clear();

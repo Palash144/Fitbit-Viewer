@@ -32,7 +32,7 @@ public class Request {
     public static void main(String[] args) {
     }//end main
 
-    //TODO: This method needs to be called and return something useful
+    
 
     /** Used to request JSON Objects from the FitBit API
      * @param requestUrlPostfix requests different types of data to return
