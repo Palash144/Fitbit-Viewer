@@ -485,7 +485,7 @@ public class Accolades_Panel extends JPanel {
 		
 		String[] item26 = {"The Immorable Object  ", "","Lifetime", acc[10].isTier1() ? "unlock" : "lock", "Sedentary minutes are greater than 2,500,000."};
 		newItems.add(item26);
-		String[] item27 = {"Middle Man", "","Lifetime", acc[11].isTier1() ? "unlock" : "lock","Fairly active minutes 1,800,000."};
+		String[] item27 = {"Middle Man  ", "","Lifetime", acc[11].isTier1() ? "unlock" : "lock","Fairly active minutes 1,800,000."};
 		newItems.add(item27);
 		
 		for (int i=0;i<newItems.size();i++) {
