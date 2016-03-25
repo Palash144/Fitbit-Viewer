@@ -97,15 +97,15 @@ public class UserData {
         String[] returnData = new String[10];
         if (canned == true) {
             returnData[0] = "02-25-2016"; //best distance (date)
-            returnData[1] = "4";          //best distance
-            returnData[2] = "03-01-2016"; //best floors (date)
-            returnData[3] = "6";          //best floors
+            returnData[1] = "72";          //best distance
+            returnData[2] = "03-20-2016"; //best floors (date)
+            returnData[3] = "64";          //best floors
             returnData[4] = "03-01-2016"; //best steps (date)
-            returnData[5] = "8";          //best steps
-            returnData[6] = "9";          //lifetime distance
-            returnData[7] = "803000";         //lifetime floors
-            returnData[8] = "11";         //lifetime steps
-            returnData[9] = "11";         //lifetime calories
+            returnData[5] = "11304";          //best steps
+            returnData[6] = "2073";          //lifetime distance
+            returnData[7] = "1803";         //lifetime floors
+            returnData[8] = "204372";         //lifetime steps
+            returnData[9] = "184574";         //lifetime calories
             return returnData;
         }
         Request getData = new Request();
@@ -267,8 +267,14 @@ public class UserData {
         //creates 4 heartrate zones for canned data
         if(canned){
             HeartRateZones[] foo = new HeartRateZones[4];
-            for(int i = 0;i<4;i++ )
-                foo[i] = new HeartRateZones(0.0, "1", 0, true);
+            for(int i = 0;i<4;i++ ) {
+            	String name;
+            	if (i == 0) name = "Out of Range";
+                else if (i == 1) name = "Fat Burn";
+                else if (i == 2) name = "Cardio";
+                else name = "Peak";
+            	foo[i] = new HeartRateZones(0.0, name, 0, true);
+            }
             return foo;
         }
         HeartRateZones ohno = new HeartRateZones(0.0, "Zone", 0 ,canned);
@@ -388,7 +394,7 @@ public class UserData {
     		for (int i=0;i<60;i++) {
     			rt[i] = new TimeSeries_Record(returnNAData ? 1: 800+ran.nextInt(2000),
     											returnNAData ? 2: 200+ran.nextInt(200),
-    											returnNAData ? 3: 500+ran.nextInt(2000),
+    											returnNAData ? 3: 1+ran.nextInt(3),
     											returnNAData ? 4: 50+ran.nextInt(60),
     										  startTime.substring(0, 2)+":"+(i<10?"0"+i:i)+":00");
     		}
@@ -397,7 +403,7 @@ public class UserData {
     		for (int i=0;i<24*4;i++) {
     			rt[i] = new TimeSeries_Record(returnNAData ? 1: 800+ran.nextInt(2000),
     											returnNAData ? 2: 200+ran.nextInt(200),
-    											returnNAData ? 3: 500+ran.nextInt(2000),
+    											returnNAData ? 3: 1+ran.nextInt(3),
     											returnNAData ? 4: 50+ran.nextInt(60),
     										  ((i/4)<10?("0"+(i/4)):(i/4))+":"+(i%4==0?"00":(i%4)*15)+":00");
     		}

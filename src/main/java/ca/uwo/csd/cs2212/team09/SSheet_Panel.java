@@ -12,7 +12,7 @@ public class SSheet_Panel extends JPanel {
 	
 	JLabel lblBest = new JLabel("Best");
 	JLabel lblLifetimeTotal = new JLabel("Lifetime Total");
-	JLabel lblDistance = new JLabel("Distance");
+	JLabel lblDistance = new JLabel("Distance (km)");
 	JLabel lblFloors = new JLabel("Floors");
 	JLabel lblSteps = new JLabel("Steps");
 	
