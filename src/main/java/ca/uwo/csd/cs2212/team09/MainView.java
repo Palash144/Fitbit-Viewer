@@ -4,21 +4,41 @@ import java.awt.Color;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import org.json.JSONException;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.ImageIcon;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.CardLayout;
@@ -41,42 +61,65 @@ public class MainView implements GeneralCallBack {
 
     UserData sessionData = new UserData();
 
-    private final static int DATA_DAILY_CALORIES = 0;
-    private final static int DATA_DAILY_DISTANCE = 1;
-    private final static int DATA_DAILY_FLOORS = 2;
-    private final static int DATA_DAILY_STEPS = 3;
-    private final static int DATA_DAILY_ACTIVE_MINUTES = 4;
-    private final static int DATA_DAILY_SEDENTARY_MINUTES = 5;
+    public final static int DATA_DAILY_CALORIES = 0;
+    public final static int DATA_DAILY_DISTANCE = 1;
+    public final static int DATA_DAILY_FLOORS = 2;
+    public final static int DATA_DAILY_STEPS = 3;
+    public final static int DATA_DAILY_ACTIVE_MINUTES = 4;
+    public final static int DATA_DAILY_SEDENTARY_MINUTES = 5;
+    public final static int DATA_DAILY_LIGHTLY_ACTIVE_MINUTES = 6;
+    public final static int DATA_DAILY_FAIRLY_ACTIVE_MINUTES = 7;
+    public final static int DATA_DAILY_VERY_ACTIVE_MINUTES = 8;
 
-    private final static int DATA_BEST_DISTANCE_DATE = 0;
-    private final static int DATA_BEST_DISTANCE = 1;
-    private final static int DATA_BEST_FLOORS_DATE = 2;
-    private final static int DATA_BEST_FLOORS = 3;
-    private final static int DATA_BEST_STEPS_DATE = 4;
-    private final static int DATA_BEST_STEPS = 5;
-    private final static int DATA_LT_DISTANCE = 6;
-    private final static int DATA_LT_FLOORS = 7;
-    private final static int DATA_LT_STEPS = 8;
+    public final static int DATA_BEST_DISTANCE_DATE = 0;
+    public final static int DATA_BEST_DISTANCE = 1;
+    public final static int DATA_BEST_FLOORS_DATE = 2;
+    public final static int DATA_BEST_FLOORS = 3;
+    public final static int DATA_BEST_STEPS_DATE = 4;
+    public final static int DATA_BEST_STEPS = 5;
+    public final static int DATA_LT_DISTANCE = 6;
+    public final static int DATA_LT_FLOORS = 7;
+    public final static int DATA_LT_STEPS = 8;
+    public final static int DATA_LT_CALORIES = 9;
 
     private final static int PAGE_DAILY_DASHBOARD = 0;
     private final static int PAGE_MY_SUMMARY = 1;
     private final static int PAGE_TIME_SERIES = 2;
     private final static int PAGE_HEART_ZONE = 3;
     private final static int PAGE_GOALS = 4;
+    private final static int PAGE_ACCOLADES = 5;
+    
 
-    private double dailyData[] = {0, 0, 0, 0, 0, 0};
-    private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0"};
-    private String dailyDataMsg[] = {"Calories burned (out)", "Total distance", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
-    public Boolean dailyDataCustomization[] = {true, true, true, true, true, true};
+    public final static String TIME_SERIES_INTERVAL_1_MIN = "1min";
+    public final static String TIME_SERIES_INTERVAL_15_MIN = "15min";
+    
+    private final static int MAX_REFRESH_INTERVAL = 5; //second
+    
+    private double dailyData[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private String bestnltDate[] = {" ", "0", " ", "0", " ", "0", "0", "0", "0", "0"};
+    private String dailyDataMsg[] = {"Calories burned (J)", "Total distance (KM)", "Floors climbed", "Steps", "Active minutes", "Sedentary minutes"};
+    public boolean dailyDataCustomization[] = {true, true, true, true, true, true};
+    
+    private Accolades achievement;
+    private String[] goals;
+    
+    public Timer antiBanTimer;
+    private int locker = MAX_REFRESH_INTERVAL;
+    
+    private HeartRateZones ohno;
 
-    private HeartRateZones ohno = new HeartRateZones(0, "0", true);
-
-    private HeartRateZones hrzoneData[] = {ohno, ohno, ohno, ohno};
+    private HeartRateZones[] hrzoneData = new HeartRateZones[4];
     private int hrzoneData_Resting = 0;
 
     private Boolean testMode = true;
-    public String currentDate;
-    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    public SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    public String currentDate = df.format(new Date());
+    
+    private TimeSeries_Record tsData[];
+    private String tsDataDate;
+    
+    private boolean loaded = false;
+    private String lastUpdatedMsg = "";
 
     /**
      * Adapter to capture the window resize event
@@ -92,6 +135,75 @@ public class MainView implements GeneralCallBack {
             adaptee.frameResized(e);
         }
     }
+    
+    
+    /**
+     * Implements configurations for the dashboard
+     *
+     */
+    class configClass{
+    	boolean config[];
+    	
+        /**
+         * Constructor to save configurations
+         */
+        public configClass(){
+        	load();
+        }
+        
+        /** Getter method for configurations
+         * @return the configuration of the dashboard
+         */
+        public boolean[] getConfig() {
+        	return config;
+        }
+        
+        /** Updates the configuration
+         * @param in an array of settings for the configuration
+         */
+        public void update(boolean in[]){
+        	config = in;
+        }
+        
+        /**
+         * Saves the configuration
+         */
+        public void save() {
+            try {
+            	ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("config.bin"));
+				out.writeObject(config);
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Error: cannot save config file.");
+			}
+        }
+        
+        /**
+         * Loads the configuration 
+         */
+        public void load() {
+        	 ObjectInputStream in;
+			try {
+				in = new ObjectInputStream(new FileInputStream("config.bin"));
+				boolean[] conf = (boolean[])in.readObject();
+	       	  	in.close();
+	       	  	update(conf);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				boolean t[] = {true, true, true, true, true, true};
+				update(t);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				boolean t[] = {true, true, true, true, true, true};
+				update(t);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				boolean t[] = {true, true, true, true, true, true};
+				update(t);
+			}
+        }
+    }
 
     private JFrame mainView;
 
@@ -104,12 +216,14 @@ public class MainView implements GeneralCallBack {
      * 5 for accolodes
      */
     private int currentPage;
-    private static String pageNames[] = {"name_1456030182851147000", "name_1456033158027647000", "name_1456030885832917000", "name_1456030906465778000", "name_1456030920510772000", ""};
+    private static String pageNames[] = {"name_1456030182851147000", "name_1456033158027647000", "name_1456030885832917000", "name_1456030906465778000", "name_1456030920510772000", "name_1456030940510773000"};
     private Dimension currLayout;
+    
+    private configClass config = new configClass();
 
     private JLabel dashboardBtn = new JLabel("Dashboard");
-    private JLabel timeseriesBtn = new JLabel("TimeSeries");
-    private JLabel heartzoneBtn = new JLabel("HeartZone");
+    private JLabel timeseriesBtn = new JLabel("Time Series");
+    private JLabel heartzoneBtn = new JLabel("Heart Zone");
     private JLabel userLbl = new JLabel("Beth Locke");
     private JLabel lastupdatedLbl = new JLabel("Data outdated. Please refresh.");
     private JLabel goalsBtn = new JLabel("Goals");
@@ -117,18 +231,28 @@ public class MainView implements GeneralCallBack {
     private JLabel userBtn = new JLabel();
     private JLabel refreshBtn = new JLabel();
     private JLabel settingsBtn = new JLabel();
+    private JLabel infoBtn = new JLabel();
+    private JLabel indicator = new JLabel("^");
     private final JLabel fitbitLogo = new JLabel("");
+    private JLabel accoladeBtn = new JLabel("Accolades");
+    
+    private Timer indiTimer;
 
     private final JPanel mainPanel = new JPanel();
     private CardLayout cardLayout = new CardLayout();
     private final Dashboard_Panel dashboardPanel = new Dashboard_Panel(this);
-    private final JPanel timeseriesPanel = new JPanel();
+    private final TimeSeries_Panel timeseriesPanel = new TimeSeries_Panel(this);
     private final Dashboard_Panel heartzonePanel = new Dashboard_Panel(this);
-    private final JPanel goalsPanel = new JPanel();
-    private final JLabel mysummaryBtn = new JLabel("MySummary");
+    private final Accolades_Panel accoladesPanel = new Accolades_Panel(this);
+    private final Goals_Panel goalsPanel = new Goals_Panel(this);
+    private final JLabel mysummaryBtn = new JLabel("My Summary");
     private final SSheet_Panel mysummaryPanel = new SSheet_Panel();
     private final JLabel btnQuit = new JLabel("");
 
+    
+    private final JPanel indicatorPanel = new JPanel();
+    boolean indiGoUp = false;
+    int offset = 0;
 
     /**
      * Creates the application (dashboard)
@@ -146,13 +270,20 @@ public class MainView implements GeneralCallBack {
      * Initialize the contents of the frame.
      */
     private void initialize() {
+    	ohno = new HeartRateZones(0.0, "0", 0, testMode);
+    	hrzoneData[0] = ohno;
+    	hrzoneData[1] = ohno;
+    	hrzoneData[2] = ohno;
+    	hrzoneData[3] = ohno;
         mainView = new JFrame();
-        mainView.setTitle("Team09_Fitbit_Project_GUI");
+        mainView.setTitle("FitViewer");
         mainView.setBounds(100, 100, 1025, 540);
         mainView.setBackground(new Color(38, 50, 56));
         mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainView.getContentPane().setBackground(new Color(38, 50, 56));
         mainView.setMinimumSize(new Dimension(1025, 540));
+        
+        dailyDataCustomization = config.getConfig();
 
         JPanel rightSidePanel = new JPanel();
         rightSidePanel.setBackground(new Color(0, 150, 136));
@@ -284,63 +415,86 @@ public class MainView implements GeneralCallBack {
         goalsBtn.setForeground(Color.WHITE);
         goalsBtn.setHorizontalAlignment(SwingConstants.CENTER);
         Utils.styleButton(goalsBtn);
-
+        
+        
+        accoladeBtn.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseEntered(MouseEvent e) {
+        		accoladeBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
+        	}
+        	@Override
+        	public void mouseExited(MouseEvent e) {
+        		if (currentPage != 5)
+        			accoladeBtn.setBackground(Utils.normalButtonColor());
+        	}
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		currentPage = 5;
+                updateLeftSideButton();
+        	}
+        });
+        accoladeBtn.setForeground(Color.WHITE);
+        accoladeBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        Utils.styleButton(accoladeBtn);
 
         GroupLayout groupLayout = new GroupLayout(mainView.getContentPane());
         groupLayout.setHorizontalGroup(
-                groupLayout.createParallelGroup(Alignment.LEADING)
-                        .addGroup(groupLayout.createSequentialGroup()
-                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addGap(28)
-                                                .addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 407, GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-                                                        .addGroup(groupLayout.createSequentialGroup()
-                                                                .addGap(18)
-                                                                .addComponent(userLbl, GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
-                                                        .addGroup(groupLayout.createSequentialGroup()
-                                                                .addPreferredGap(ComponentPlacement.RELATED)
-                                                                .addComponent(lastupdatedLbl, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))))
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                                                        .addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(mysummaryBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(goalsBtn, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18)
-                                                .addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)))
-                                .addPreferredGap(ComponentPlacement.RELATED)
-                                .addComponent(rightSidePanel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
+        	groupLayout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(groupLayout.createSequentialGroup()
+        			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addGap(28)
+        					.addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 407, GroupLayout.PREFERRED_SIZE)
+        					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+        						.addGroup(groupLayout.createSequentialGroup()
+        							.addGap(18)
+        							.addComponent(userLbl, GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
+        						.addGroup(groupLayout.createSequentialGroup()
+        							.addPreferredGap(ComponentPlacement.RELATED)
+        							.addComponent(lastupdatedLbl, GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE))))
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addContainerGap()
+        					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+        						.addComponent(dashboardBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(mysummaryBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(timeseriesBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(heartzoneBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(goalsBtn, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+        						.addComponent(accoladeBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        					.addGap(18)
+        					.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)))
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(rightSidePanel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
         );
         groupLayout.setVerticalGroup(
-                groupLayout.createParallelGroup(Alignment.LEADING)
-                        .addComponent(rightSidePanel, GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
-                        .addGroup(groupLayout.createSequentialGroup()
-                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addGap(17)
-                                                .addComponent(userLbl, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(lastupdatedLbl))
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
-                                .addGap(12)
-                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                        .addGroup(groupLayout.createSequentialGroup()
-                                                .addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                .addGap(12)
-                                                .addComponent(mysummaryBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                                .addComponent(goalsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                .addContainerGap())
+        	groupLayout.createParallelGroup(Alignment.LEADING)
+        		.addComponent(rightSidePanel, GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+        		.addGroup(groupLayout.createSequentialGroup()
+        			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addGap(17)
+        					.addComponent(userLbl, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        					.addComponent(lastupdatedLbl))
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addContainerGap()
+        					.addComponent(mainTitleLabel, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
+        			.addGap(12)
+        			.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+        				.addGroup(groupLayout.createSequentialGroup()
+        					.addComponent(dashboardBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addGap(12)
+        					.addComponent(mysummaryBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(timeseriesBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(heartzoneBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(goalsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.UNRELATED)
+        					.addComponent(accoladeBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(mainPanel, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+        			.addContainerGap())
         );
         mainPanel.setLayout(cardLayout);
         mainPanel.setBackground(new Color(38, 50, 56));
@@ -357,6 +511,8 @@ public class MainView implements GeneralCallBack {
         mainPanel.add(heartzonePanel, "name_1456030906465778000");
 
         mainPanel.add(goalsPanel, "name_1456030920510772000");
+        
+        mainPanel.add(accoladesPanel, "name_1456030940510773000");
 
         currLayout = getFitLayout();
         layoutPanels(currLayout, true);
@@ -379,7 +535,10 @@ public class MainView implements GeneralCallBack {
             }
         });
         int userBtnSide = 60;
-        Utils.styleSquareImageButton(userBtn, new ImageIcon(getClass().getResource("/User_Default.png")).getImage(), userBtnSide);
+        
+        ImageIcon ico = new ImageIcon(getClass().getResource("/User_Default.png"));
+        Utils.styleSquareImageButton(userBtn, ico.getImage(), userBtnSide);
+        
 
         int sideBtnSize_Small = 40;
 
@@ -387,6 +546,8 @@ public class MainView implements GeneralCallBack {
         Utils.styleSquareImageButton(refreshBtn, new ImageIcon(getClass().getResource("/Tools_Refresh.png")).getImage(), sideBtnSize_Small);
 
         Utils.styleSquareImageButton(settingsBtn, new ImageIcon(getClass().getResource("/Tools_Setting.png")).getImage(), sideBtnSize_Small);
+        
+        Utils.styleSquareImageButton(infoBtn, new ImageIcon(getClass().getResource("/Tools_Info.png")).getImage(), sideBtnSize_Small);
 
         Utils.styleImage(btnQuit, new ImageIcon(getClass().getResource("/App_Close.png")).getImage(), 40, 40);
 
@@ -403,6 +564,8 @@ public class MainView implements GeneralCallBack {
                                                 .addGroup(gl_rightSidePanel.createParallelGroup(Alignment.LEADING)
                                                         .addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(infoBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(indicatorPanel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
                                                 .addGap(14))))
                         .addGroup(gl_rightSidePanel.createSequentialGroup()
@@ -419,7 +582,11 @@ public class MainView implements GeneralCallBack {
                                 .addComponent(refreshBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addComponent(settingsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
+                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                .addComponent(infoBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                .addComponent(indicatorPanel, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
                                 .addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
                                 .addGap(18)
                                 .addComponent(fitbitLogo, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
@@ -438,11 +605,31 @@ public class MainView implements GeneralCallBack {
                 loadSettingView();
             }
         });
+        
+        infoBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	indiTimer.stop();
+            	indicator.setVisible(false);
+                Utils.showTipsMsg("Changing the date in any tab will affect the data in all others accordingly.\n"
+                		+ "'Time series data' is the only tab that will not be affected by these changes. \n"
+                		+ "In Time series tab, user will choose the date they want in that space and not the other tabs.");
+            }
+        });
 
         btnQuit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.exit(0);
+                   ImageIcon icon = new ImageIcon(MainView.class.getResource("/icon.png"));
+                    int flag = JOptionPane.showConfirmDialog(null, "Do you want to quit?", 
+                            "I will miss u~", JOptionPane.YES_NO_OPTION,  
+                            JOptionPane.QUESTION_MESSAGE, icon);  
+                    if (JOptionPane.YES_OPTION == flag) {  
+                        System.exit(0);  
+                    } else {  
+                        return;  
+                    }  
+                  
             }
         });
 
@@ -451,14 +638,40 @@ public class MainView implements GeneralCallBack {
         Utils.styleImage(fitbitLogo, new ImageIcon(getClass().getResource("/FitbitLogo.png")).getImage(), 60, 15);
 
         mainView.getContentPane().setLayout(groupLayout);
+        loaded = true;
+        
+        indicator.setForeground(Color.white);
+        indicator.setFont(new Font("Lucida Grande", Font.BOLD, 20));
+        indicator.setHorizontalAlignment(SwingConstants.CENTER);
+     
+        indicatorPanel.setLayout(new FlowLayout());
+        indicatorPanel.add(indicator);
+
+        indicator.setVisible(true);
+        indicator.updateUI();
+        indicatorPanel.setBackground(new Color(0, 150, 136));
+        indicatorPanel.updateUI();
+        //indiGoUp = false;
+        ActionListener indiListener = new ActionListener() {	
+			public void actionPerformed(ActionEvent evt) {
+				indicator.setLocation(indicator.getLocation().x, indicator.getLocation().y + (indiGoUp ? 1:-1));
+				offset++;
+				if (offset >= 10) {
+					offset = 0;
+					indiGoUp = !indiGoUp;
+				}
+			}
+		};
+        indiTimer = new Timer(50, indiListener);
+        indiTimer.start();
     }
 
     /**
-     * //TODO: Finish settings view
+     * Loads the settings view
      */
     private void loadSettingView() {
-        //SettingsView sv = new SettingsView(this, true);
-        //sv.setVisible(true);
+        SettingsView sv = new SettingsView(this, true, dailyDataCustomization);
+        sv.setVisible(true);
     }
 
     /**
@@ -470,6 +683,7 @@ public class MainView implements GeneralCallBack {
         timeseriesBtn.setBackground(Utils.normalButtonColor());
         heartzoneBtn.setBackground(Utils.normalButtonColor());
         goalsBtn.setBackground(Utils.normalButtonColor());
+        accoladeBtn.setBackground(Utils.normalButtonColor());
         cardLayout.show(mainPanel, pageNames[currentPage]);
         switch (currentPage) {
             case PAGE_DAILY_DASHBOARD: {
@@ -492,8 +706,8 @@ public class MainView implements GeneralCallBack {
                 goalsBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
                 break;
             }
-            case 5: {
-
+            case PAGE_ACCOLADES: {
+            	accoladeBtn.setBackground(new Color(255, 255, 255, BUTTON_ALPHA_HIGHLIGHT));
                 break;
             }
             default: {
@@ -524,7 +738,7 @@ public class MainView implements GeneralCallBack {
     void refreshAllDataWithDate(String date, Boolean canned) {
         currentDate = date;
         final Boolean canVar = canned;
-        lastupdatedLbl.setText("Refreshing...");
+        lastupdatedLbl.setText("Refreshing..."); 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -532,28 +746,94 @@ public class MainView implements GeneralCallBack {
                         if (canVar) {
                             System.out.println("Returning canned data...");
                         }
+                        
                         //TODO: Fill in the date as a string in this format: 2016-01-08
                         dailyData = sessionData.refreshAll(canVar, currentDate);
+                        
+                        getTSData();
+                 
                         bestnltDate = sessionData.refreshMySummary(canVar);
+                        
+                        achievement = new Accolades(dailyData, bestnltDate);
 
+                        goals = isAtGoal(currentDate, canVar);
+                        
                         hrzoneData = sessionData.getHeartRateZones(currentDate, canVar);
                         hrzoneData_Resting = sessionData.getRestingHeartRate(canVar, currentDate);
-
+                        
+                        mainTitleLabel.setText("Home");
+                        //tsDataDate = currentDate;
+                    	//tsData = sessionData.getTimeSeriesData(false, currentDate, TIME_SERIES_INTERVAL_1_MIN, "", "", testMode);
+                    	
                     } catch (Exception e) {
-                        System.out.println("Something went horribly wrong, tell Michael about this: " + e);
+                    	System.out.println( e.getMessage()  );
+                    	mainTitleLabel.setText("Home [Offline]");
+                    	 ImageIcon icon = new ImageIcon(MainView.class.getResource("/minion.png"));
+                         JOptionPane.showMessageDialog(
+                                 null,
+                                 "There was a problem while creating a connection to the remote service.\nPlease check your token file first,then make sure you have a stable internet connection.\nTry to refresh me by clicking refresh button on right side bar."
+                                 ,"Oops", JOptionPane.INFORMATION_MESSAGE,
+                                 icon);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    
                 }
-
+                
                 SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
-                lastupdatedLbl.setText("Last updated: " + df.format(new Date()));
-
+                lastUpdatedMsg = "Last updated: " + df.format(new Date());
+                lastupdatedLbl.setText(lastUpdatedMsg);
                 System.out.println("Data updated.");
 
                 callback(CALLBACK_ID_LAYOUT_PANEL_AFTER_DATA_REFRESH);
             }
         });
+    }
+    
+    /**
+     * Updates TSData with default settings
+     */
+    public void getTSData() {
+    	getTSData(false, currentDate, TIME_SERIES_INTERVAL_15_MIN, "", "");
+    }
+    
+    /** Updates TSData with custom settings
+     * 
+     * @param zoomed true if zoomed, false otherwise
+     * @param date date of the data to be updated
+     * @param detailLevel the detailLevel of TSData
+     * @param startTime when the time series begins
+     * @param endTime when the time series ends
+     */
+    public void getTSData(boolean zoomed, String date, String detailLevel, String startTime, String endTime) {
+    	
+    	if (antiBanTimer == null) {
+        	if (loaded) {
+        		ActionListener aniTimer = new ActionListener() {
+    				public void actionPerformed(ActionEvent evt) {
+    					locker--;
+    					lastupdatedLbl.setText("Please wait "+locker+" secs");
+    					if (locker <= 0) {
+    						locker = MAX_REFRESH_INTERVAL;
+    						lastupdatedLbl.setText(lastUpdatedMsg);
+    						antiBanTimer.stop();
+    					}
+    				}
+    			};
+    			antiBanTimer = new Timer(1000, aniTimer);
+    			antiBanTimer.start();
+        	}
+    	}
+    	else {
+    		if (antiBanTimer.isRunning()) {
+    			//System.out.println("Please wait "+locker+"secs.");
+    			return;
+    		}
+    		else {
+    			antiBanTimer.start();
+    		}
+    	}
+    	tsDataDate = date;
+    	tsData = sessionData.getTimeSeriesData(zoomed, date, detailLevel, startTime, endTime, testMode);
     }
 
     /**
@@ -571,6 +851,33 @@ public class MainView implements GeneralCallBack {
      * @param time the time to use for retrieving data
      */
     public void updateTime(String time) {
+
+        if (antiBanTimer == null) {
+        	if (loaded) {
+        		ActionListener aniTimer = new ActionListener() {
+    				public void actionPerformed(ActionEvent evt) {
+    					locker--;
+    					lastupdatedLbl.setText("Please wait "+locker+" secs");
+    					if (locker <= 0) {
+    						locker = MAX_REFRESH_INTERVAL;
+    						lastupdatedLbl.setText(lastUpdatedMsg);
+    						antiBanTimer.stop();
+    					}
+    				}
+    			};
+    			antiBanTimer = new Timer(1000, aniTimer);
+    			antiBanTimer.start();
+        	}
+    	}
+    	else {
+    		if (antiBanTimer.isRunning()) {
+    			//System.out.println("Please wait "+locker+"secs.");
+    			return;
+    		}
+    		else {
+    			antiBanTimer.start();
+    		}
+    	}
         System.out.println("Now will refresh data.");
         currentDate = time;
         EventQueue.invokeLater(new Runnable() {
@@ -581,6 +888,8 @@ public class MainView implements GeneralCallBack {
                     e.printStackTrace();
                 } finally {
                     updateDataOnPanels();
+                    goalsPanel.updateTime();
+                    accoladesPanel.updateTime();
                 }
             }
         });
@@ -589,12 +898,12 @@ public class MainView implements GeneralCallBack {
     /**
      * Used to update the data on the panels displaying the user data
      */
-    void updateDataOnPanels() {
+    public void updateDataOnPanels() {
         switch (currentPage) {
             case PAGE_DAILY_DASHBOARD: {
                 ((Dashboard_Card) dashboardPanel.modifyAt(0)).setNewDate(currentDate, false);
                 int j = 0;
-                for (int i = 0; i < dailyData.length; i++) {
+                for (int i = 0; i < 6; i++) {
                     if (dailyDataCustomization[i]) {
                         j++;
                         Dashboard_Card panel = (Dashboard_Card) dashboardPanel.modifyAt(j);
@@ -616,7 +925,7 @@ public class MainView implements GeneralCallBack {
                 break;
             }
             case PAGE_TIME_SERIES: {
-
+            	timeseriesPanel.drawData(tsData, tsDataDate);
                 break;
             }
             case PAGE_HEART_ZONE: {
@@ -624,6 +933,7 @@ public class MainView implements GeneralCallBack {
                 for (int i = 0; i < 4; i++) {
                     Dashboard_HRCard panel = (Dashboard_HRCard) heartzonePanel.modifyAt(i + 1);
                     panel.setTitle(hrzoneData[i].getName());
+                    //System.out.println(i + "<------");
                     panel.setCalories(hrzoneData[i].getCaloriesOut() + "");
                     panel.setTime(hrzoneData[i].getMinutes() + " Mins");
                 }
@@ -632,11 +942,15 @@ public class MainView implements GeneralCallBack {
                 break;
             }
             case PAGE_GOALS: {
-
+            	if (goals != null) {
+            		goalsPanel.drawData(goals);
+            	}
                 break;
             }
-            case 5: {
-
+            case PAGE_ACCOLADES: {
+            	if (achievement != null) {
+            		accoladesPanel.drawData(achievement.getAchievements());
+            	}
                 break;
             }
             default: {
@@ -653,19 +967,74 @@ public class MainView implements GeneralCallBack {
     void layoutPanels(Dimension layoutMode, boolean updateData) {
         if (updateData) {
             try {
+            	if (antiBanTimer == null) {
+            		if (loaded) {
+                		ActionListener aniTimer = new ActionListener() {
+            				public void actionPerformed(ActionEvent evt) {
+            					locker--;
+            					lastupdatedLbl.setText("Please wait "+locker+" secs");
+            					if (locker <= 0) {
+            						locker = MAX_REFRESH_INTERVAL;
+            						lastupdatedLbl.setText(lastUpdatedMsg);
+            						antiBanTimer.stop();
+            					}
+            				}
+            			};
+            			antiBanTimer = new Timer(1000, aniTimer);
+            			antiBanTimer.start();
+                	}
+            	}
+            	else {
+            		if (antiBanTimer.isRunning()) {
+            			//System.out.println("Please wait "+locker+"secs.");
+            			return;
+            		}
+            		else {
+            			antiBanTimer.start();
+            		}
+            	}
                 refreshAllDataWithDate(((Dashboard_Card) dashboardPanel.modifyAt(0)).getDate(), testMode);
             } catch (Exception e) {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                if (antiBanTimer == null) {
+                	if (loaded) {
+                		ActionListener aniTimer = new ActionListener() {
+            				public void actionPerformed(ActionEvent evt) {
+            					locker--;
+            					lastupdatedLbl.setText("Please wait "+locker+" secs");
+            					if (locker <= 0) {
+            						locker = MAX_REFRESH_INTERVAL;
+            						lastupdatedLbl.setText(lastUpdatedMsg);
+            						antiBanTimer.stop();
+            					}
+            				}
+            			};
+            			antiBanTimer = new Timer(1000, aniTimer);
+            			antiBanTimer.start();
+                	}
+            	}
+            	else {
+            		if (antiBanTimer.isRunning()) {
+            			//System.out.println("Please wait "+locker+"secs.");
+            			return;
+            		}
+            		else {
+            			antiBanTimer.start();
+            		}
+            	}
                 refreshAllDataWithDate(df.format(new Date()), testMode);
             } finally {
 
             }
         }
 
+        dashboardPanel.removeAllCards();
+        
         if (dashboardPanel.subviewCount() == 0) {
             Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
+            dateCard.setNewDate(currentDate, false);
             dashboardPanel.add(dateCard, false);
-            for (int i = 0; i < dailyData.length; i++) {
+            for (int i = 0; i < 6; i++) {
                 if (dailyDataCustomization[i]) {
                     Dashboard_Card t = createCards(196, 196, Dashboard_Card.CARD_TYPE_DEFAULT, dailyDataMsg[i], dailyData[i] + "", dashboardPanel);
                     dashboardPanel.add(t, false);
@@ -675,7 +1044,7 @@ public class MainView implements GeneralCallBack {
 
         dashboardPanel.layoutPanel(layoutMode);
 
-
+        heartzonePanel.removeAllCards();
         if (heartzonePanel.subviewCount() == 0) {
             Dashboard_Card dateCard = createCards(196, 196, Dashboard_Card.CARD_TYPE_TIME, "Date", "", dashboardPanel);
             dateCard.setNewDate(((Dashboard_Card) dashboardPanel.modifyAt(0)).getDate(), false);
@@ -754,5 +1123,78 @@ public class MainView implements GeneralCallBack {
             currLayout = getFitLayout();
             layoutPanels(currLayout, false);
         }
+    }
+    
+    /** Customizes the dashboard with selected panels
+     * @param inArr an array of panels that are either to be shown or hidden
+     */
+    public void customizeDashboard(boolean[] inArr) {
+    	dailyDataCustomization = inArr;
+    	layoutPanels(getFitLayout(), false);
+    	config.update(dailyDataCustomization);
+    	config.save();
+    }
+    
+    /** 
+     * Checks if user is at daily goal
+     * @param canned Whether canned data is used or not
+     * @return an array of strings detailing progress on daily goals. 
+     * [0] = Calories 
+     * [1] = Distance
+     * [2] = Floors
+     * [3] = Steps
+     * @throws JSONException
+     */
+    public String[] isAtGoal(String date, boolean canned) throws JSONException{
+        DailyGoals goals = new DailyGoals(date, canned);
+
+        String[] s = new String [12];
+
+        //Calories
+        s[0] = "Calories Burned Goal";
+        if (dailyData[DATA_DAILY_CALORIES] < goals.getCaloriesOutGoal())
+        	s[1] = "Below the goal";
+        else if (dailyData[DATA_DAILY_CALORIES] == goals.getCaloriesOutGoal())
+        	s[1] = "Reached the goal";
+        else
+        	s[1] = "Surpassed goal";
+        s[8] = String.format("%.0f", dailyData[DATA_DAILY_CALORIES]) + "/" + goals.getCaloriesOutGoal() + " (J)";
+
+        //Distance
+        s[2] = "Distance Traveled Goal";
+        if (dailyData[DATA_DAILY_DISTANCE] < goals.getDistanceGoal())
+        	s[3] = "Below the goal";
+        else if (dailyData[DATA_DAILY_DISTANCE] == goals.getDistanceGoal())
+        	s[3] = "Reached the goal";
+        else
+        	s[3] = "Surpassed goal";
+        s[9] = String.format("%.2f", dailyData[DATA_DAILY_DISTANCE]) + "/" + goals.getDistanceGoal() + " (KM)";
+        //Floors
+        s[4] = "Floors Climbed Goal";
+        if (dailyData[DATA_DAILY_FLOORS] < goals.getFloorsGoal())
+        	s[5] = "Below the goal";
+        else if (dailyData[DATA_DAILY_FLOORS] == goals.getFloorsGoal())
+        	s[5] = "Reached the goal";
+        else
+        	s[5] = "Surpassed goal";
+        s[10] = String.format("%.0f", dailyData[DATA_DAILY_FLOORS]) + "/" + goals.getFloorsGoal();
+         //Steps
+        s[6] = "Steps Taken Goal";
+        if (dailyData[DATA_DAILY_STEPS] < goals.getStepsGoal())
+        	s[7] = "Below the goal";
+        else if (dailyData[DATA_DAILY_STEPS] == goals.getStepsGoal())
+        	s[7] = "Reached the goal";
+        else
+        	s[7] = "Surpassed goal";
+        s[11] = String.format("%.0f", dailyData[DATA_DAILY_STEPS]) + "/" + goals.getStepsGoal();
+        //Return statement
+        return s;
+    }
+    
+    /** Shows error messages
+     * @param msg The error message to be displayed
+     */
+    public void showErrorMsg(String msg) {
+    	Utils.showErrorMsg(msg);
     }
 }

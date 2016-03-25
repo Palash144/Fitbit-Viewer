@@ -14,7 +14,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -22,6 +24,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import com.toedter.calendar.*;
 
 /**
  * Implements cards to be displayed on the dashboard
@@ -50,6 +56,8 @@ public class Dashboard_Card extends JPanel {
 	private final JTextField dateInputText = new JTextField();
 	private final JButton dateConfirmBtn = new JButton("OK");
 	private Timer uiTimer;
+	
+	private JCalendar jCal = new JCalendar();
 
 	private Date currentDate = new Date();
 	
@@ -74,6 +82,8 @@ public class Dashboard_Card extends JPanel {
 		currType = type;
 		parentView = p;
 		
+		currentDate = new Date();
+		
 		if (title != null)
 			titleLabel.setText(title);
 		if (content != null)
@@ -91,6 +101,11 @@ public class Dashboard_Card extends JPanel {
 				}
 				@Override
 				public void mouseEntered(MouseEvent e) {
+					if (parentView.parentView.antiBanTimer != null) {
+		        		if (parentView.parentView.antiBanTimer.isRunning()) {
+		        			return;
+		        		}	
+		        	}
 					titleLabel.setText(contentLabel.getText());
 					contentLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 					contentLabel.setText("Click to change date!");
@@ -135,7 +150,7 @@ public class Dashboard_Card extends JPanel {
 			break;
 		}
 		case CARD_TYPE_TIME:{
-			content = df.format(new Date());
+			content = df.format(currentDate);
 			contentLabel.setText(content);
 			break;
 		}
@@ -152,6 +167,11 @@ public class Dashboard_Card extends JPanel {
 	 * @param mode - boolean, true for load, false for hide
 	 */
 	private void setDatePickMode(boolean mode) {
+		if (parentView.parentView.antiBanTimer != null) {
+    		if (parentView.parentView.antiBanTimer.isRunning()) {
+    			return;
+    		}	
+    	}
 		dateCardDisplayMode = mode;
 		if (mode) {
 			loadDatePickUI();
@@ -180,6 +200,8 @@ public class Dashboard_Card extends JPanel {
 		dateInputLayer.add(dateInputText);
 		dateInputLayer.add(dateInputInfoLabel);
 		dateInputLayer.add(dateConfirmBtn);
+		//jCal.setSize(getSize().width*2, getSize().height-10);
+		//jCal.setLocation(0, 5);
 		
 		dateInputTitleLabel.setLocation(0, 0);
 		dateInputTitleLabel.setSize(getSize().width, 50);
@@ -208,17 +230,42 @@ public class Dashboard_Card extends JPanel {
 					hideDatePickUI();
 				}
 				else {
-					dateInputText.setText("Invalid date!");
+					dateInputText.setText("Invalid/future date!");
 				}
 			}
 		});
 		dateConfirmBtn.setVisible(true);
+		/*
+		jCal.setSize(getSize().width*2, getSize().height-10);
+		jCal.setLocation(0, 5);
 		
+		if (jCal.getPropertyChangeListeners().length == 0) {
+			jCal.addPropertyChangeListener("calendar", new PropertyChangeListener() {
+			    public void propertyChange(PropertyChangeEvent e) {  
+			    	Calendar cal = (Calendar) e.getNewValue();
+			    	if (setNewDate(cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1<10 ? "0"+(cal.get(Calendar.MONTH)+1):(cal.get(Calendar.MONTH)+1)) + "-" + (cal.get(Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(Calendar.DAY_OF_MONTH):cal.get(Calendar.DAY_OF_MONTH)), true)) {
+			    		hideDatePickUI();
+			    	}
+			    	else {
+			    		hideDatePickUI();
+			    	}
+			    }
+			    
+			});
+		}
+		*/
+		//dateInputLayer.add(jCal);
+
 		add(dateInputLayer, 0);
+		updateUI();
 		
 		ActionListener aniTimer = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				dateInputLayer.setLocation(0, dateInputLayer.getLocation().y - 2);
+				
+				//setSize(getSize().width+2, getSize().height);
+				//dateInputLayer.setSize(getSize());
+				
 				if (dateInputLayer.getLocation().y <= 0) {
 					uiTimer.stop();
 					dateCardDisplayMode = true;
@@ -227,8 +274,8 @@ public class Dashboard_Card extends JPanel {
 		};
 		uiTimer = new Timer(1, aniTimer);
 		uiTimer.start();
+		
 	}
-	
 	
 	/**
 	 * Getter method to get date
@@ -251,14 +298,26 @@ public class Dashboard_Card extends JPanel {
 	 */
 	public boolean setNewDate(String date, boolean callback) {
 		try {
-			currentDate = df.parse(date);
+			if (parentView.parentView.antiBanTimer != null && callback) {
+        		if (parentView.parentView.antiBanTimer.isRunning()) {
+        			return false;
+        		}	
+        	}
+			Date tmpDate = df.parse(date);
+			Date now = new Date();
+			if (tmpDate.after(now))
+				return false;
+			currentDate = tmpDate;
+			content = date;
 			contentLabel.setText(df.format(currentDate));
+			//jCal.setDate(currentDate);
+			contentLabel.updateUI(); 
 			if (callback) {
 				parentView.changeDate(date);
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -273,12 +332,16 @@ public class Dashboard_Card extends JPanel {
 			ActionListener aniTimer = new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					dateInputLayer.setLocation(0, dateInputLayer.getLocation().y + 2);
+					//setSize(getSize().width-2, getSize().height);
+					//dateInputLayer.setSize(getSize());
+					
 					if (dateInputLayer.getLocation().y >= getSize().height) {
 						uiTimer.stop();
 						dateInputLayer.setVisible(false);
 						remove(dateInputLayer);
 						dateCardDisplayMode = false;
 						contentLabel.setText(df.format(currentDate));
+						content = contentLabel.getText();
 						updateUI();
 						setBackground(new Color(166, 171, 173));
 					}
