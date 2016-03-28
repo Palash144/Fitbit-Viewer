@@ -17,7 +17,7 @@ public class Dashboard_Panel extends JPanel {
 	private List<JPanel>panels = new ArrayList<JPanel>();
 	private Dimension currLayout;
 
-	private MainView parentView;
+	public MainView parentView;
 	
 	/** Constructs a panel for the dashboard
 	 * @param p the main dashboard for which the panel is on
@@ -51,8 +51,17 @@ public class Dashboard_Panel extends JPanel {
 	/** Removes a panel from the dashboard
 	 * @param panel the panel to be removed
 	 */ //TODO: Complete this method
-	public void remove(JPanel panel) {
-		
+	public void remove(int cardIndex) {
+		panels.remove(cardIndex);
+		layoutPanel(currLayout);
+	}
+	
+	/**
+	 * Removes all cards from the dashboard
+	 */
+	public void removeAllCards() {
+		removeAll();
+		panels.clear();
 	}
 	
 	/**

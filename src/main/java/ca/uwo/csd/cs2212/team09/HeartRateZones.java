@@ -1,12 +1,14 @@
 package ca.uwo.csd.cs2212.team09;
 
+import java.util.Random;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/**Used for getting the users heart rate zones
  * @author Team 9
- *         Used for getting the users heart rate zones
+ *         
  */
 public class HeartRateZones {
 
@@ -21,32 +23,17 @@ public class HeartRateZones {
      * @param date    Determines what date to get the data from
      * @param canned  true if using test data
      */
-    public HeartRateZones(int zoneNum, String date, boolean canned) {
+    public HeartRateZones(Double cals, String namea, int mins, boolean canned) {
+    	caloriesOut = cals;
+        minutes = mins;
+        name = namea;
         if (canned) {
-            caloriesOut = 1.0;
-            minutes = 2;
-            name = "abc";
+        	Random ran = new Random();
+            caloriesOut = Double.parseDouble(ran.nextInt(2000)+"");
+            minutes = 5 + ran.nextInt(60);
+            
             return;
-
-        } else {
-            try {
-                Request getData = new Request();
-                final JSONObject obj = new JSONObject(getData.requestFor("activities/heart/date/" + date + "/1d.json"));
-                final JSONArray fitData = obj.getJSONArray(("activities-heart"));
-
-                final JSONObject fitAttribute = fitData.getJSONObject(0);
-                final JSONObject values = fitAttribute.getJSONObject("value");
-                final JSONArray zones = values.getJSONArray("heartRateZones");
-                // gets the obj element from the array specified by the index number (zoneNum)
-                final JSONObject theZone = zones.getJSONObject(zoneNum);
-                // the attributes for the specific zone
-                caloriesOut = theZone.getDouble("caloriesOut");
-                minutes = theZone.getInt("minutes");
-                name = theZone.getString("name");
-            } catch (JSONException e) {
-                //TODO: Handle this exception
-            }
-        }
+        } 
     }
 
     /**

@@ -39,10 +39,10 @@ public class Dashboard_HRCard extends JPanel {
 		
 		lblCalories.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTime.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
-		
-		if (title.contains("Resting")) {
-			lblCalories.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
-		}
+		if (title != null)
+			if (title.contains("Resting")) {
+				lblCalories.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
+			}
 		
 		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -83,9 +83,10 @@ public class Dashboard_HRCard extends JPanel {
      */
 	public void setTitle(String title) {
 		lblTitle.setText(title);
-		if (title.contains("Resting")) {
-			lblCalories.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
-		}
+		if (title != null)
+			if (title.contains("Resting")) {
+				lblCalories.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
+			}
 	}
 
 	/**
