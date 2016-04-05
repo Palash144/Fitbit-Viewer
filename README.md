@@ -2,7 +2,7 @@
 
 Developed by Team 9 in CS2212 at Western University
 
-The Fitbit Viewer connects to the [Fitbit API](https://dev.fitbit.com) and displays data about the user's daily activities such as their distance travelled, floors climbed and calories burned that day. The user is also able to change the date to see their statistics on different dates. In addition, the user can view their best and lifetime total statistics, time series data, daily goals and can earn accolades.
+The Fitbit Viewer connects to the [Fitbit API](https://dev.fitbit.com) and displays data about the user's daily activities such as their distance travelled, floors climbed and calories burned that day. The user is also able to change the date to see their statistics on different dates. In addition, the user can view their best and lifetime total statistics, time series data, daily goals and can earn accolades. The GUI is built using Swing.
 
 ## Dependencies used in the Fitbit Viewer
 
