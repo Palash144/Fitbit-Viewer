@@ -30,13 +30,13 @@ public class Request {
     private static int CALL_BACK_PORT = 8080;
 
     public static void main(String[] args) {
-    }//end main
+    }
 
     
 
     /** Used to request JSON Objects from the FitBit API
      * @param requestUrlPostfix requests different types of data to return
-     * @return TODO: return JSON Object to be parsed by UserData
+     * @return returns JSON Object to be parsed by UserData
      */
     public String requestFor(String requestUrlPostfix) {
         //read credentials from a file
@@ -227,9 +227,9 @@ public class Request {
                 System.out.println(
                         "Error closing file\n" + e.getMessage());
             }
-        }//end try
+        }
 
         return HTTPResponse;
     }
 
-}//end class
+}

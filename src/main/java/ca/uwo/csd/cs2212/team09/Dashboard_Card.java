@@ -164,7 +164,7 @@ public class Dashboard_Card extends JPanel {
 	 * Sets date pick mode,
 	 * true if load date pick UI
 	 * false if hide date pick UI
-	 * @param mode - boolean, true for load, false for hide
+	 * @param mode - boolean, load if true, hide if false
 	 */
 	private void setDatePickMode(boolean mode) {
 		if (parentView.parentView.antiBanTimer != null) {
@@ -182,7 +182,7 @@ public class Dashboard_Card extends JPanel {
 	}
 	
 	/**
-	 * Loads date pick UI
+	 * Loads UI to choose the date
 	 * to be called in setDatePickMode
 	 */
 	private void loadDatePickUI() {
@@ -324,7 +324,7 @@ public class Dashboard_Card extends JPanel {
 	}
 	
 	/**
-	 * Hides date pick UI
+	 * Hides UI to choose date;
 	 * will be called in setDatePickMode
 	 */
 	private void hideDatePickUI() {
@@ -353,7 +353,7 @@ public class Dashboard_Card extends JPanel {
 	}
 
 	/**
-	 * Sets date pick UI
+	 * Sets setting to choose date
 	 */
 	private void setDatePickMode() {
 		setDatePickMode(!dateCardDisplayMode);

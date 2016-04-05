@@ -256,7 +256,7 @@ public class Goals_Panel extends JPanel {
 	/** Method to add items to the panel
 	 * @param title title of the item to be added
 	 * @param image image of the item to be added
-	 * @param refreshNow true if refreshing
+	 * @param refreshNow refreshing if true
 	 */
 	private void addItem(String title, ImageIcon image, boolean refreshNow) {
 		titles.add(title);
@@ -301,7 +301,7 @@ public class Goals_Panel extends JPanel {
 	}
 	
 	/** Method to draw the data on the panel
-	 * @param d string of data to be displayed
+	 * @param d array of strings of data to be displayed
 	 */
 	public void drawData(String[] d) {
 		if (d.length == 0)

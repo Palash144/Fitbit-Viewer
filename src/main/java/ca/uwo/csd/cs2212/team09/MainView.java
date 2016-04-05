@@ -45,8 +45,8 @@ import java.awt.CardLayout;
 
 
 /**
- * Implements the main dashboard, displaying panels and data
- *
+ * Used for displaying the main dashboard, panels and data
+ *, using callback
  * @author Team 9
  */
 public class MainView implements GeneralCallBack {
@@ -257,7 +257,7 @@ public class MainView implements GeneralCallBack {
     /**
      * Creates the application (dashboard)
      *
-     * @param isTestMode true if running the application in test mode, otherwise false.
+     * @param isTestMode running the application in test mode if true, otherwise don't.
      */
     public MainView(boolean isTestMode) {
         testMode = isTestMode;
@@ -733,7 +733,7 @@ public class MainView implements GeneralCallBack {
      * Used to refresh all user data on the dashboard
      *
      * @param date   date of data to be retrieved as "yyyy-mm-dd"
-     * @param canned true if retrieving canned (fake) data
+     * @param canned retrieving canned (fake) data if true
      */
     void refreshAllDataWithDate(String date, Boolean canned) {
         currentDate = date;
@@ -798,7 +798,7 @@ public class MainView implements GeneralCallBack {
     
     /** Updates TSData with custom settings
      * 
-     * @param zoomed true if zoomed, false otherwise
+     * @param zoomed zoomed if true, otherwise don't
      * @param date date of the data to be updated
      * @param detailLevel the detailLevel of TSData
      * @param startTime when the time series begins
@@ -962,7 +962,7 @@ public class MainView implements GeneralCallBack {
     /**
      * Determines the layout of the panels
      * @param layoutMode How many cards are on each row
-     * @param updateData true refreshes all data on the card
+     * @param updateData refreshes all data on the card if true
      */
     void layoutPanels(Dimension layoutMode, boolean updateData) {
         if (updateData) {
@@ -1138,11 +1138,12 @@ public class MainView implements GeneralCallBack {
     /** 
      * Checks if user is at daily goal
      * @param canned Whether canned data is used or not
+     * @param date	date inputted
      * @return an array of strings detailing progress on daily goals. 
-     * [0] = Calories 
-     * [1] = Distance
-     * [2] = Floors
-     * [3] = Steps
+     * [0] = Calories; 
+     * [1] = Distance;
+     * [2] = Floors;
+     * [3] = Steps;
      * @throws JSONException
      */
     public String[] isAtGoal(String date, boolean canned) throws JSONException{

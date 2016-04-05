@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 /** This class implements the panel that will be on the dashboard
- * and will display various data. Parent container of the card
+ * and will display various data. Parent container of Dashboard_Card
  * @author Team 9
  *
  */
@@ -20,7 +20,7 @@ public class Dashboard_Panel extends JPanel {
 	public MainView parentView;
 	
 	/** Constructs a panel for the dashboard
-	 * @param p the main dashboard for which the panel is on
+	 * @param p the main/parent dashboard for which the panel is on
 	 */
 	public Dashboard_Panel(MainView p) {
 		parentView = p;
@@ -50,7 +50,7 @@ public class Dashboard_Panel extends JPanel {
 	
 	/** Removes a panel from the dashboard
 	 * @param panel the panel to be removed
-	 */ //TODO: Complete this method
+	 */ 
 	public void remove(int cardIndex) {
 		panels.remove(cardIndex);
 		layoutPanel(currLayout);

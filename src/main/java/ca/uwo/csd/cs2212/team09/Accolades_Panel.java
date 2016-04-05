@@ -33,7 +33,7 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
-/** Implements the panel to view accolades
+/** Implements the panel to view all accolades
  * @author Team 09
  *
  */
@@ -88,7 +88,7 @@ public class Accolades_Panel extends JPanel {
 	private MainView parent;
 	
 	/**
-	 * Creates the panel.
+	 * Default constructor to create the panel.
 	 * @param p	the parent panel of the dashboard
 	 */
 	public Accolades_Panel(MainView p) {
@@ -346,7 +346,7 @@ public class Accolades_Panel extends JPanel {
 	}
 	
 	/**
-	 * Updates the panel
+	 * Updates the panel to show the data (refresh)
 	 */
 	private void updatePriviewArea() {
 		if (mainList.getSelectedIndex() < 0) {
@@ -366,7 +366,7 @@ public class Accolades_Panel extends JPanel {
 	}
 	
 	/** Method used to resize the font
-	 * @param label the label of the font
+	 * @param label the Jlabel to be resized
 	 */
 	private void resizeFont(JLabel label) {
 		Font labelFont = label.getFont();
