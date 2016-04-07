@@ -6,7 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Used for getting the users heart rate zones
+/**Used for getting the users' heart rate zones
  * @author Team 9
  *         
  */

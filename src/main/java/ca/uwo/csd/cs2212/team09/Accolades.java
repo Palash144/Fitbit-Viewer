@@ -5,7 +5,8 @@ import org.json.JSONArray;
 
 import java.io.*;
 
-/** Implements the details of the accolades
+/** Implements the details of the accolades. Creates each achievement
+ * as an AccAchievement class
  * @author team 09
  *
  */

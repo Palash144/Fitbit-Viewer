@@ -18,7 +18,7 @@ public class TimeSeries_Record {
 	 * @param calV calories burned
 	 * @param disV distance travelled
 	 * @param hrV heart rate
-	 * @param timeV time 
+	 * @param timeV time interval of data
 	 */
 	public TimeSeries_Record(int stepV, double calV, double disV, int hrV, String timeV) {
 		steps = stepV;

@@ -53,7 +53,7 @@ public class TimeSeries_Panel extends JPanel {
 	private boolean isSelfUpdating = false;
 	
 	/** Default constructor for the TimeSeries panel
-	 * @param p parent panel of the dashboard
+	 * @param p parent panel of the TimeSeries_Panel
 	 */
 	public TimeSeries_Panel(MainView p) {
 		parent = p;
@@ -153,13 +153,13 @@ public class TimeSeries_Panel extends JPanel {
 	}
 	
 	/** Sets new date to be pull data
-	 * @param zoomed true if zoomed, false otherwise
+	 * @param zoomed if true, otherwise don't
 	 * @param date date of the data to be pulled
 	 * @param detailLevel level of detail
 	 * @param startTime starting time of the data
 	 * @param endTime ending time of the data
-	 * @param callback true if calling back
-	 * @return
+	 * @param callback calling back if true
+	 * @return returns if the date was successfully set if true, otherwise wasn't set properly
 	 */
 	public boolean setNewDate(boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean callback) {
 		try {
@@ -195,8 +195,6 @@ public class TimeSeries_Panel extends JPanel {
 				});
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			return false;
 		}
 		return true;

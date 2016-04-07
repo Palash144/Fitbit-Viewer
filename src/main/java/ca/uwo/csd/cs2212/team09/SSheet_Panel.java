@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-/**Implements the panel to show daily and lifetime bests
+/**Implements the panel to show lifetime and best data
  * 
  * @author Team 09
  *

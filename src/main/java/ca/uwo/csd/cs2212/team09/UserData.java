@@ -25,7 +25,7 @@ public class UserData {
     private int totalDistance = -1;
 
     /** Refreshes the user's data
-     * @param canned true if using canned/test data
+     * @param canned using canned/test data if true
      * @param date date of the data retrieved in the format "yyyy-mm-dd"
      * @return An array of strings storing the user's data
      */
@@ -82,7 +82,6 @@ public class UserData {
             returnData[8] = Integer.parseInt(fitData.getString("veryActiveMinutes"));
 
         } catch (Exception e) {
-            //TODO: Throw an exception
             System.out.println("Failed to refresh all data: " + e.getMessage());
         }
         return returnData;
@@ -90,8 +89,8 @@ public class UserData {
 
     /**
      * Refreshes userdata for the mysummary panel
-     * @param canned true if using test data
-     * @return the userdata
+     * @param canned using test data if true
+     * @return an array of strings of user data
      */
     public String[] refreshMySummary(boolean canned) {
         String[] returnData = new String[10];
@@ -165,7 +164,7 @@ public class UserData {
 
     /**
      * Retrieves the steps taken for the User
-     * @param canned true if using canned/test data
+     * @param canned using canned/test data if true
      * @param date date of the data retrieved in the format "yyyy-mm-dd"
      * @return the number of steps taken
      */
@@ -191,7 +190,7 @@ public class UserData {
     }
 
     /** Retrieves the number of floors climbed by the user
-     * @param canned true if using canned/test data
+     * @param canned using canned/test data if true
      * @param date date of the data retrieved in the format "yyyy-mm-dd"
      * @return the number of floors climbed by the user
      */
@@ -219,8 +218,8 @@ public class UserData {
     }*/
 
     /**
-     * gets the user's resting heartrate
-     * @param canned true if using canned/test data
+     * Gets the user's resting heartrate
+     * @param canned using canned/test data if true
      * @param date date of the data retrieved in the format "yyyy-mm-dd"
      * @return the user's resting heart rate
      * @throws JSONException
@@ -255,11 +254,11 @@ public class UserData {
 
     /**
      *
-     * creates an array of heart rate zones storing each zone
-     * because only the default ones are used 0 will store Out of Range, 1 will store Fat Burn, 2 Cardio, 3 Peak
+     * Creates an array of heart rate zones storing each zone
+     * because only the default ones are used, 0 will store Out of Range, 1 will store Fat Burn, 2 Cardio, 3 Peak
      *
      * @param date determines what day to use
-     * @param canned true if using canned/test data
+     * @param canned using canned/test data if true
      * @return heart rate zones
      * @throws JSONException
      */
@@ -333,13 +332,13 @@ public class UserData {
     }
     
     /** Retrieves the TimeSeriesData
-     * @param zoomed True if zoomed, false otherwise
+     * @param zoomed zoomed if true, otherwise not zoomed
      * @param date Date of data to be pulled
      * @param detailLevel Level of detail for the time series data
      * @param startTime Starting time of the time series
      * @param endTime Ending time of the time series
-     * @param canned True if using canned data
-     * @return
+     * @param canned using canned/test data if true
+     * @return an array of TimeSeries_Record that store time series data
      */
     public TimeSeries_Record[] getTimeSeriesData (boolean zoomed, String date, String detailLevel, String startTime, String endTime, boolean canned) {
     	boolean returnNAData = false;
@@ -425,7 +424,7 @@ public class UserData {
     *
     * Creates the Daily Goals from the DailyGoals class constructor
     * @param date date of the daily goals data to be pulled
-    * @param canned true if using canned data
+    * @param canned using canned/test data if true
     * @return the created Daily Goals
     * @throws JSONException
     */
@@ -438,9 +437,9 @@ public class UserData {
 
     /** 
      * Checks if user is at daily goal
-     * @param data array of data user currently has accrued (steps, etc.)
+     * @param data array of data user currently has occurred (steps, etc.)
      * @param date date of the data to be pulled
-     * @param canned Whether canned data is used or not
+     * @param canned using canned/test data if true
      * @return an array of strings detailing progress on daily goals.
      * [0] = Calories
      * [1] = Distance
