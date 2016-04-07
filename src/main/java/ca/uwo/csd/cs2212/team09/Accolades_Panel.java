@@ -33,7 +33,7 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
-/** Implements the panel to view accolades
+/** Implements the panel to view all accolades
  * @author Team 09
  *
  */
@@ -88,7 +88,7 @@ public class Accolades_Panel extends JPanel {
 	private MainView parent;
 	
 	/**
-	 * Creates the panel.
+	 * Default constructor to create the panel.
 	 * @param p	the parent panel of the dashboard
 	 */
 	public Accolades_Panel(MainView p) {
@@ -346,7 +346,7 @@ public class Accolades_Panel extends JPanel {
 	}
 	
 	/**
-	 * Updates the panel
+	 * Updates the panel to show the data (refresh)
 	 */
 	private void updatePriviewArea() {
 		if (mainList.getSelectedIndex() < 0) {
@@ -366,7 +366,7 @@ public class Accolades_Panel extends JPanel {
 	}
 	
 	/** Method used to resize the font
-	 * @param label the label of the font
+	 * @param label the Jlabel to be resized
 	 */
 	private void resizeFont(JLabel label) {
 		Font labelFont = label.getFont();
@@ -417,33 +417,33 @@ public class Accolades_Panel extends JPanel {
 		
 		String[] item0 = {"Baby-step", "Distance","daliy",acc[0].isTier1() ? "unlock" : "lock", "Ran a distance of 2km."};
 		newItems.add(item0);
-		String[] item1 = {"Trekker", "Distance","daliy",acc[0].isTier1() ? "unlock" : "lock", "Ran a distance of 7km."};
+		String[] item1 = {"Trekker", "Distance","daliy",acc[0].isTier2() ? "unlock" : "lock", "Ran a distance of 7km."};
 		newItems.add(item1);
-		String[] item2 = {"Fit-active", "Distance","daliy", acc[0].isTier1() ? "unlock" : "lock", "Ran a distance of 15km."};
+		String[] item2 = {"Fit-active", "Distance","daliy", acc[0].isTier3() ? "unlock" : "lock", "Ran a distance of 15km."};
 		newItems.add(item2);
 		
 		//Daily Accolades - Clories
 		String[] item3 = {"Awake", "Clories","daliy", acc[1].isTier1() ? "unlock" : "lock","Burned 2000 Calories."};
 		newItems.add(item3);
-		String[] item4 = {"Active", "Clories","daliy", acc[1].isTier1() ? "unlock" : "lock","Burned 2500 Calories."};
+		String[] item4 = {"Active", "Clories","daliy", acc[1].isTier2() ? "unlock" : "lock","Burned 2500 Calories."};
 		newItems.add(item4);
-		String[] item5 = {"Fit-Junkie", "Clories","daliy", acc[1].isTier1() ? "unlock" : "lock","Burned 3000 Calories."};
+		String[] item5 = {"Fit-Junkie", "Clories","daliy", acc[1].isTier3() ? "unlock" : "lock","Burned 3000 Calories."};
 		newItems.add(item5);
 		
 		//Daily Accolades - Floors
 		String[] item6 = {"Climber", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock","climbed 5 floors."};
 		newItems.add(item6);
-		String[] item7 = {"No Elevators  ", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock", "climbed 15 floors."};
+		String[] item7 = {"No Elevators  ", "Floors","daliy", acc[2].isTier2() ? "unlock" : "lock", "climbed 15 floors."};
 		newItems.add(item7);
-		String[] item8 = {"Floor-It!", "Floors","daliy", acc[2].isTier1() ? "unlock" : "lock","climbed 25 floors."};
+		String[] item8 = {"Floor-It!", "Floors","daliy", acc[2].isTier3() ? "unlock" : "lock","climbed 25 floors."};
 		newItems.add(item8);
 		
 		//Daily Accolades - Steps
 		String[] item9 = {"Toddler", "Steps","daliy",acc[3].isTier1() ? "unlock" : "lock", "Took 1000 steps."};
 		newItems.add(item9);
-		String[] item10 = {"All Around", "Steps","daliy",acc[3].isTier1() ? "unlock" : "lock", "Took 2500 steps."};
+		String[] item10 = {"All Around", "Steps","daliy",acc[3].isTier2() ? "unlock" : "lock", "Took 2500 steps."};
 		newItems.add(item10);
-		String[] item11 = {"Place to Go!  ", "Steps","daliy", acc[3].isTier1() ? "unlock" : "lock", "Took 3500 steps."};
+		String[] item11 = {"Place to Go!  ", "Steps","daliy", acc[3].isTier3() ? "unlock" : "lock", "Took 3500 steps."};
 		newItems.add(item11);
 		
 		String[] item12 = {"Motor-Vated!  ", "","daliy", acc[4].isTier1() ? "unlock" : "lock","At the point today you were very active longer than lightly active."};
@@ -454,33 +454,33 @@ public class Accolades_Panel extends JPanel {
 		//Lifetime Accolades - Distance
 		String[] item14 = {"Threadmill Master  ", "Distance","Lifetime", acc[6].isTier1() ? "unlock" : "lock", "Ran over 500,000km."};
 		newItems.add(item14);
-		String[] item15 = {"Going the Distance  ", "Distance", "Lifetime",acc[6].isTier1() ? "unlock" : "lock", "Ran over 750,000km."};
+		String[] item15 = {"Going the Distance  ", "Distance", "Lifetime",acc[6].isTier2() ? "unlock" : "lock", "Ran over 750,000km."};
 		newItems.add(item15);
-		String[] item16 = {"The Flash", "Distance","Lifetime", acc[6].isTier1() ? "unlock" : "lock", "Ran over 1,000,000km."};
+		String[] item16 = {"The Flash", "Distance","Lifetime", acc[6].isTier3() ? "unlock" : "lock", "Ran over 1,000,000km."};
 		newItems.add(item16);
 		
 		//Lifetime Accolades - Calories
 		String[] item17 = {"Counting Calories  ", "Calories","Lifetime", acc[7].isTier1() ? "unlock" : "lock", "Burned over 750,000 Calories."};
 		newItems.add(item17);
-		String[] item18 = {"Burn them All  ", "Calories","Lifetime",acc[7].isTier1() ? "unlock" : "lock", "Burned over 1,000,000 Calories."};
+		String[] item18 = {"Burn them All  ", "Calories","Lifetime",acc[7].isTier2() ? "unlock" : "lock", "Burned over 1,000,000 Calories."};
 		newItems.add(item18);
-		String[] item19 = {"Call a Doctor!  ", "Calories","Lifetime",acc[7].isTier1() ? "unlock" : "lock", "Burned over 1,500,000 Calories."};
+		String[] item19 = {"Call a Doctor!  ", "Calories","Lifetime",acc[7].isTier3() ? "unlock" : "lock", "Burned over 1,500,000 Calories."};
 		newItems.add(item19);
 		
 		//Lifetime Accolades - Floors
 		String[] item20 = {"Elevated", "Floors","Lifetime", acc[8].isTier1() ? "unlock" : "lock","Climbed 100,000 floors."};
 		newItems.add(item20);
-		String[] item21 = {"Floor-ishing  ", "Floors", "Lifetime",acc[8].isTier1() ? "unlock" : "lock","Climbed 300,000 floors."};
+		String[] item21 = {"Floor-ishing  ", "Floors", "Lifetime",acc[8].isTier2() ? "unlock" : "lock","Climbed 300,000 floors."};
 		newItems.add(item21);
-		String[] item22 = {"Rochy Balboa  ", "Floors","Lifetime", acc[8].isTier1() ? "unlock" : "lock","Climbed 600,000 floors."};
+		String[] item22 = {"Rochy Balboa  ", "Floors","Lifetime", acc[8].isTier3() ? "unlock" : "lock","Climbed 600,000 floors."};
 		newItems.add(item22);
 		
 		//Lifetime Accolades - Steps
 		String[] item23 = {"Step up", "Steps", "Lifetime",acc[9].isTier1() ? "unlock" : "lock", "Took 3,000,000 steps."};
 		newItems.add(item23);
-		String[] item24 = {"Step on it", "Steps","Lifetime", acc[9].isTier1() ? "unlock" : "lock", "Took 7,500,000 steps."};
+		String[] item24 = {"Step on it", "Steps","Lifetime", acc[9].isTier2() ? "unlock" : "lock", "Took 7,500,000 steps."};
 		newItems.add(item24);
-		String[] item25 = {"Terry Fox!", "Steps","Lifetime", acc[9].isTier1() ? "unlock" : "lock", "Took 10,000,000 steps."};
+		String[] item25 = {"Terry Fox!", "Steps","Lifetime", acc[9].isTier3() ? "unlock" : "lock", "Took 10,000,000 steps."};
 		newItems.add(item25);
 		
 		String[] item26 = {"The Immorable Object  ", "","Lifetime", acc[10].isTier1() ? "unlock" : "lock", "Sedentary minutes are greater than 2,500,000."};

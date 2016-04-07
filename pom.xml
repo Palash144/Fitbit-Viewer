@@ -3,7 +3,7 @@
     <groupId>ca.uwo.csd.cs2212.team09</groupId>
     <artifactId>team09_FitBitProject</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-STAGE3</version>
+    <version>1.0-RELEASE</version>
     <dependencies>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

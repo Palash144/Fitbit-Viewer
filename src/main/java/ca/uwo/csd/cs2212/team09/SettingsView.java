@@ -47,7 +47,7 @@ public class SettingsView extends JDialog {
 	/**
 	 * Create the dialog.
 	 * @param p the parent dashboard
-	 * @param modal whether the dashboard is modal or not
+	 * @param modal whether the dashboard is modal (in front of other windows) or not
 	 * @param checkMark the settings of the dashboard (Shown/Hidden)
      */
 	public SettingsView(MainView p, boolean modal, boolean[] checkMark) {
