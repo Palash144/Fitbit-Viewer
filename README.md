@@ -1,6 +1,6 @@
 # Fitbit Viewer
 
-Developed by Team 9 in CS2212 at Western University
+Developed by Team 9 for CS2212 at Western University
 
 The Fitbit Viewer connects to the [Fitbit API](https://dev.fitbit.com) and displays data about the user's daily activities such as their distance travelled, floors climbed and calories burned that day. The user is also able to change the date to see their statistics on different dates. In addition, the user can view their best and lifetime total statistics, time series data, daily goals and can earn accolades. The GUI is built using Swing.
 
@@ -28,7 +28,7 @@ You will need to have the following properly configured to build and run the pro
 Clone the repository onto your local system:
 
 ```
-git clone ssh://git@repo.gaul.csd.uwo.ca:7999/cs2212_w2016/team09.git
+git clone https://github.com/mikeshz/Fitbit-Viewer
 ```
 
 ## Running the project
