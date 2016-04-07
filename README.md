@@ -15,7 +15,7 @@ The Fitbit Viewer connects to the [Fitbit API](https://dev.fitbit.com) and displ
 
 ## Video of the Fitbit Viewer in action
 
-https://youtubevideourl
+https://youtu.be/EcMllHwSIOQ
 
 ## Prerequisites for building and running the project
 
