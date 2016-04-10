@@ -49,4 +49,4 @@ java -jar target/team09_FitBitProject-1.0-RELEASE-jar-with-dependencies.jar test
 
 ## Javadoc
 
-The javadoc is located in the "doc" directory
+The javadoc is located in the ["doc" directory](https://github.com/mikeshz/Fitbit-Viewer/tree/master/doc)
