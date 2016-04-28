@@ -13,7 +13,16 @@ The Fitbit Viewer connects to the [Fitbit API](https://dev.fitbit.com) and displ
 * JSON
 * Log4J
 
-## Video of the Fitbit Viewer in action
+## Screenshots
+
+![picture](http://i.imgur.com/TFaoIgv.jpg)
+![picture](http://i.imgur.com/awCxtQc.jpg)
+![picture](http://i.imgur.com/AkyZLBa.jpg)
+![picture](http://i.imgur.com/19bhqzx.jpg)
+![picture](http://i.imgur.com/HhWJWD3.jpg)
+![picture](http://i.imgur.com/pi074ks.jpg)
+
+## Video Demonstration
 
 https://youtu.be/EcMllHwSIOQ
 
