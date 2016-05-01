@@ -26,6 +26,21 @@ The Fitbit Viewer connects to the [Fitbit API](https://dev.fitbit.com) and displ
 
 https://youtu.be/EcMllHwSIOQ
 
+## Modes of Operation
+###### Test mode
+Offline version of the application; no access to a user account.
+
+###### Online mode 
+Fully functional version of the application.  
+__To connect to a user account, you will need to:__
+
+1. Log into Fitbit website, and get a Request code from the Authorization server.
+2. Trade the request for and Access/Refresh Token pair.
+3. Get credentials for the Authorization server: This includes your App ID and a key/secret pair.
+4. Place credentials in `/src/main/resources/Credentials.txt`, place refresh/access tokens in `/src/main/resources/Tokens.txt`.
+
+*__Note:__ If everything goes as planned you will get an HTTP response with the code 200, its body will contain a JSON object describing the data you asked for. If it doesn't, and your access token has expired, you will need to ask for a new pair from the authorization server.*
+
 ## Prerequisites for building and running the project
 
 You will need to have the following properly configured to build and run the project:
@@ -49,7 +64,7 @@ mvn package
 java -jar target/team09_FitBitProject-1.0-RELEASE-jar-with-dependencies.jar 
 ```
 
-To run the program with canned data:
+To run the program with canned data (test mode):
 
 ```
 mvn package
