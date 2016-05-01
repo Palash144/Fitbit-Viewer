@@ -28,7 +28,7 @@ https://youtu.be/EcMllHwSIOQ
 
 ## Modes of Operation
 ###### Test mode
-Offline version of the application; no access to a user account.
+Offline version of the application with canned data; no access to a user account.
 
 ###### Online mode 
 Fully functional version of the application.  
