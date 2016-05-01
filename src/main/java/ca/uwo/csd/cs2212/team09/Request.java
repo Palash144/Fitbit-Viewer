@@ -30,13 +30,13 @@ public class Request {
     private static int CALL_BACK_PORT = 8080;
 
     public static void main(String[] args) {
-    }
+    }//end main
 
     
 
     /** Used to request JSON Objects from the FitBit API
      * @param requestUrlPostfix requests different types of data to return
-     * @return returns JSON Object to be parsed by UserData
+     * @return TODO: return JSON Object to be parsed by UserData
      */
     public String requestFor(String requestUrlPostfix) {
         //read credentials from a file
@@ -63,12 +63,14 @@ public class Request {
         try {
             // File with service credentials.
 
-            clientID = "227DYF";
-            apiKey = "22b14fcadc307d00c62b235d79197d4a";
-            apiSecret = "ca303c5b331e014389fc6012494b596a";
-
-            //bufferedReader.close();
-            FileReader fileReader = new FileReader("src/main/resources/Team9Tokens.txt");
+            FileReader fileReader =
+                    new FileReader("src/main/resources/Credentials.txt");
+            bufferedReader = new BufferedReader(fileReader);
+            clientID = bufferedReader.readLine();
+            apiKey = bufferedReader.readLine();
+            apiSecret = bufferedReader.readLine();
+            bufferedReader.close();
+            fileReader = new FileReader("src/main/resources/Tokens.txt");
             bufferedReader = new BufferedReader(fileReader);
 
             accessTokenItself = bufferedReader.readLine();
@@ -200,7 +202,7 @@ public class Request {
         try {
             FileWriter fileWriter;
             fileWriter =
-                    new FileWriter("src/main/resources/Team9Tokens.txt");
+                    new FileWriter("src/main/resources/Tokens.txt");
             bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(accessToken.getToken());
             bufferedWriter.newLine();
@@ -227,9 +229,9 @@ public class Request {
                 System.out.println(
                         "Error closing file\n" + e.getMessage());
             }
-        }
+        }//end try
 
         return HTTPResponse;
     }
 
-}
+}//end class
